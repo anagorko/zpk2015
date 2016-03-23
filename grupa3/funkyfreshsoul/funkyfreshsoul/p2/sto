@@ -1,0 +1,39 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int a, b, k, wynik;
+    cin >> a >> b >> k;
+
+if (a>k and b>k)
+
+{
+    a = a / k;
+    b = b / k;
+
+    wynik = a * 2 + (b - 2) * 2;
+
+    cout << wynik;
+}
+
+else if  (a<=k and b>k)
+{
+    b = b / k;
+
+    wynik = b * 2;
+
+    cout << wynik;
+}
+
+else if  (b<=k and a>k)
+{
+    a = a / k;
+
+    wynik = a * 2;
+
+    cout << wynik;
+}
+else
+  cout << 0;
+
+}

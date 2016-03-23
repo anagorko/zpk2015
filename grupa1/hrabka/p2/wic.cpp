@@ -22,9 +22,9 @@ int main()
     }
 
     przednajwyzsza=0;
-    for(int i=1; i<n; i++)
+    for(int i=0; i<n; i++)
     {
-        if(liczby[i]>przednajwyzsza & liczby[i]<najwyzsza)
+        if(liczby[i]>przednajwyzsza && liczby[i]<najwyzsza)
         {
             przednajwyzsza=liczby[i];
         }
