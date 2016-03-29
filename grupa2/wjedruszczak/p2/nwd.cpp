@@ -35,4 +35,7 @@ int main() {
 
 	// wynik
 	cout << wynik << endl;
+	
+	// poprawka (2016-03-29): zbilansowanie uzycia new i delete
+	delete[] tablica;
 }
