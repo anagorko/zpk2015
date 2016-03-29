@@ -24,4 +24,7 @@ int main() {
 	for (int i = 1; i < n; i += 2)
 		cout << tablica[i] << " ";
 	cout << endl;
+	
+	// poprawka (2016-03-29): zbilansowanie uzycia new i delete
+	delete[] tablica;
 }
