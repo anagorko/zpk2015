@@ -37,4 +37,7 @@ int main() {
 		cout << "BRAK" << endl;
 	else
 		cout << max(rozneZero, rozneN) << endl;
+		
+	// poprawka (2016-03-29): zbilansowanie uzycia new i delete
+	delete[] ciagLiczb;
 }
