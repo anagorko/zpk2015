@@ -138,6 +138,7 @@ class Circle : public Figure
 public:
     Circle(Point p, double x) {
         s = p;
+        r=x;
     }
 
     virtual double area() {
@@ -153,6 +154,7 @@ public:
 
     virtual Figure* translate(double dx, double dy) {
         s.translate(dx, dy);
+        r=r;
 
         return this;
     }
@@ -174,8 +176,8 @@ class Line : public Figure
 
 public:
     Line (Point p, Point d) {
-        p = a;
-        d = b;
+        a = p;
+        b = d;
     }
 
     virtual double area() {
@@ -216,10 +218,12 @@ int main(int argc, char ** argv)
 
     Figure* c = new Circle(Point(40.0, 50.0), 5.0);
     c -> translate(10.0, 5.0);
+    cout << *c << endl;
     c -> rotate(0.5);
     cout << *c << endl;
     Figure* l = new Line(Point(5.0, 7.0), Point(3.0, 2.0));
     l -> rotate(-0.2);
+    cout << *l << endl;
     l -> translate(3.0, 5.0);
     cout << *l << endl;
 
