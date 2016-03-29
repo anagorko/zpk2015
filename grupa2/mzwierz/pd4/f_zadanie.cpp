@@ -148,7 +148,6 @@ public:
     }
 
     virtual Figure* scale(double k) {
-        n.scale(k);
         r = r*k;
 
         return this;
