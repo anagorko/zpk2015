@@ -38,4 +38,7 @@ int main() {
 	
 	// wynik
 	cout << wyniki[wyznaczWicemistrza(wyniki, n)] << endl;
+	
+	// poprawka (2016-03-29): zbilansowanie uzycia new i delete
+	delete[] wyniki;
 }
