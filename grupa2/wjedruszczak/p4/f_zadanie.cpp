@@ -2,7 +2,7 @@
 #include<math.h>
 using namespace std;
 
-const double M_PI { 3.14159265358979323846 };
+const double PI { 3.14159265358979323846 };
 
 class Figure {
 	virtual ostream& output(ostream&) const = 0;
@@ -138,7 +138,7 @@ public:
 	}
 
 	virtual double area() {
-		return pow(r, 2) * M_PI;
+		return pow(r, 2) * PI;
 	}
 
 	virtual Figure* scale(double k) {
