@@ -132,7 +132,7 @@ class Circle : public Figure {
 	}
 
 public:
-	Circle(Point p, double _r = 0.0) {
+	Circle(Point p = Point(0.0, 0.0), double _r = 0.0) {
 		a = p;
 		r = _r;
 	}
@@ -169,7 +169,7 @@ class Line : public Figure {
 	}
 
 public:
-	Line(Point _a, Point _b) {
+	Line(Point _a = Point(0.0, 0.0), Point _b = Point(0.0, 0.0)) {
 		a = _a;
 		b = _b;
 	}
