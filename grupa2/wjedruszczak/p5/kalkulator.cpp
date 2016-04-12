@@ -22,7 +22,7 @@ public:
 	void push(float);
 };
 
-// konstruktor
+// konstruktor domyslny
 Stack::Stack() {
 	// wskaznik pusty
 	t = nullptr;
