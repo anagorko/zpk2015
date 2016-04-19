@@ -30,7 +30,7 @@ public:
 
     double v(double x) const;
 
-    //friend ostream& operator<<(ostream&, const Polynomial&);
+    friend ostream& operator<<(ostream&, const Polynomial&);
 
     const Polynomial differential() const;
 
@@ -38,7 +38,18 @@ public:
     vector<double> realRoots() const;
 };
 
-Polynomial::Polynomial() { //konstruktor tworzy pusty wektor z wyserowanymi współczynnikami
+ostream& operator<<(ostream &o, const Polynomial& p)
+{
+    o << p.name << ": " << p.getA(0) <<" ";
+
+    for (int i = 1; i < p.deg()+ 1; i++)
+        o << "+ " << p.getA(i) <<"x^" << i << " ";
+
+    return o;
+}
+
+
+Polynomial::Polynomial() { //konstruktor tworzy pusty wektor z wyserowanymi wspó³czynnikami
 }
 
 double Polynomial::getA(int n) const{
@@ -156,27 +167,29 @@ int main()
     Polynomial a, b, c;
     a.setName("a");
     b.setName("b");
+    c.setName("c");
     a.setA(0, 1.3);
     a.setA(1, 3.5);
     a.setA(2, 2.1);
     b.setA(0, 0.7);
     b.setA(1, -0.5);
 
-
-    cout << a.getA(0) << " " << a.getA(1)<< " " << a.getA(2) << endl;
+    cout << a << endl;
     cout << "stopien a to: " << a.deg() << endl;
-    cout << b.getA(0) << " " << b.getA(1) <<endl;
+    cout << b << endl;
     cout << "stopien b to: " << b.deg() << endl;
+
+    cout << "Tak wyglada wynik dzialania a + b" << endl << a + b <<endl;
 
     a = a - b;
     cout <<"stopien a to: " <<a.deg()<<endl;
-    cout<<"Tak wyglada a po operacji" <<endl;
-    cout << a.getA(0) << " " << a.getA(1) << " " << a.getA(2) << endl;
+    cout<<"Tak wyglada a po operacji a = a - b" <<endl;
+    cout << a << endl;
 
     a += b;
     cout <<"stopien a to: " <<a.deg()<<endl;
-    cout<<"Tak wyglada a po operacji" <<endl;
-    cout << a.getA(0) << " " << a.getA(1) << " " << a.getA(2) << endl;
+    cout<<"Tak wyglada a po operacji a += b" <<endl;
+    cout << a << endl;
 
     cout << "wartosc wielomianu a w punkcie 3 rowna sie: " << a.v(3) <<endl;
     cout << "wartosc wielomianu b w punkcie -3 rowna sie: " << b.v(-3) <<endl;
@@ -190,7 +203,7 @@ int main()
     c.setA(1, 3.5);
     c.setA(2, 2.1);
     cout<<"Tak wyglada wielomian c" <<endl;
-    cout << c.getA(0) << " " << c.getA(1) << " " << c.getA(2) << endl;
+    cout << c << endl;
 
     cout << "Czy wielomian a jest rowny c: ";
     if (a == c)
