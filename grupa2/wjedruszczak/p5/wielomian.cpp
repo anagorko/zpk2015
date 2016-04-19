@@ -3,8 +3,7 @@
 #include<vector>
 using namespace std;
 
-class Polynomial
-{
+class Polynomial {
 	vector <double> a;
 
 	double findRoot(double, double);
@@ -208,7 +207,7 @@ void div(const Polynomial & W, const Polynomial & P, Polynomial & Q, Polynomial 
 				Q.setA(W.deg() - P.deg(), W.getA(W.deg()) / P.getA(P.deg()));
 				pierwszyWyraz = Q.getA(W.deg() - P.deg());
 				
-				// 2. Powstaje reszta R(x) = W(x) - pierwszyWyraz * P(x)
+				// 2. Powstaje reszta R(x) = W(x) - pierwszyWyraz * przesuniety dzielnik
 				for (int i = 0; i < reszta.size(); ++i)
 					reszta.at(i) = W.getA(i) - pierwszyWyraz * pomocniczy.at(i);
 
@@ -227,7 +226,7 @@ void div(const Polynomial & W, const Polynomial & P, Polynomial & Q, Polynomial 
 				for (int i = 0; i < P.deg() + 1; ++i)
 					pomocniczy.at(i + reszta.size() - 1 - P.deg()) = P.getA(i);
 
-				// 4. Powstaje nowa reszta R(x) = R(x) - pierwszyWyraz * P(x)
+				// 4. Powstaje nowa reszta R(x) = R(x) - pierwszyWyraz * przesuniety dzielnik
 				for (int i = 0; i < reszta.size(); ++i)
 					reszta.at(i) = reszta.at(i) - pierwszyWyraz * pomocniczy.at(i);
 
@@ -251,7 +250,7 @@ void div(const Polynomial & W, const Polynomial & P, Polynomial & Q, Polynomial 
 
 const Polynomial gcd(const Polynomial & W, const Polynomial & P) {
 	Polynomial w = { W }, p = { P }, gcd;
-	double reszta = 0;
+	double reszta = { 0 };
 	int stopienReszty = { 0 };
 
 	if (-1 == P.deg()) {
