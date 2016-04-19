@@ -1,0 +1,267 @@
+#include<iostream>
+#include<vector>
+#include<cmath>
+
+using namespace std;
+
+   class Polynomial {
+	  vector <long double> a;
+
+	  double findRoot(long double, long double);
+
+    public:
+	    Polynomial() {}
+
+  	    long double getA(int) const;
+	      void setA(int, double);
+
+	int deg() const;
+
+	    Polynomial & operator+=(const Polynomial & q);
+	    const Polynomial operator+(const Polynomial & q) const;
+
+	    Polynomial & operator*=(const Polynomial & q);
+	    const Polynomial operator*(const Polynomial & q) const;
+
+	    Polynomial & operator-=(const Polynomial & q);
+	    c onst Polynomial operator-(const Polynomial & q) const;
+
+	    bool operator==(const Polynomial & q) const;
+	    bool operator!=(const Polynomial & q) const;
+
+	      double v(double x) const;
+
+	    friend ostream & operator<<(ostream &, const Polynomial &);
+
+	      const Polynomial differential() const;
+
+	    vector <double> rationalRoots() const;
+    	vector <double> realRoots() const;
+      };
+
+        long double Polynomial::getA(int i) const {  //wyznaczmay zmienna z plywajacym przcinkiem i dajemy mu A
+	      return a.at(i);
+        }
+
+      void Polynomial::setA(int i, double v) { 
+	        if (a.size() < i + 1)
+		          a.resize(i + 1, 0);
+	            a.at(i) = v;
+        }
+
+          int Polynomial::deg() const {
+	          if (1 == a.size() && 0 == a.at(0))
+		          return -1;
+	          else
+		          return a.size() - 1;
+            }
+
+    Polynomial & Polynomial::operator+=(const Polynomial & q) {
+	    if (deg() < q.deg())
+		    a.resize(q.deg() + 1, 0); //zmieniamy rozmiar
+
+	        for (int j = 0; j < q.deg() + 1; ++j)  //inicjujemy cykl
+		        a.at(j) += q.getA(j);
+
+	           	while (0 == a.at(a.size() - 1) && a.size() > 1)
+		            a.pop_back();  return *this;
+                      }  //teoretycznie tu usuwamy zbedne cyfry z konca do 1 elementu, zeby ten wielomian sie pokazal, ale nie wiem, czy pracuje czy nie
+
+      const Polynomial Polynomial::operator+(const Polynomial & q) const {
+	      return Polynomial(*this) += q;
+          }
+
+          Polynomial & Polynomial::operator*=(const Polynomial & q) {
+	            vector <double> helpful(a.size() + q.deg() + 1, 0);
+
+	        for (int i = 0; i < a.size(); ++i) {
+		        for (int j = 0; j < q.deg() + 1; ++j) {
+			        helpful.at(i + j) += a.at(i) * q.getA(j);
+		        }
+	        }
+
+	a = helpful;
+	return *this;
+}
+
+    const Polynomial Polynomial::operator*(const Polynomial &q) const {  // tu roznica z poprzednim czyszczeniem polega na mnozeniu!!
+	    return Polynomial(*this) *= q;
+    }
+
+        Polynomial & Polynomial::operator-=(const Polynomial & q) {
+	        if (deg() < q.deg())
+		        a.resize(q.deg() + 1, 0);
+
+	        for (int i = 0; i < q.deg() + 1; ++i)
+		          a.at(i) -= q.getA(i);
+
+        	while (0 == a.at(a.size() - 1) && a.size() > 1)
+		        a.pop_back();
+
+	          return *this; //dokladnie to samo, co i w poprzednim cyklu
+        }
+
+         const Polynomial Polynomial::operator-(const Polynomial & q) const {
+	          return Polynomial(*this) -= q;
+          }
+
+bool Polynomial::operator==(const Polynomial & q) const {  /romimy zmienna zerojedynkowa
+	if (deg() != q.deg())
+		return false;
+	      else {
+		      for (int i = 0; i < a.size(); ++i) {
+			       if (a.at(i) != q.getA(i))
+				        return false;
+		          }
+	       }
+	    return true; //nie wiem, czy ten punkt jest niezbedny...?
+    }
+
+      bool Polynomial::operator!=(const Polynomial & q) const {
+	      return !(*this == q);
+        }
+
+       long double Polynomial::v(long double x) const {
+	          long double amount = { a.at(0) };
+
+	            for (int i = 1; i < a.size(); ++i)
+		            amount += a.at(i) * pow(x, i);
+
+	                return amount;
+                }
+
+    ostream & operator<<(ostream & os, const Polynomial & q) {
+	    bool Single_Expres = true; //nadajemy tru obojazkowo, bo nie bedzie pracowalo!!
+
+	    if (-1 == q.deg())
+	      cout << q.getA(0); //dla zerowych
+        	else {
+	        	for (int i = q.deg(); i >= 0; --i) {
+		          	if (0 != q.getA(i)) {
+				          if (q.getA(i) > 0 && Single_Expres == false)
+					          cout << "+";  //chcialbym zrobic bez wkladanych if'ow, ale nie wiem, jak to zrealizowac inaczej :(
+                        //znak + nie pokazuje sie na poczatku
+					
+						if (0 == i)
+					      cout << q.getA(i); //dlaczego cout? Bo da sie pokazac formatowany output
+				          else if (1 == i) {
+					          if (1 == q.getA(i))
+						          cout << "x";
+					              else if (-1 == q.getA(i))
+					              	cout << "-x";
+					      else
+						      cout << q.getA(i) << "x";
+				      }
+				else {
+					if (1 == q.getA(i))
+						cout << "x^" << i;
+					else if (-1 == q.getA(i))
+						cout << "-x^" << i;
+					else
+						cout << q.getA(i) << "x^" << i;
+				}
+				Single_Expres = false;   //ten cal wyraz jest koszmarny...
+			      }
+	      	}
+      	}
+	return os;
+}
+
+              const Polynomial Polynomial::differential() const {
+	              Polynomial Derivative;
+
+	                  Derivative.a.resize(deg(), 0);
+	                  Derivative.a.insert(Derivative.a.begin(), a.begin() + 1, a.end());
+	
+	                      for (int i = 0; i < Derivative.a.size(); ++i)
+		                    Derivative.a.at(i) *= (i + 1);
+
+                    	return Derivative;
+                } 
+
+  void div(const Polynomial & W, const Polynomial & P, Polynomial & Q, Polynomial & R) {
+	  if (W.deg() >= P.deg()) {
+		  bool 1Step = { true };
+		  long double Single_Expres;
+		    vector < long double> helpful(W.deg() + 1, 0);
+		    vector <long double> rest(W.deg() + 1, 0);
+
+		for (int i = 0; i < P.deg() + 1; ++i)
+			helpful.at(i + W.deg() - P.deg()) = P.getA(i); // wektor z dzielnikami, zapisujemy go w pamieci
+
+		do {
+			if (1Step) {   // W(X) dzielimy przez P (x)
+				Q.setA(W.deg() - P.deg(), W.getA(W.deg()) / P.getA(P.deg()));
+				Single_Expres = Q.getA(W.deg() - P.deg());
+				
+				 for (int i = 0; i < rest.size(); ++i)
+					rest.at(i) = W.getA(i) - Single_Expres * helpful.at(i); //tu mamy nasza reszte od podzialu
+
+				while (0 == rest.at(rest.size() - 1) && rest.size() > 1)
+					rest.pop_back();
+			}
+			
+			else { //teraz R(x) dzielimy przez P(x)
+				Q.setA(rest.size() - 1 - P.deg(), rest.at(rest.size() - 1) / P.getA(P.deg()));
+				  Single_Expres = Q.getA(rest.size() - 1 - P.deg());
+
+				helpful.clear(); //czyszcimy zmienna pomocnicza i zmieniamy jej rozmiar
+				helpful.resize(rest.size(), 0);
+				for (int i = 0; i < P.deg() + 1; ++i)
+					helpful.at(i + rest.size() - 1 - P.deg()) = P.getA(i);
+
+				for (int i = 0; i < rest.size(); ++i)
+					rest.at(i) = rest.at(i) - Single_Expres * helpful.at(i);  //tu mamy kolejna reszte
+
+			while (0 == rest.at(rest.size() - 1) && rest.size() > 1)
+					rest.pop_back();
+			}
+
+			1Step = false;
+		} while (rest.size() - 1 >= P.deg());
+
+    		for (int i = rest.size() - 1; i >= 0; --i) //cykl zapisywania resztek
+		      	R.setA(i, rest.at(i));
+	        }
+	       else {
+		       Q.setA(0, 0);
+	        	R = W;
+         	}
+    }
+
+const Polynomial gcd(const Polynomial & W, const Polynomial & P) {
+	Polynomial w = { W }, p = { P }, gcd;
+	double rest = { 0 };
+	int rest_size = { 0 };
+
+	if (-1 == P.deg()) {
+		if (-1 == W.deg()) {
+			gcd.setA(0, 0);
+			return gcd;
+		}
+		else
+			return W;
+	}
+	else {
+		do {
+			Polynomial q, r;
+
+			div(w, p, q, r);
+			w = p;
+			p = r;
+			rest = r.getA(0);
+			rest_size = r.deg();
+
+			if (-1 == rest_size)
+				gcd = w;
+			else if (0 != reszta && 0 == rest_size) {
+				gcd.setA(0, 1); //ta pierdol wprowadzamy dla reszty, jaka nie jest rowna zero
+				break;
+			}
+
+		} while (0 != reszta && -1 != rest_size);
+	}
+	return gcd;
+}
+
+//teoretycznie dziala, praktycznie - jakos dziwnie...
