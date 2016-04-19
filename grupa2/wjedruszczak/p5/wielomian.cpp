@@ -116,11 +116,12 @@ const Polynomial Polynomial::operator-(const Polynomial & q) const {
 bool Polynomial::operator==(const Polynomial & q) const {
 	if (deg() != q.deg())
 		return false;
-	else
+	else {
 		for (int i = 0; i < a.size(); ++i) {
 			if (a.at(i) != q.getA(i))
 				return false;
 		}
+	}
 	return true;
 }
 
