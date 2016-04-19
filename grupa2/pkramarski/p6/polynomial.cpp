@@ -13,27 +13,27 @@ public:
     };
 //---------------------------------------------------
     double getA(int i) const{
-    if(a.size() > i)
-        return a[i];
-    else
-        return NULL;
+        if(a.size() > i)
+            return a[i];
+        else
+            return NULL;
     };
 //---------------------------------------------------
     void setA(int i , double b){
-    if(i < a.size())
-        a[i] = b;
-    else {
-        a.resize(i+1, 0);
-        a[i] = b;
-    }
+        if(i < a.size())
+            a[i] = b;
+        else {
+            a.resize(i+1, 0);
+            a[i] = b;
+        }
     };
 //---------------------------------------------------
     int deg() const{
-    for(int i = a.size() - 1; i >= 0 ; i--){
-        if(a[i]!=0){
-            return i;
-            break;
-        }
+        for(int i = a.size() - 1; i >= 0 ; i--){
+            if(a[i]!=0){
+                return i;
+                break;
+            }
     }
     };
 //---------------------------------------------------
