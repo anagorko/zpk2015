@@ -34,7 +34,7 @@ public:
                 return i;
                 break;
             }
-    }
+        }
     };
 //---------------------------------------------------
     Polynomial& operator+=(const Polynomial &q);
