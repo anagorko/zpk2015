@@ -21,7 +21,7 @@ public:
     float top();
 
     bool empty();
-    void push(float x); //zmieni³em push(float) na push(float x)
+    void push(float x);
 };
 
 Stack::Stack(){
