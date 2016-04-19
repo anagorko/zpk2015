@@ -76,45 +76,24 @@ int main()
         string token;
         cin >> token;
 
-		if (token == "+") {
-			float l, r;
-			if (!s.empty()) {
-				r = s.pop();
-				if (!s.empty()) {
-					l = s.pop();
-					s.push(l + r);
-				}
-				else{
-					cout << "blad";
-					s.push(r);
-				}
-			}
-			else{
-				cout << "blad";
-			}
-		}
-		else if (token == "*") {
-			float l, r;
-			if (!s.empty()) {
-				r = s.pop();
-				if (!s.empty()) {
-					l = s.pop();
-					s.push(l * r);			
-				}
-				else{
-					cout << "blad";
-					s.push(r);
-				}
-			}
-			else{
-				cout << "blad";
-			}					
-		}
-		else if (token == "=") {
-			cout << s.top() << endl;
-		}
-		else {
-			s.push(stof(token));
-		}
-	}
+        if (token == "+") {
+            float l, r;
+
+            r = s.pop();
+            l = s.pop();
+
+            s.push(l + r);
+        } else if (token == "*") {
+            float l, r;
+
+            r = s.pop();
+            l = s.pop();
+
+            s.push(l * r);
+        } else if (token == "=") {
+            cout << s.top() << endl;
+        } else {
+            s.push(stof(token));
+        }
+    }
 }
