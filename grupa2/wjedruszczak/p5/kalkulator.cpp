@@ -77,11 +77,6 @@ void Stack::push(float wartosc) {
 int main() {
 	Stack s;
 
-	// zmienna, ktora dba o to, zeby wprowadzone dane byly poprawne,
-	// tzn. kazde dzialanie musi sie skladac z trzech elementow:
-	// liczba_r liczba_l dzialanie (w tej kolejnosci) i dopiero "=" (ten znak nie jest jednak zliczany)
-	int trzyElementy = { 0 };
-
 	while (!cin.eof()) {
 		string token;
 		cin >> token;
@@ -89,41 +84,44 @@ int main() {
 		if (token == "+") {
 			float l, r;
 
-			++trzyElementy;
-			
-			if (3 == trzyElementy) {
+			if (!s.empty()) {
 				r = s.pop();
-				l = s.pop();
 
-				s.push(l + r);
+				if (!s.empty()) {
+					l = s.pop();
+					s.push(l + r);
+				}
+				else {
+					cout << "Blad! Podano tylko jedna liczbe." << endl;
+					s.push(r);
+				}
 			}
 			else
-				trzyElementy = 0;
+				cout << "Blad! Nie podano zadnej liczby." << endl;
 		}
 		else if (token == "*") {
 			float l, r;
 
-			++trzyElementy;
-
-			if (3 == trzyElementy) {
+			if (!s.empty()) {
 				r = s.pop();
-				l = s.pop();
 
-				s.push(l * r);
+				if (!s.empty()) {
+					l = s.pop();
+					s.push(l * r);
+				}
+				else {
+					cout << "Blad! Podano tylko jedna liczbe." << endl;
+					s.push(r);
+				}
 			}
 			else
-				trzyElementy = 0;
+				cout << "Blad! Nie podano zadnej liczby." << endl;
 		}
 		else if (token == "=") {
-			if (3 == trzyElementy)
-				cout << s.top() << endl;
-			else
-				cout << "Wprowadzono nieprawidlowe dane. Podaj ponownie cale dzialanie." << endl;
-			trzyElementy = 0;
+			cout << s.top() << endl;
 		}
 		else {
 			s.push(stof(token));
-			++trzyElementy;
 		}
 	}
 }
