@@ -41,7 +41,7 @@ public:
             }
         }
     }
-    const Polynomial operator+(const Polynomial &q)
+    const Polynomial operator+(const Polynomial &q) const
     {
         Polynomial ret;
         if (this->a.size()>q.a.size())
@@ -81,7 +81,7 @@ public:
 
 
     }
-    const Polynomial operator*(const Polynomial &q)
+    const Polynomial operator*(const Polynomial &q) const
     {
         if (this->a.size()>q.a.size())
             for(int i=q.a.size();i<this->a.size());i++) q.a.at(i)=0;
@@ -115,7 +115,7 @@ public:
             }
         }
     };
-    const Polynomial operator-(const Polynomial &q)
+    const Polynomial operator-(const Polynomial &q) const
     {
         Polynomial ret;
         if (this->a.size()>q.a.size())
@@ -162,7 +162,12 @@ public:
     }
     double v(double x) const;
 
-    friend ostream& operator<<(ostream&, const Polynomial&);
+    friend ostream& operator<<(ostream&, const Polynomial&)
+        {
+            for (int i = 0; i<this->a.size(); i++)
+                cout<<this->getA(i)<<" ";
+            cout<<endl;
+        }
 
     const Polynomial differential() const;
 
