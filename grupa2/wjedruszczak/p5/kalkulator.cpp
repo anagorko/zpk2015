@@ -30,7 +30,7 @@ Stack::Stack() {
 
 // destruktor
 Stack::~Stack() {
-	while (t != nullptr) {
+	while (nullptr != t) {
 		// zwalnianie kolejnych warstw stosu
 		Element * poprzedniElement = { t->prev };
 		delete t;
@@ -40,7 +40,7 @@ Stack::~Stack() {
 
 // zdejmuje element ze stosu
 float Stack::pop() {
-	if (t == nullptr)
+	if (nullptr == t)
 		return 0;
 	else {
 		// podobny mechanizm jak w dekonstruktorze
@@ -54,7 +54,7 @@ float Stack::pop() {
 
 // wartosc na gorze stosu
 float Stack::top() {
-	if (t == nullptr)
+	if (nullptr == t)
 		return 0;
 	else
 		return t->value;
@@ -62,7 +62,7 @@ float Stack::top() {
 
 // czy stos jest pusty?
 bool Stack::empty() {
-	return (t == nullptr);
+	return (nullptr == t);
 }
 
 // odklada element na stos
@@ -91,7 +91,7 @@ int main() {
 
 			++trzyElementy;
 			
-			if (trzyElementy == 3) {
+			if (3 == trzyElementy) {
 				r = s.pop();
 				l = s.pop();
 
@@ -105,7 +105,7 @@ int main() {
 
 			++trzyElementy;
 
-			if (trzyElementy == 3) {
+			if (3 == trzyElementy) {
 				r = s.pop();
 				l = s.pop();
 
@@ -115,7 +115,7 @@ int main() {
 				trzyElementy = 0;
 		}
 		else if (token == "=") {
-			if (trzyElementy == 3)
+			if (3 == trzyElementy)
 				cout << s.top() << endl;
 			else
 				cout << "Wprowadzono nieprawidlowe dane. Podaj ponownie cale dzialanie." << endl;
