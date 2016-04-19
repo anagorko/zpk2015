@@ -75,53 +75,33 @@ void Stack::push(float wartosc) {
 }
 
 int main() {
-	Stack s;
+    Stack s;
 
-	while (!cin.eof()) {
-		string token;
-		cin >> token;
+    while (!cin.eof()) {
+        string token;
+        cin >> token;
 
-		if (token == "+") {
-			float l, r;
+        if (token == "+") {
+            float l, r;
 
-			if (!s.empty()) {
-				r = s.pop();
+            r = s.pop();
+            l = s.pop();
 
-				if (!s.empty()) {
-					l = s.pop();
-					s.push(l + r);
-				}
-				else {
-					cout << "Blad! Podano tylko jedna liczbe." << endl;
-					s.push(r);
-				}
-			}
-			else
-				cout << "Blad! Nie podano zadnej liczby." << endl;
-		}
-		else if (token == "*") {
-			float l, r;
+            s.push(l + r);
+        }
+        else if (token == "*") {
+            float l, r;
 
-			if (!s.empty()) {
-				r = s.pop();
+            r = s.pop();
+            l = s.pop();
 
-				if (!s.empty()) {
-					l = s.pop();
-					s.push(l * r);
-				}
-				else {
-					cout << "Blad! Podano tylko jedna liczbe." << endl;
-					s.push(r);
-				}
-			}
-			else
-				cout << "Blad! Nie podano zadnej liczby." << endl;
-		}
-		else if (token == "=") {
-			cout << s.top() << endl;
-		}
-		else {
-			s.push(stof(token));
-		}
-	}
+            s.push(l * r);
+        }
+        else if (token == "=") {
+            cout << s.top() << endl;
+        }
+        else {
+            s.push(stof(token));
+        }
+    }
 }
