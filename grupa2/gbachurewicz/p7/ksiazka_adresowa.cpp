@@ -49,11 +49,7 @@ ostream& operator<<(ostream &o, const Person& p)
 
 istream& operator>>(istream &i, Person &p)
 {
-    i >> p.id;
-    i >> p.name;
-    i >> p.surname;
-    i >> p.email;
-    i >> p.phone;
+    i >> p.id; i >> p.name; i >> p.surname; i >> p.email; i >> p.phone;
     return i;
 }
 
@@ -93,6 +89,7 @@ public:
     void find();
     void write (string);
     void read (string);
+    void options();
 
 };
 
@@ -106,42 +103,38 @@ void Addressbook::addSimply(string na, string su, string em, string ph) {
 void Addressbook::add () {
     Person p;
     string na, su, em, ph;
-    cout << "Podaj dane kontaktowe:"<<endl;
-    cout << "Imie: ";
-    cin >> na;
-    cout <<"Nazwisko: ";
-    cin >> su;
-    cout<<"Email: ";
-    cin >> em;
-    cout<< "Telefon: ";
-    cin >> ph;
+    cout << "Podaj dane kontaktowe:"<< endl;
+    cout << "Imie: "; cin >> na;
+    cout <<"Nazwisko: "; cin >> su;
+    cout<<"Email: "; cin >> em;
+    cout<< "Telefon: "; cin >> ph;
+
     p.setName(na); p.setSurname(su); p.setEmail(em); p.setPhone(ph);
     p.setId(bk.size() + 1); //id ososby to rozmiar wektora przed jej dodaniem + 1
     bk.push_back(p);
+    cout <<"Dodano 1 nowy wpis." << endl;
 }
 
 void Addressbook::modify (int n) {
     if (!exist(n)) {
-        cout <<"W tej ksiazce adresowej nie ma osoby o id: "<< n <<endl;
+        cout <<"W tej ksiazce adresowej nie ma osoby o id "<< n << "." <<endl;
         this -> list();
     }
     else {
         Person p;
         string na, su, em, ph;
         cout << "Podaj dane kontaktowe:"<<endl;
-        cout << "Imie: ";
-        cin >> na;
-        cout <<"Nazwisko: ";
-        cin >> su;
-        cout<<"Email: ";
-        cin >> em;
-        cout<< "Telefon: ";
-        cin >> ph;
-        cout<< endl;
-        bk[n-1].setName(na);
-        bk[n-1].setSurname(su);
-        bk[n-1].setEmail(em);
-        bk[n-1].setPhone(ph);
+        cout << "Imie: "; cin >> na;
+        cout << "Nazwisko: "; cin >> su;
+        cout << "Email: "; cin >> em;
+        cout << "Telefon: "; cin >> ph;
+        cout << endl;
+        for (Person& p: bk) {
+            if (p.getId() == n){
+                p.setName(na); p.setSurname(su); p.setEmail(em); p.setPhone(ph);
+            }
+        }
+        cout << "Zmodyfikowano rekord o numerze " << n << "." <<endl;
     }
 }
 
@@ -165,15 +158,31 @@ bool Addressbook::existString (string atrybut) {
 
 void Addressbook::drop (int n) {
     if (!exist(n)) {
-        cout <<"W tej ksiazce adresowej nie ma osoby o id: "<< n <<endl;
+        cout <<"W tej ksiazce adresowej nie ma osoby o id "<< n << "." <<endl;
         this -> list();
     }
-    else
+    else {
         bk.erase(bk.begin() + n - 1);
+        cout << "Usunieto rekord " << n <<"." <<endl;
+    }
 }
 
 void Addressbook::eraseAll () {
     bk.clear();
+}
+
+void Addressbook::options() {
+    cout << "Dostepne opcje to:" << endl;
+    cout << "1. l - komenda list - wyswietla obecny stan ksiazki adresowej" << endl;
+    cout << "2. a - komenda add - dodaje nowy wpis" << endl;
+    cout << "3. d - komenda delete - kasuje dany wpis" << endl;
+    cout << "4. m - komenda modify - modyfikuje dany wpis" << endl;
+    cout << "5. f - komenda find - znajduje wpis po id lub po atrybucie" << endl;
+    cout << "6. r - komenda read - wczytuje ksiazke adresowa z pliku" << endl;
+    cout << "7. w - komenda write - zapisuje obecny stan ksiazki adresowej do pliku" << endl;
+    cout << "8. c - komenda clear - usuwa wszystkie wpisy z aktualnej ksiazki adresowej" << endl;
+    cout << "9. o - komenda option - wypisuje dostepne opcje" << endl;
+    cout << "10. e - komenda exit - zamyka program" << endl;
 }
 
 void Addressbook::list()  { //wyswietlanie zawartosci ksiazki adresowej
@@ -282,16 +291,6 @@ void Addressbook::read(string bookname) {
 int main()
 {
     cout << "*********      PROSTA KSIAZKA ADRESOWA       ***********" <<endl;
-    cout << "Dostepne opcje to:" << endl;
-    cout << "1. l - komenda list - wyswietla obecny stan ksiazki adresowej" << endl;
-    cout << "2. a - komenda add - dodaje nowy wpis" << endl;
-    cout << "3. d - komenda delete - kasuje dany wpis" << endl;
-    cout << "4. m - komenda modify - modyfikuje dany wpis" << endl;
-    cout << "5. f - komenda find - znajduje wpis po id lub po atrybucie" << endl;
-    cout << "6. r - komenda read - wczytuje ksiazke adresowa z pliku" << endl;
-    cout << "7. w - komenda write - zapisuje obecny stan ksiazki adresowej do pliku" << endl;
-    cout << "8. c - komenda clear - usuwa wszystkie wpisy z aktualnej ksiazki adresowej" << endl;
-    cout << "9. e - komenda exit - zamyka program" << endl;
 
     Addressbook book1; //tworzymy ksiazke o nazwie book1 i dodajemy do niej 5 ponizszych rekordow
     book1.addSimply("Jan", "Kowalski", "jk@dp.pl", "1112223");
@@ -300,6 +299,7 @@ int main()
     book1.addSimply("Zbigniew", "Jantar", "jako@dp.pl", "13333333");
     book1.addSimply("Jola", "Stonoga", "abiz@dp.pl", "1188888888");
 
+    book1.options();
     cout << "********************************************************" << endl;
     cout << "W celu wybrania opcji podaj litere." <<endl;
     book1.list();
@@ -354,11 +354,17 @@ int main()
                 book1.write( file);
             break;
 
+            case 'o':
+                book1.options();
+            break;
+
             case 'e':
                 cout << "Zamykam ksiazke adresowa." << endl;
             break;
 
-            default: cout<<"Nie ma takiej komendy w programie!" << endl;
+            default:
+                cout<<"Nie ma takiej opcji w programie!" << endl << endl;
+                book1.options();
             break;
             }
 
