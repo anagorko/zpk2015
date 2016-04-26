@@ -172,6 +172,7 @@ void Addressbook::drop (int n) {
 
 void Addressbook::eraseAll () {
     bk.clear();
+    cout << "Usunieto wszystkie wpisy." << endl;
 }
 
 void Addressbook::options() {
@@ -334,7 +335,6 @@ int main()
 
             case 'c':
                 book1.eraseAll();
-                cout << "Usunieto wszystkie wpisy." << endl;
             break;
 
             case 'm':
