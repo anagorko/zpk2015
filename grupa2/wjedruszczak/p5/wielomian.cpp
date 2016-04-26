@@ -177,14 +177,19 @@ ostream & operator<<(ostream & os, const Polynomial & q) {
 	return os;
 }
 
+// 2016-04-26: poprawiono ponizsza metode
 const Polynomial Polynomial::differential() const {
 	Polynomial pochodna;
 
-	pochodna.a.resize(deg(), 0);
-	pochodna.a.insert(pochodna.a.begin(), a.begin() + 1, a.end());
-	
-	for (int i = 0; i < pochodna.a.size(); ++i)
-		pochodna.a.at(i) *= (i + 1);
+	if (1 == a.size())
+		pochodna.a.push_back(0);
+	else {
+		pochodna.a.resize(deg(), 0);
+		pochodna.a.insert(pochodna.a.begin(), a.begin() + 1, a.end());
+
+		for (int i = 0; i < pochodna.a.size(); ++i)
+			pochodna.a.at(i) *= (i + 1);
+	}
 
 	return pochodna;
 }
