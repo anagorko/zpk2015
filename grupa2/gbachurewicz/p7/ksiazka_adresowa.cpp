@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 using namespace std;
 
 
@@ -84,8 +85,8 @@ public:
     bool existString (string);
     void modify (int);
     void addSimply(string, string, string, string);
-    vector<Person>& getPersons();
-    void sorting(Addressbook& book);
+    vector<Person> getPersons();
+    void sorting (string);
     void find();
     void write (string);
     void read (string);
@@ -186,7 +187,8 @@ void Addressbook::options() {
     cout << "7. w - komenda write - zapisuje obecny stan ksiazki adresowej do pliku" << endl;
     cout << "8. c - komenda clear - usuwa wszystkie wpisy z aktualnej ksiazki adresowej" << endl;
     cout << "9. o - komenda option - wypisuje dostepne opcje" << endl;
-    cout << "10. e - komenda exit - zamyka program" << endl;
+    cout << "10. s - komenda sort - sortuje ksiazke wedlug podanego atrybutu" << endl;
+    cout << "11. e - komenda exit - zamyka program" << endl;
 }
 
 void Addressbook::list()  { //wyswietlanie zawartosci ksiazki adresowej
@@ -239,21 +241,39 @@ void Addressbook::find() {
     }
 }
 
-
-/*
-Person& Addressbook::getPersonData(int n) const {
-return
-}*/
-
-vector<Person>& Addressbook::getPersons() {
+vector<Person> Addressbook::getPersons() {
     return bk;
 }
 
-/*
-void Addressbook::sorting(Addressbook& book) {
-    vector<Person> v = book.getPersons();
-    sort(begin(v), end(v), [] (const Person& lhs, const Person& rhs) { return lhs.getName() < rhs.getName(); });
-}*/
+void Addressbook::sorting(string atrybut) {
+    if (bk.size() == 0)
+           cout << "Ksiazka adresowa jest pusta." << endl;
+    else {
+        vector<Person> v = this -> getPersons();
+
+        if (atrybut == "imie")
+            sort(begin(v), end(v), [] (const Person& lhs, const Person& rhs) { return lhs.getName() < rhs.getName(); });
+
+        else if (atrybut == "nazwisko")
+            sort(begin(v), end(v), [] (const Person& lhs, const Person& rhs) { return lhs.getSurname() < rhs.getSurname(); });
+
+        else if (atrybut == "email")
+            sort(begin(v), end(v), [] (const Person& lhs, const Person& rhs) { return lhs.getEmail() < rhs.getEmail(); });
+
+        else if (atrybut == "telefon")
+            sort(begin(v), end(v), [] (const Person& lhs, const Person& rhs) { return lhs.getPhone() < rhs.getPhone(); });
+        else {
+            cout <<"Nie ma takiego atrybutu!" <<endl;
+            cout <<"Ksiazka adresowa nie zostala posortowana i wyglada nastepujaco" <<endl;
+        }
+
+        cout << "********************************************************" << endl;
+        for (Person& p: v) {
+            cout << p; //wypisujemy obiekty posortowanego wektora v
+        }
+        cout << "********************************************************" << endl;
+    }
+}
 
 void Addressbook::write(string bookname) {
     ofstream bookfile;
@@ -308,7 +328,7 @@ int main()
 
     char wybor;
     int id;
-    string file;
+    string file, atrybut;
         do {
 
             cin >> wybor;
@@ -326,6 +346,14 @@ int main()
             case 'f':
                 book1.find();
             break;
+
+            case 's':
+                cout << "Po jakim atrybucie chcesz posortowac istniejace wpisy?" << endl;
+                cout << "Wpisz atrybut: imie, nazwisko, email lub telefon." <<endl;
+                cin >> atrybut;
+                book1.sorting(atrybut);
+            break;
+
 
             case 'd':
                 cout << "Podaj id rekordu do usuniecia." << endl;
