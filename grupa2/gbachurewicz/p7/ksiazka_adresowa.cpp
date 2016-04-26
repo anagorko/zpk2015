@@ -142,7 +142,7 @@ bool Addressbook::exist (int n) {
     bool jest = false ;
     for (Person& p: bk) {
             if (p.getId() == n)
-            jest = true;
+                jest = true;
         }
     return jest;
 }
@@ -151,7 +151,7 @@ bool Addressbook::existString (string atrybut) {
     bool jest = false ;
     for (Person& p: bk) {
             if (p.getName()==atrybut || p.getSurname()==atrybut || p.getEmail()==atrybut || p.getPhone()==atrybut)
-            jest = true;
+                jest = true;
         }
     return jest;
 }
@@ -162,7 +162,10 @@ void Addressbook::drop (int n) {
         this -> list();
     }
     else {
-        bk.erase(bk.begin() + n - 1);
+        for (int i = 0; i < bk.size(); i++) {
+            if (bk[i].getId() == n)
+                bk.erase(bk.begin() + i);
+        }
         cout << "Usunieto rekord " << n <<"." <<endl;
     }
 }
@@ -209,11 +212,10 @@ void Addressbook::find() {
         cout <<"Wprowadz szukane Id: ";
         cin >> id;
             if (exist(id)){
+                cout << "Znaleziono wpis:"<<endl;
                 for (Person& p: bk) {
-                    if (p.getId() == id) {
-                        cout << "Znaleziono wpis:"<<endl;
+                    if (p.getId() == id)
                         cout << p;
-                    }
                 }
             }
             else {
@@ -223,11 +225,10 @@ void Addressbook::find() {
     }
     else {
         if (existString(input)){
+                cout << "Znaleziono nastepujace wpisy:"<<endl;
                 for (Person& p: bk) {
-                    if (p.getName()==input || p.getSurname()==input || p.getEmail()==input || p.getPhone()==input) {
-                        cout << "Znaleziono wpis:"<<endl;
+                    if (p.getName()==input || p.getSurname()==input || p.getEmail()==input || p.getPhone()==input)
                         cout << p;
-                    }
                 }
             }
             else {
