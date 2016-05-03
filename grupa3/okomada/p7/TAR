@@ -1,0 +1,61 @@
+#include<iostream>
+#include <vector>
+#include <cmath>
+using namespace std;
+
+
+long long pierwiastek(long long p, long long q)
+{
+	long long x=1;
+	long long wynik;
+	bool mniejszy;
+	bool wiekszy;
+	
+	wynik = -1;
+	mniejszy = ((x*(p + x*x)) < q);
+	wiekszy = (((x + 1)*(p + (x + 1)*(x + 1))) > q);
+	while (!(mniejszy & wiekszy))
+	{
+		if ((x*(p + x*x)) >= q)
+		{
+			if ((x*(p + x*x)) == q)
+			{
+				wynik = x;
+				break;
+			}
+			x = x / 2;
+		}
+		else
+			x = 2 * x;
+		mniejszy = ((x*(p+x*x)) < q);
+		wiekszy = (((x + 1)*( p+(x + 1)*(x+1))) > q);
+	}
+
+	return wynik;
+}
+
+int main()
+{
+	int ile_zagadek;
+	long long p;
+	long long q;
+	vector <long long> wyniki;
+	
+	cin >> ile_zagadek;
+	for (int i = 0; i < ile_zagadek; i++)
+	{
+		cin >> p;
+		cin >> q;
+		wyniki.push_back(pierwiastek(p,q));
+	}
+
+	for (int i = 0; i<ile_zagadek; ++i)
+	{
+		if (wyniki[i] == -1)
+			cout << "NIE" << endl;
+		else
+		cout << wyniki[i] << endl;
+	}
+}
+
+
