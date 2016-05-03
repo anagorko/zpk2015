@@ -9,21 +9,32 @@ int pierwszy;
 int ostatni;
 int poczatek = 0;
 int koniec = tablica.size() - 1;
+int poczatek_temp = 0;
+int koniec_temp = tablica.size() - 1;
 int srodek;
+bool czy = true;
 // szukamy pierwszego wystapienia 
 
 	while (poczatek < koniec)
 	{
 		srodek = (poczatek + koniec ) / 2;           
 		if (tablica[srodek] >= zapytanie)
+		{
+			if ((tablica[srodek] == zapytanie) && czy)
+			{   
+				czy = false;
+				poczatek_temp = srodek;
+				koniec_temp = koniec;
+			}
 			koniec = srodek;
+		}	
 		else
 			poczatek = srodek + 1;
 	}
 	pierwszy = poczatek;
 
-	poczatek = srodek;
-	koniec = tablica.size() - 1;
+	poczatek = poczatek_temp;
+	koniec = koniec_temp;
 
 // szukamy ostatniego wystapienia 
 	while (poczatek < koniec)
