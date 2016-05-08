@@ -9,16 +9,16 @@ using namespace std;
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_primitives.h"
 
-const int szerokosc = 1280;
-const int wysokosc = 720;
+const int szerokosc = { 1280 };
+const int wysokosc = { 720 };
 
-const double dx = 1.25;
-const double dy = 0.5;
-const int skalujX = 800;
-const int skalujY = 800;
+const double dx = { 1.25 };
+const double dy = { 0.5 };
+const int skalujX = { 800 };
+const int skalujY = { 800 };
 
 void generujSmoka(double, double, vector <float> &, vector <float> &, int n = 100000);
-void obliczSrodekMasySmoka(vector <float> &, vector <float> &, const double, const double, const int, const int);
+void obliczSrodekMasySmoka(const vector <float> &, const vector <float> &, const double, const double, const int, const int);
 void obliczRozmiarySmoka(vector <float>, vector <float>, const double, const double, const int, const int);
 
 int main() {
@@ -66,7 +66,7 @@ void generujSmoka(double x, double y, vector <float> & xv, vector <float> & yv, 
 	}
 }
 
-void obliczSrodekMasySmoka(vector <float> & xv, vector <float> & yv, const double dx, const double dy, const int skalujX, const int skalujY) {
+void obliczSrodekMasySmoka(const vector <float> & xv, const vector <float> & yv, const double dx, const double dy, const int skalujX, const int skalujY) {
 	int sumaX = { 0 }, sumaY = { 0 }, n = { int(xv.size()) };
 
 	// zgodnie z trescia zadania pomijam pierwsze 100 obserwacji
