@@ -31,7 +31,7 @@ string szukajBinarnieX(long long p, long long q) {
 		// funkcja pow(x, 3) daje zly wynik
 		if (x * x * x + x * p == q)
 			return to_string(x);
-		if (x * x * x + x * p > q)
+		else if (x * x * x + x * p > q)
 			koniec = x;
 		else
 			poczatek = x + 1;
