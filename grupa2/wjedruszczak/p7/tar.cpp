@@ -1,4 +1,3 @@
-#include<cmath>
 #include<iostream>
 #include<string>
 #include<vector>
@@ -28,10 +27,11 @@ string szukajBinarnieX(long long p, long long q) {
 
 	while (poczatek < koniec) {
 		x = (poczatek + koniec) / 2;
-		
-		if (pow(x, 3) + p * x == q)
+
+		// funkcja pow(x, 3) daje zly wynik
+		if (x * x * x + x * p == q)
 			return to_string(x);
-		else if (pow(x, 3) + p * x > q)
+		if (x * x * x + x * p > q)
 			koniec = x;
 		else
 			poczatek = x + 1;
