@@ -246,7 +246,7 @@ int main() {
 	Polynomial Q = Polynomial();
 	Polynomial R = Polynomial();
 	div(a, b, Q, R);
-    cout << endl;
+    	cout << endl;
 	cout << "Q == " << Q << "\n";
 	cout << "R == " << R << "\n";
 	cout << endl;
