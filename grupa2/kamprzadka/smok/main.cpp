@@ -29,10 +29,10 @@ int main(int argc, char** argv)
     double r=rand();
 
     for (int i = 0; i < 10000000; i++) {
+        xp=x;
+        yp=y;
         if(r>16383.5)
         {
-            xp=x;
-            yp=y;
             al_draw_pixel(scale*x+500,scale*y+300,al_map_rgb(255,0,0));
             x=-0.4*xp-1;
             y=-0.4*yp+0.1;
@@ -40,8 +40,6 @@ int main(int argc, char** argv)
         }
         else
         {
-            xp=x;
-            yp=y;
             al_draw_pixel(scale*x+500,scale*y+300,al_map_rgb(0,0,255));
             x=0.76*xp-0.4*yp;
             y=0.4*xp+0.76*yp;
