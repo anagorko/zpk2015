@@ -249,6 +249,7 @@ int main() {
     cout << endl;
 	cout << "Q == " << Q << "\n";
 	cout << "R == " << R << "\n";
+	cout << endl;
 	cout << "A w pkt x = 1: " << a.v(1) << endl;
 	cout << "B w pkt x = 1: " << b.v(1) << endl;
 	cout << endl;
