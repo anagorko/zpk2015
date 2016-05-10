@@ -22,50 +22,35 @@ int main(int argc, char** argv)
 
     al_clear_to_color(al_map_rgb(0,0,0));
 
-    int scale=50;
+    int scale=300;
     double x=1;
     double y=1;
+    double xp, yp;
     double r=rand();
-    double xp,yp;
 
-    double re=15;
-    double g=200;
-    double b=50;
-
-    for (int i = 0; i < 500000; i++) {
+    for (int i = 0; i < 10000000; i++) {
         xp=x;
         yp=y;
-        if(r<0.01*RAND_MAX)
+        if(r>16383.5)
         {
-            al_draw_pixel(scale*x+350,-scale*y+550,al_map_rgb(re,g,b));
-            x=0;
-            y=0.16*yp;
+            al_draw_pixel(scale*x+500,scale*y+300,al_map_rgb(255,0,0));
+            x=-0.4*xp-1;
+            y=-0.4*yp+0.1;
 
-        }
-        else if(r<=0.08*RAND_MAX)
-        {
-            al_draw_pixel(scale*x+350,-scale*y+550,al_map_rgb(re,g,b));
-            x=0.2*xp-0.26*yp;
-            y=0.23*xp+0.22*yp+1.6;
-        }
-        else if(r<=0.15*RAND_MAX)
-        {
-            al_draw_pixel(scale*x+350,-scale*y+550,al_map_rgb(re,g,b));
-            x=-0.15*xp+0.28*yp;
-            y=0.26*xp+0.24*yp+0.44;
         }
         else
         {
-            al_draw_pixel(scale*x+350,-scale*y+550,al_map_rgb(re,g,b));
-            x=0.85*xp+0.04*yp;
-            y=-0.04*xp+ 0.85*yp+1.6;
+            al_draw_pixel(scale*x+500,scale*y+300,al_map_rgb(0,0,255));
+            x=0.76*xp-0.4*yp;
+            y=0.4*xp+0.76*yp;
+
         }
         r=rand();
     }
 
     al_flip_display();
 
-    al_rest(5);
+    al_rest(10);
     al_destroy_display(display);
 
     return 0;
