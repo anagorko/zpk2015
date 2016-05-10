@@ -36,7 +36,7 @@ int main(int argc, char** argv)
         }
         else
         {
-            al_draw_pixel(scale*x+600,scale*y+300,al_map_rgb(0,255,255));
+            al_draw_pixel(scale*x+600,scale*y+300,al_map_rgb(0,0,255));
             x=0.76*x-0.4*y;
             y=0.4*x+0.76*y;
         }
