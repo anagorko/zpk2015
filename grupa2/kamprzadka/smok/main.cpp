@@ -25,27 +25,34 @@ int main(int argc, char** argv)
     int scale=300;
     double x=1;
     double y=1;
+    double xp, yp;
     double r=rand();
 
     for (int i = 0; i < 10000000; i++) {
         if(r>16383.5)
         {
-            al_draw_pixel(scale*x+600,scale*y+300,al_map_rgb(255,0,0));
-            x=-0.4*x-1;
-            y=-0.4*y+0.1;
+            xp=x;
+            yp=y;
+            al_draw_pixel(scale*x+500,scale*y+300,al_map_rgb(255,0,0));
+            x=-0.4*xp-1;
+            y=-0.4*yp+0.1;
+
         }
         else
         {
-            al_draw_pixel(scale*x+600,scale*y+300,al_map_rgb(0,0,255));
-            x=0.76*x-0.4*y;
-            y=0.4*x+0.76*y;
+            xp=x;
+            yp=y;
+            al_draw_pixel(scale*x+500,scale*y+300,al_map_rgb(0,0,255));
+            x=0.76*xp-0.4*yp;
+            y=0.4*xp+0.76*yp;
+
         }
         r=rand();
     }
 
     al_flip_display();
 
-    al_rest(10);
+    al_rest(5);
     al_destroy_display(display);
 
     return 0;
