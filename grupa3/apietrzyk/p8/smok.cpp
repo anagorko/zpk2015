@@ -1,4 +1,3 @@
-
 #include<iostream>
 using namespace std;
 
@@ -70,7 +69,7 @@ int main(int argc, char** argv)
 
     for (int i = 0; i < wektor_x.size(); i++)
     {
-        al_draw_pixel( wektor_x[i], wektor_y[i], al_map_rgb(255,255,255));
+        al_draw_pixel( wektor_x[i] * 400 + 400, wektor_y[i] * 300 + 300, al_map_rgb(255,255,255));
     }
 
     al_flip_display();
