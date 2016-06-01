@@ -18,31 +18,31 @@ private:
 
 public:
 	// konstruktor z domyslnymi argumentami
-    Person(string name_ = "-", string surname_ = "-", string email_ = "-", string phone_ = "-");
+	Person(string name_ = "-", string surname_ = "-", string email_ = "-", string phone_ = "-");
 	~Person() {}
-
-    string getName() const { return name; }
-    string getSurname() const { return surname; }
-    string getEmail() const { return email; }
-    string getPhone() const { return phone; }
-
-    void setName(string name_) { name = name_; }
-    void setSurname(string surname_) { surname = surname_; }
-    void setEmail(string email_) { email = email_; }
-    void setPhone(string phone_) { phone = phone_; }
+	
+	string getName() const { return name; }
+	string getSurname() const { return surname; }
+	string getEmail() const { return email; }
+	string getPhone() const { return phone; }
+	
+	void setName(string name_) { name = name_; }
+	void setSurname(string surname_) { surname = surname_; }
+	void setEmail(string email_) { email = email_; }
+	void setPhone(string phone_) { phone = phone_; }
 
 	friend istream & operator>>(istream & is, Person & p);
-    friend ostream & operator<<(ostream & os, Person & p);
-
+	friend ostream & operator<<(ostream & os, Person & p);
+	
 	friend ifstream & operator>>(ifstream & is, Person & p);
 	friend ofstream & operator<<(ofstream & os, Person & p);
 };
 
 Person::Person(string name_, string surname_, string email_, string phone_) {
-    name = name_;
-    surname = surname_;
-    email = email_;
-    phone = phone_;
+	name = name_;
+	surname = surname_;
+	email = email_;
+	phone = phone_;
 }
 
 istream & operator>>(istream & is, Person & p) {
@@ -55,12 +55,12 @@ istream & operator>>(istream & is, Person & p) {
 }
 
 ostream & operator<<(ostream & os, Person & p) {
-    os << "Imie: " << p.name << endl
-	   << "Nazwisko: " << p.surname << endl
-	   << "Email: " << p.email << endl
-	   << "Telefon: " << p.phone << endl;
-
-    return os;
+	os << "Imie: " << p.name << endl
+		<< "Nazwisko: " << p.surname << endl
+		<< "Email: " << p.email << endl
+		<< "Telefon: " << p.phone << endl;
+	
+	return os;
 }
 
 ifstream & operator>>(ifstream & is, Person & p) {
@@ -68,7 +68,7 @@ ifstream & operator>>(ifstream & is, Person & p) {
 	getline(is, p.surname);
 	getline(is, p.email);
 	getline(is, p.phone);
-
+	
 	return is;
 }
 
@@ -88,19 +88,19 @@ private:
 public:
 	Addressbook() {}
 	~Addressbook() {}
-
+	
 	bool readBook(string bookname);
 	void showBook() const;
-    void writeBook(string bookname);
-
-    void addPerson(const Person & p) { bk.push_back(p); }
+	void writeBook(string bookname);
+	
+	void addPerson(const Person & p) { bk.push_back(p); }
 	void deletePerson(int id) { bk.erase(bk.begin() + id); }
 	void findPerson(string token);
-    void modifyPerson(int id);
+	void modifyPerson(int id);
 	
 	void deleteAllPersons() { bk.clear(); }
 	vector <Person> getPersons() const { return bk; }
-
+	
 	bool isBookEmpty() const { return bk.empty(); }
 	int giveRecordsNumber() const { return bk.size(); }
 	void showEntryByID() const;
@@ -123,9 +123,8 @@ bool Addressbook::readBook(string bookname) {
 	}
 	else {
 		Person p;
-		while (fin >> p) {
+		while (fin >> p)
 			bk.push_back(p);
-		}
 	}
 
 	fin.close();
@@ -246,6 +245,7 @@ public:
 	void removeAddressBookEntry();
 	void sortAddressBookEntries();
 
+	void help();
 	void escapeToMainMenu();
 };
 
@@ -325,19 +325,21 @@ void UI::createNewAddressBook() {
 			break;
 	}
 
-	cleanScreen();
-	showMainMenu();
+	escapeToMainMenu();
 }
 
 void UI::openAddressBook(bool opened, bool escape) {
 	if (!opened) {
 		cout << "Podaj nazwe ksiazki adresowej, ktora chcesz wczytac: ";
-		cin >> bookname;
+		string bookname_;
+		cin >> bookname_;
 
-		bool success = ab.readBook(bookname);
+		bool success = ab.readBook(bookname_);
 
-		if (success)
+		if (success) {
+			bookname = bookname_;
 			cout << "Operacja zakonczona pomyslnie. Udalo sie wczytac podana ksiazka adresowa." << endl;
+		}
 		else
 			cout << "Nie udalo sie wczytac podanej ksiazki adresowej." << endl;
 	}
@@ -366,9 +368,7 @@ void UI::isAddressBookOpen(bool escape) {
 void UI::showAddressBook() {
 	isAddressBookOpen(false);
 
-	if (bookname.empty())
-		cout << "Nie udalo sie wczytac podanej ksiazki adresowej." << endl;
-	else {
+	if(!bookname.empty()) {
 		cout << endl << "\t \t \t \t Ksiazka adresowa \"" << bookname << "\"" << endl << endl;
 		
 		if (ab.isBookEmpty())
@@ -383,10 +383,7 @@ void UI::showAddressBook() {
 void UI::addAddressBookEntry(bool createNewAddressBookMenu) {
 	isAddressBookOpen(false);
 
-	if (bookname.empty()) {
-		cout << "Nie udalo sie wczytac podanej ksiazki adresowej." << endl;
-	}
-	else {
+	if (!bookname.empty()) {
 		char choice;
 		string name_, surname_, email_, phone_;
 
@@ -419,13 +416,17 @@ void UI::addAddressBookEntry(bool createNewAddressBookMenu) {
 		else if ('n' == choice && !createNewAddressBookMenu)
 			escapeToMainMenu();
 	}
+	else
+		escapeToMainMenu();
 }
 
 void UI::findAddressBookEntry() {
 	isAddressBookOpen(false);
 
-	if (ab.isBookEmpty())
+	if (ab.isBookEmpty()) {
+		cout << "Brak wpisow. Nie ma niczego do przeszukania." << endl;
 		escapeToMainMenu();
+	}
 	else {
 		string token;
 
@@ -449,14 +450,19 @@ void UI::modifyAddressBookEntry() {
 		char choice = { 't' };
 		int id = { 0 };
 
-		cout << "Ktory wpis chcesz zmodyfikowac? Podaj ";
+		cout << "Ktory wpis chcesz zmodyfikowac? ";
 
-		for (int i = 0; i < ab.giveRecordsNumber(); ++i) {
-			if (i == ab.giveRecordsNumber() - 1)
-				cout << "lub ";
-			cout << i + 1;
-			if (i != ab.giveRecordsNumber() - 1)
-				cout << ", ";
+		if (ab.giveRecordsNumber() == 1)
+			cout << "Mozesz wybrac tylko 1";
+		else {
+			cout << "Podaj ";
+			for (int i = 0; i < ab.giveRecordsNumber(); ++i) {
+				if (i == ab.giveRecordsNumber() - 1)
+					cout << " lub ";
+				cout << i + 1;
+				if (i < ab.giveRecordsNumber() - 2)
+					cout << ", ";
+			}
 		}
 
 		cout << ". _\b";
@@ -494,15 +500,21 @@ void UI::removeAddressBookEntry() {
 	else {
 		int id = { 0 };
 
-		cout << "Ktory wpis chcesz usunac? Podaj ";
+		cout << "Ktory wpis chcesz usunac? ";
 
-		for (int i = 0; i < ab.giveRecordsNumber(); ++i) {
-			if (i == ab.giveRecordsNumber() - 1)
-				cout << "lub ";
-			cout << i + 1;
-			if (i != ab.giveRecordsNumber() - 1)
-				cout << ", ";
+		if (ab.giveRecordsNumber() == 1)
+			cout << "Mozesz wybrac tylko 1";
+		else {
+			cout << "Podaj ";
+			for (int i = 0; i < ab.giveRecordsNumber(); ++i) {
+				if (i == ab.giveRecordsNumber() - 1)
+					cout << " lub ";
+				cout << i + 1;
+				if (i < ab.giveRecordsNumber() - 2)
+					cout << ", ";
+			}
 		}
+
 		cout << ". _\b";
 		cin >> id;
 
@@ -520,12 +532,10 @@ void UI::removeAddressBookEntry() {
 
 void UI::sortAddressBookEntries() {
 	isAddressBookOpen(false);
-
-	if (bookname.empty())
-		cout << "Nie udalo sie wczytac podanej ksiazki adresowej." << endl;
-	else if (ab.isBookEmpty())
+	
+	if (ab.isBookEmpty())
 		cout << "Brak wpisow. Nie ma niczego do posortowania." << endl;
-	else {
+	else if (!bookname.empty()) {
 		char choice, token;
 		vector <Person> bks = ab.getPersons();
 
@@ -569,6 +579,15 @@ void UI::sortAddressBookEntries() {
 	escapeToMainMenu();
 }
 
+void UI::help() {
+	cout << endl << "\t \t Instrukcja: " << endl << endl;
+	cout << "Polecenie \"list\" wyswietla zawartosc ksiazki adresowej." << endl;
+	cout << "Polecenie \"add\" dodaje nowy wpis." << endl;
+	cout << "Polecenie \"modify\" modyfikuje wpis." << endl;
+	cout << "Polecenie \"delete\" usuwa wpis." << endl;
+	cout << "Polecenie \"find\" szuka wpisu." << endl;
+}
+
 void UI::escapeToMainMenu() {
 	char choice;
 
@@ -585,8 +604,41 @@ void UI::escapeToMainMenu() {
 		return;
 }
 
-int main() {
+int main(int argc, char * argv []) {
 	UI ui;
+	
+	// 2016-06-01: dodano obsluge linii komend, poprawiono kilka bledow
+	if (argc == 2 && string(argv[1]) == "help") {
+		ui.help();
+		return 0;
+	}
+
+	if (argc == 2 && string(argv[1]) == "list") {
+		ui.showAddressBook();
+		return 0;
+	}
+
+	if (argc == 2 && string(argv[1]) == "add") {
+		ui.addAddressBookEntry();
+		return 0;
+	}
+
+	if (argc == 2 && string(argv[1]) == "modify") {
+		ui.modifyAddressBookEntry();
+		return 0;
+	}
+
+
+	if (argc == 2 && string(argv[1]) == "delete") {
+		ui.removeAddressBookEntry();
+		return 0;
+	}
+
+	if (argc == 2 && string(argv[1]) == "find") {
+		ui.findAddressBookEntry();
+		return 0;
+	}
+
 	ui.showMainMenu();
 }
 
