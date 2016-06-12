@@ -1,0 +1,98 @@
+#include <iostream>
+#include <chrono>
+#include <cstdlib>
+#include <cstdio>
+using namespace std;
+
+void swap(int &a, int &b)
+{
+    int c = a; a = b; b = c;
+}
+
+// sortuje t[p] .. t[k - 1] - bez t[k] !
+void bubble_sort(int t[], int p, int k)
+{
+  int x,y;
+  for(x=p;x<k;x++)
+  {
+  for(y=p;y<k-x;y++) {
+    if(t[y]>t[y+1])
+        {  swap(t[y],t[y+1]);  }
+    }
+  }
+}
+// sortuje t[p] .. t[k - 1] - bez t[k] !
+
+void merge(int pct, int srd, int kon)
+{
+  int i,j,q;
+    for (i=pct; i<=kon; i++) t[i]=tab[i];  // przenoszenie danych do macierzy wspomagalnej
+        i=pct; j=srd+1; q=pct;                 // wstawiamy wskażniki tablic
+    while (i<=srd && j<=kon) {         // Przenoszenie danych z sortowaniem ze zbiorów pomocniczych do tablicy głównej
+        if (t[i]<t[j])
+        tab[q++]=t[i++];
+          else
+          tab[q++]=t[j++];
+      }
+      while (i<=srd) 
+        tab[q++]=t[i++]; // Przeniesienie danych ze zbioru pierwszego, jakie nie zostali skopiowane, jeśli drugi zbiór już ni ma elementów
+}
+
+void merge_sort(int t[],int p, int k)
+{
+    int s;
+    if(p<k)
+    {
+        s=(p+k)/2;
+        merge_sort(t,p,s);
+        merge_sort(t,s+1,k);
+        merge(t,p,k);
+    }
+}
+
+void test(int n)
+{
+    int t1[n], t2[n];
+
+    for (int i = 0; i < n; i++) {
+        t1[i] = t2[i] = rand();
+    }
+
+    cout << "Table size: " << n << endl;
+
+    auto start = chrono::steady_clock::now();
+    bubble_sort(t1, 0, n);
+    auto end = chrono::steady_clock::now();
+
+    auto diff_bubble = end - start;
+
+    start = chrono::steady_clock::now();
+    merge_sort(t2, 0, n);
+    end = chrono::steady_clock::now();
+
+    auto diff_merge = end - start;
+
+    for (int i = 0; i < n - 1; i++) {
+        if (t1[i] > t1[i + 1]) {
+            cout << "  Wrong answer - bubble sort." << endl; break;
+        }
+        if (t2[i] > t2[i + 1]) {
+            cout << "  Wrong answer - merge sort." << endl; break;
+        }
+    }
+
+    cout << "  Bubble sort time: " << chrono::duration <double> (diff_bubble).count() << endl;
+    cout << "  Merge sort time: " << chrono::duration <double> (diff_merge).count() << endl;
+    cout << "  Ratio: " << (chrono::duration <double> (diff_bubble).count() / chrono::duration <double> (diff_merge).count()) << endl;
+}
+
+int main()
+{
+    test(100);
+    test(1000);
+    test(10000);
+    test(20000);
+    test(30000);
+    test(50000);
+    test(100000);
+}
