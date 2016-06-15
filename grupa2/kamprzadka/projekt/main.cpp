@@ -1,15 +1,3 @@
-main.cpp
-Dzisiaj
-K
-Utworzyłeś element w:
-00:17
-Folder Dysku Google
-zpk
-Utworzone elementy:
-C++
-main.cpp
-Brak zarejestrowanej aktywności przed 15 czerwca 2016
-
 #include <iostream>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
@@ -35,7 +23,7 @@ public:
    // double w=0.1;
     double v=20;
     double fi;
-    bool fired=FALSE;
+    bool fired=false;
     int f_step=0;
     ALLEGRO_BITMAP *bitmap;
 
@@ -72,7 +60,7 @@ public:
 
     }
 
-    state_update(int _x, int _y, double _fi, double _vx, double _vy)
+    void state_update(int _x, int _y, double _fi, double _vx, double _vy)
      {
         //zamkniecie swiata
         if(x>=width) x=30;
@@ -86,7 +74,7 @@ public:
       //  fi=_fi;
 
         //gdy wystrzelony
-        if (fired==TRUE)
+        if (fired==true)
         {
             if (f_step==0)
             {
@@ -100,7 +88,7 @@ public:
 
             if(f_step==czas_zycia) //czas zycia pocisku = 10
             {
-                fired=FALSE;
+                fired=false;
                 vx=0;
                 vy=0;
                 f_step=0;
@@ -123,7 +111,7 @@ public:
         vert_cnt=sizeof(vertex)/sizeof(*vertex);
      }
 
-    displ()
+    void displ()
     {
 
         al_draw_rotated_bitmap(bitmap, 2, 6, x, y, fi, 0);
@@ -186,17 +174,17 @@ public:
         //al_destroy_bitmap(rocket);
     }
 
-    state_update(bool up, bool left, bool right)
+    void state_update(bool up, bool left, bool right)
          {
 
-            if (up==TRUE)
+            if (up==true)
             {
                 ax=-sin(fi)*0.5;
                 ay=-cos(fi)*0.5;
             }
 
-            if (left==TRUE) e=-0.01;
-            if (right==TRUE) e=0.01;
+            if (left==true) e=-0.01;
+            if (right==true) e=0.01;
 
 
 
@@ -232,7 +220,7 @@ public:
 
          }
 
-    displ()
+    void displ()
         {
             al_draw_rotated_bitmap(bitmap, 8, 30, x, y, fi, 0);
             if(x>=width) x=1;
@@ -267,7 +255,7 @@ class asteroid
              vy=_vy;
              w=_w;
              bitmap = al_load_bitmap("data/asteroid.png");
-             visible=FALSE;
+             visible=false;
 
              /*maska asteroidy*/
              vertex[0][0]= x+19*sin(fi)-64*cos(fi);
@@ -295,7 +283,7 @@ class asteroid
         //al_destroy_bitmap(rocket);
     }
 
-    state_update()
+    void state_update()
          {
             //zamkniêcie swiata
             if(x>=width+25) x=1;
@@ -329,7 +317,7 @@ class asteroid
              vert_cnt=sizeof(vertex)/sizeof(*vertex);
          }
 
-    displ()
+    void displ()
         {
             al_draw_rotated_bitmap(bitmap, 67, 55, x, y, fi, 0);
             if(x>=width) x=1;
@@ -365,7 +353,7 @@ class asteroid_small
              vy=_vy;
              w=_w;
              bitmap = al_load_bitmap("data/asteroid2.png");
-             visible=FALSE;
+             visible=false;
 
              /*maska asteroidy*/
              vertex[0][0]= x+19*sin(fi)-64*cos(fi);
@@ -393,7 +381,7 @@ class asteroid_small
         //al_destroy_bitmap(rocket);
     }
 
-    state_update()
+    void state_update()
          {
             //zamkniêcie swiata
             if(x>=width+25) x=1;
@@ -427,7 +415,7 @@ class asteroid_small
              vert_cnt=sizeof(vertex)/sizeof(*vertex);
          }
 
-    displ()
+    void displ()
         {
             al_draw_rotated_bitmap(bitmap, 35, 36, x, y, fi, 0);
             if(x>=width) x=1;
@@ -443,25 +431,25 @@ void display_update(ALLEGRO_BITMAP *tlo, rocket r1, vector<projectile> bufor_poc
     {
 
         al_clear_to_color(al_map_rgb(0,0,0));
-        al_draw_rotated_bitmap(tlo, 0, 0, 0,0, 0, 0);
+//        al_draw_rotated_bitmap(tlo, 0, 0, 0,0, 0, 0);
         r1.displ(); //rakieta
      //   projectile pr(50, 50, 0, 0, 1);
      //   pr.displ();
         for(int i=0;i<n_bf;i++)
         {
-            if(bufor_poc[i].fired==TRUE)
+            if(bufor_poc[i].fired==true)
                 bufor_poc[i].displ();
         }
 
         for(int i=0; i<3; i++)
         {
-            if (buf_asteroid[i].visible==TRUE)
+            if (buf_asteroid[i].visible==true)
                 buf_asteroid[i].displ();
         }
 
         for(int i=0; i<6; i++)
         {
-            if (buf_asteroid_sm[i].visible==TRUE)
+            if (buf_asteroid_sm[i].visible==true)
                 buf_asteroid_sm[i].displ();
         }
 
@@ -529,9 +517,9 @@ bool overlapping_projection(int sh1[][2], int sh2[][2], int e1, int e2, int pocz
     /*czy rzuty nachodza na siebie?*/
     if (rzut_sh2[1]<rzut_sh1[0] || rzut_sh2[0]>rzut_sh1[1])
     {
-        return FALSE;
+        return false;
     }
-    else return TRUE;
+    else return true;
 }
 
 bool overlapping_edges (int sh1[][2], int sh2[][2], int e1, int e2)
@@ -549,27 +537,27 @@ bool overlapping_edges (int sh1[][2], int sh2[][2], int e1, int e2)
     for (int i=1; i<e1; i++)
     {
       //  cout<<e1<<endl;
-        if (overlapping_projection(sh1,sh2,e1,e2,i-1,i)==FALSE)
+        if (overlapping_projection(sh1,sh2,e1,e2,i-1,i)==false)
         {
          //   cout<<"nie nachodza\n";
-            return FALSE;
+            return false;
         }
 
     }
 
     //ostania krawedz
-    if (overlapping_projection(sh1,sh2,e1,e2,0,e1-1)==FALSE)
-            return FALSE;
+    if (overlapping_projection(sh1,sh2,e1,e2,0,e1-1)==false)
+            return false;
     /*normalne do krawędzi sh2*/
     for (int i=1; i<e2; i++)
     {
-        if (overlapping_projection(sh2,sh1,e2,e1,i-1,i)==FALSE)
-            return FALSE;
+        if (overlapping_projection(sh2,sh1,e2,e1,i-1,i)==false)
+            return false;
     }
     //ostania krawedz
-    if (overlapping_projection(sh2,sh1,e2,e1,0,e2-1)==FALSE)
-            return FALSE;
-    return TRUE;
+    if (overlapping_projection(sh2,sh1,e2,e1,0,e2-1)==false)
+            return false;
+    return true;
 }
 
 
@@ -578,10 +566,10 @@ void collision(vector<projectile>& bufor_poc, vector<asteroid>& buf_asteroid, ve
 {
   //  cout<<"collision "<<roc.vertex[0][0]<<" "<<roc.vertex[0][1]<<endl;
     /*bada czy nastapila kolizja kluczowych obiektow na mapie*/
-    asteroid_proj=FALSE;
-    asteroid_rocket=FALSE;
-    asteroid_sm_proj=FALSE;
-    asteroid_sm_rocket=FALSE;
+    asteroid_proj=false;
+    asteroid_rocket=false;
+    asteroid_sm_proj=false;
+    asteroid_sm_rocket=false;
     int e_rocket=roc.vert_cnt;
     int e_asteroid=buf_asteroid[0].vert_cnt;
     int e_projectile=bufor_poc[0].vert_cnt;
@@ -592,16 +580,16 @@ void collision(vector<projectile>& bufor_poc, vector<asteroid>& buf_asteroid, ve
     for (int i=0; i<buf_asteroid.size(); i++)
     {
         /*widoczne asteroidy*/
-        if (buf_asteroid[i].visible==TRUE)
+        if (buf_asteroid[i].visible==true)
         {
           //  cout<<"wym "<<roc.vertex[1][0]<<" "<<roc.vertex[1][1]<<endl;
          //   for(int k=0; k<e_asteroid;k++)
              //   cout<<"x: "<<buf_asteroid[i].vertex[k][0]<<"    y: "<<buf_asteroid[i].vertex[k][1]<<endl;
            // for(int k=0; k<e_rocket;k++)
            //     cout<<"x: "<<roc.vertex[k][0]<<"    y: "<<roc.vertex[k][1]<<endl;
-            if(overlapping_edges (roc.vertex, buf_asteroid[i].vertex, e_rocket, e_asteroid)==TRUE)
+            if(overlapping_edges (roc.vertex, buf_asteroid[i].vertex, e_rocket, e_asteroid)==true)
             {
-                asteroid_rocket=TRUE;
+                asteroid_rocket=true;
                 roc.x=0;
                 roc.y=0;
                 roc.vx=0;
@@ -617,20 +605,20 @@ void collision(vector<projectile>& bufor_poc, vector<asteroid>& buf_asteroid, ve
     for (int i=0; i<buf_asteroid.size(); i++)
     {
         /*widoczne asteroidy*/
-        if (buf_asteroid[i].visible==TRUE)
+        if (buf_asteroid[i].visible==true)
         {
-            for (int j=1; j<bufor_poc.size();j++)
+            for (int j=0; j<bufor_poc.size();j++)
             {
-                if (bufor_poc[i].fired==TRUE)
+                if (bufor_poc[j].fired==true)
                 {
-                    if(overlapping_edges (bufor_poc[j].vertex, buf_asteroid[i].vertex, e_rocket, e_asteroid)==TRUE)
+                    if(overlapping_edges (bufor_poc[j].vertex, buf_asteroid[i].vertex, e_rocket, e_asteroid)==true)
                     {
-                        asteroid_proj=TRUE;
-                        buf_asteroid[i].visible=FALSE;
-                        buf_asteroid_sm[i].visible=TRUE;
+                        asteroid_proj=true;
+                        buf_asteroid[i].visible=false;
+                        buf_asteroid_sm[i].visible=true;
                         buf_asteroid_sm[i].x=buf_asteroid[i].x;
                         buf_asteroid_sm[i].y=buf_asteroid[i].y;
-                        buf_asteroid_sm[i+1].visible=TRUE;
+                        buf_asteroid_sm[i+1].visible=true;
                         buf_asteroid_sm[i+1].x=buf_asteroid[i].x;
                         buf_asteroid_sm[i+1].y=buf_asteroid[i].y;
                         j=bufor_poc.size();
@@ -645,21 +633,21 @@ void collision(vector<projectile>& bufor_poc, vector<asteroid>& buf_asteroid, ve
     for (int i=0; i<buf_asteroid_sm.size(); i++)
     {
         /*widoczne asteroidy*/
-        if (buf_asteroid_sm[i].visible==TRUE)
+        if (buf_asteroid_sm[i].visible==true)
         {
           //  cout<<"wym "<<roc.vertex[1][0]<<" "<<roc.vertex[1][1]<<endl;
          //   for(int k=0; k<e_asteroid;k++)
              //   cout<<"x: "<<buf_asteroid_sm[i].vertex[k][0]<<"    y: "<<buf_asteroid_sm[i].vertex[k][1]<<endl;
            // for(int k=0; k<e_rocket;k++)
            //     cout<<"x: "<<roc.vertex[k][0]<<"    y: "<<roc.vertex[k][1]<<endl;
-            if(overlapping_edges (roc.vertex, buf_asteroid_sm[i].vertex, e_rocket, e_asteroid)==TRUE)
+            if(overlapping_edges (roc.vertex, buf_asteroid_sm[i].vertex, e_rocket, e_asteroid)==true)
             {
                 roc.x=0;
                 roc.y=0;
                 roc.vx=0;
                 roc.vy=0;
                 roc.w=0;
-                asteroid_sm_rocket=TRUE;
+                asteroid_sm_rocket=true;
                 i=buf_asteroid_sm.size();
             }
 
@@ -670,16 +658,16 @@ void collision(vector<projectile>& bufor_poc, vector<asteroid>& buf_asteroid, ve
     for (int i=0; i<buf_asteroid_sm.size(); i++)
     {
         /*widoczne asteroidy*/
-        if (buf_asteroid_sm[i].visible==TRUE)
+        if (buf_asteroid_sm[i].visible==true)
         {
-            for (int j=1; j<bufor_poc.size();j++)
+            for (int j=0; j<bufor_poc.size();j++)
             {
-                if (bufor_poc[i].fired==TRUE)
+                if (bufor_poc[j].fired==true)
                 {
-                    if(overlapping_edges (bufor_poc[j].vertex, buf_asteroid_sm[i].vertex, e_rocket, e_asteroid)==TRUE)
+                    if(overlapping_edges (bufor_poc[j].vertex, buf_asteroid_sm[i].vertex, e_rocket, e_asteroid)==true)
                     {
-                        asteroid_sm_proj=TRUE;
-                        buf_asteroid_sm[i].visible=FALSE;
+                        asteroid_sm_proj=true;
+                        buf_asteroid_sm[i].visible=false;
                         j=bufor_poc.size();
                     }
                 }
@@ -735,8 +723,8 @@ int main(int argc, char** argv)
         asteroid ast(xa,ya,0,vxa,vya,0.01);
         buf_asteroid.push_back(ast);
     }
-    buf_asteroid[0].visible=TRUE;
-    buf_asteroid[1].visible=TRUE;
+    buf_asteroid[0].visible=true;
+    buf_asteroid[1].visible=true;
 
 
     vector<asteroid_small> buf_asteroid_sm; //asteroidy
@@ -751,7 +739,7 @@ int main(int argc, char** argv)
         asteroid_small ast_sm(xa,ya,0,vxa,vya,0.01);
         buf_asteroid_sm.push_back(ast_sm);
     }
- //   buf_asteroid_sm[0].visible=TRUE;
+ //   buf_asteroid_sm[0].visible=true;
 
 
 
@@ -774,19 +762,19 @@ int main(int argc, char** argv)
     int display_period=1000/FPS;
     int logic_period=1000/LPS;
 
-    bool up=FALSE;
-    bool left=FALSE;
-    bool right=FALSE;
-    bool poc=FALSE;
+    bool up=false;
+    bool left=false;
+    bool right=false;
+    bool poc=false;
 
     ALLEGRO_EVENT ev;
-    bool game_running=TRUE;
+    bool game_running=true;
 
     //kolizje
-    bool asteroid_proj = FALSE;
-    bool asteroid_rocket = FALSE;
-    bool asteroid_sm_proj = FALSE;
-    bool asteroid_sm_rocket = FALSE;
+    bool asteroid_proj = false;
+    bool asteroid_rocket = false;
+    bool asteroid_sm_proj = false;
+    bool asteroid_sm_rocket = false;
 
     while(game_running)
    // for (int q=0; q<10; q++)
@@ -804,21 +792,21 @@ int main(int argc, char** argv)
             switch (ev.keyboard.keycode)
             {
                 case ALLEGRO_KEY_UP:
-                    up=TRUE;
+                    up=true;
                 break;
                 case ALLEGRO_KEY_LEFT:
-                    left=TRUE;
+                    left=true;
                 break;
                 case ALLEGRO_KEY_RIGHT:
-                    right=TRUE;
+                    right=true;
                 break;
                 case ALLEGRO_KEY_SPACE:
                     for(int i=n_bf;i>=0;i--)
                     {
-                        if (bufor_poc[i].fired==FALSE)
+                        if (bufor_poc[i].fired==false)
                         bul_nmb=i;
                     }
-                    bufor_poc[bul_nmb].fired=TRUE;
+                    bufor_poc[bul_nmb].fired=true;
                 break;
             }
         }
@@ -827,14 +815,14 @@ int main(int argc, char** argv)
             switch (ev.keyboard.keycode)
             {
                 case ALLEGRO_KEY_UP:
-                    up=FALSE;
+                    up=false;
                     break;
                 break;
                 case ALLEGRO_KEY_LEFT:
-                    left=FALSE;
+                    left=false;
                 break;
                 case ALLEGRO_KEY_RIGHT:
-                    right=FALSE;
+                    right=false;
                 break;
             }
         }
@@ -849,23 +837,23 @@ int main(int argc, char** argv)
 
             for(int i=0;i<n_bf;i++)
             {
-               // if(bufor_poc[i].visible==TRUE)
+               // if(bufor_poc[i].visible==true)
                 bufor_poc[i].state_update(r1.x, r1.y, r1.fi, r1.vx, r1.vy);
             }
 
             collision(bufor_poc, buf_asteroid, buf_asteroid_sm, r1, asteroid_proj, asteroid_rocket, asteroid_sm_proj,
                       asteroid_sm_rocket);
-            if (asteroid_rocket==TRUE) cout<<"kolizja";
-            if (asteroid_sm_rocket==TRUE) cout<<"kolizja_sm";
+            if (asteroid_rocket==true) cout<<"kolizja";
+            if (asteroid_sm_rocket==true) cout<<"kolizja_sm";
 
-            if (asteroid_proj==TRUE)
+            if (asteroid_proj==true)
             {
-                buf_asteroid_sm[0].visible=TRUE;
-                buf_asteroid_sm[1].visible=TRUE;
+                buf_asteroid_sm[0].visible=true;
+                buf_asteroid_sm[1].visible=true;
             }
-          //  if (asteroid_sm_proj==TRUE) cout<<"kolizja_sm";
+          //  if (asteroid_sm_proj==true) cout<<"kolizja_sm";
 
-          //  buf_asteroid_sm[0].visible=TRUE;
+          //  buf_asteroid_sm[0].visible=true;
 
             ctr_l=0;
         }
