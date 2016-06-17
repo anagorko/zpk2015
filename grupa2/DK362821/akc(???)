@@ -1,0 +1,60 @@
+#include <iostream>
+using namespace std;
+
+int akc( int w, int a , int massiv[]) {
+    int k = w - 1, 
+    p = 0,
+    s;
+    while( p < k ) {
+        s =( p + k + 1 ) / 2;   //rozdzielamy na 2 matryce, dla binarnego wyszukiwania
+        if( massiv[ s ] <= a )
+             p = s;
+        else
+             k = s - 1;
+        
+    }
+    if( massiv[ k ] == a )
+         return k + 1;
+    else
+         return 0;
+    
+}
+
+int akc( int massiv[], int w, int a ) {
+    int k = w - 1, p = 0, s;
+    while( p < k ) {
+        s =( k + p - 1 ) / 2;    //ta sama czynnosc, co i poprzednio
+        if( massiv[ s ] >= a )
+             k = s;
+        else
+             p = s + 1;
+        
+    }
+    if( massiv[ p ] == a )
+         return p + 1;
+    else
+         return 0;
+    
+}
+
+int main() {
+    int w, m;
+    cin >> w;
+    int massiv[ w ];
+    for( int i = 0; i < w; i++ )
+         cin >> massiv[ i ];
+    
+    cin >> m;
+    int und[ m ];
+    for( int i = 0; i < m; i++ ) {
+        cin >> und[ i ];
+        int x = akc( massiv, w, und[ i ] );
+        if( x == 0 )
+             cout << 0 << endl;
+        else {
+            int y = akc( massiv, w, und[ i ] );
+            cout << x - y + 1 << endl;
+        }
+    }
+    return 0;
+}
