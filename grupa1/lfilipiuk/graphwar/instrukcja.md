@@ -10,8 +10,8 @@ Graph-War jest grą, w której walka tyczy się w układzie kartezjańskim. Twoi
 Dostępna składnia:
 
 -   Operatory:
-    -   \(+\) \(-\)
-    -   \(*\) \(/\) \(%\)
+    -   + -
+    -   * / %
     -   ^
     -   !
 -   Funkcje:
@@ -83,7 +83,7 @@ Ekran rozgrywki:
 
 <img src="http://puu.sh/pyEcm/3cb46cd73d.png">
 
-Ekran rozgrywki składa się z losowo wygenerowanej mapy z przeszkodami oraz pionkami. Pionki gracza pierwszego mają kolor niebieski, a drugiego - kolor czerwony. Aktywny gracz jest podświetlony. Układ współrzędnych narysowany jest dla \((25 \leq x \leq 25)\) oraz \((15 \leq y \leq 15)\)
+Ekran rozgrywki składa się z losowo wygenerowanej mapy z przeszkodami oraz pionkami. Pionki gracza pierwszego mają kolor niebieski, a drugiego - kolor czerwony. Aktywny gracz jest podświetlony. Układ współrzędnych narysowany jest dla (25 ≤ x ≤ 25) oraz (15 ≤ y ≤ 15)
 
 Menu ekranu rozgrywki składa się z: \* okna do wpisywania funkcji. Długość funkcji nie jest ograniczona przez wielkość pola tekstowego - gracz może wyjść poza nie. \* zegara - informuje on gracz, ile czasu pozostało mu do końca tury (przez ostatnie 5 włącza się dźwięk odliczania)
 
