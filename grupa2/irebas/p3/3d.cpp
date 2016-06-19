@@ -4,6 +4,7 @@ using namespace std;
 
 class Point
 {
+    double x, y, z;
 public:
     Point() {}
     Point(double _x, double _y, double _z)
@@ -24,7 +25,7 @@ public:
     double getZ() { return z; }
 
     double distanceTo(Point p) {
-        return sqrt((p.x-x)*(p.x-x)+(p.y-y)*(p.y-y)+(p.z-z)*(p.z-z))
+        return sqrt((p.x-x)*(p.x-x)+(p.y-y)*(p.y-y)+(p.z-z)*(p.z-z));
     }
 
     friend istream& operator>>(istream&, Point&);
