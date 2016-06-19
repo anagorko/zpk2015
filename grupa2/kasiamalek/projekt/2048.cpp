@@ -14,9 +14,9 @@ class glowna
 {
     bool przegrana, wygrana, done;
     int t[4][4],u[4][4],spr=1,wynik=0,stop=0;
-    ALLEGRO_FONT *font = al_load_ttf_font("FreeMono.ttf",35,0);
-    ALLEGRO_FONT *font1 = al_load_ttf_font("FreeMono.ttf",65,0);
-    ALLEGRO_FONT *font2 = al_load_ttf_font("FreeMono.ttf",14,0);
+    ALLEGRO_FONT *font = al_load_ttf_font("ClearSans-Bold.ttf",35,0);
+    ALLEGRO_FONT *font1 = al_load_ttf_font("ClearSans-Bold.ttf",65,0);
+    ALLEGRO_FONT *font2 = al_load_ttf_font("ClearSans-Bold.ttf",14,0);
 
     public:
 
@@ -202,7 +202,7 @@ class glowna
         al_draw_filled_rectangle(255,410 ,400, 500,al_map_rgb(238,228,218));
 
         al_draw_text(font, al_map_rgb(0,0,0), 325, 405,ALLEGRO_ALIGN_CENTRE, "SCORE");
-        al_draw_text(font, al_map_rgb(0,0,0), 325, 440,ALLEGRO_ALIGN_CENTRE, to_string(wynik).c_str());
+        al_draw_text(font, al_map_rgb(0,0,0), 325, 445,ALLEGRO_ALIGN_CENTRE, to_string(wynik).c_str());
 
         if(przegrana==TRUE)
         {
@@ -214,11 +214,10 @@ class glowna
             al_draw_text(font1, al_map_rgb(0,0,0), 200, 155,ALLEGRO_ALIGN_CENTRE, "YOU WIN!");
         }
 
-        al_draw_text(font2, al_map_rgb(0,0,0), 15, 405,ALLEGRO_ALIGN_LEFT, "Use your arrow keys to move");
-        al_draw_text(font2, al_map_rgb(0,0,0), 15, 420,ALLEGRO_ALIGN_LEFT, "the tiles. When two tiles");
-        al_draw_text(font2, al_map_rgb(0,0,0), 15, 435,ALLEGRO_ALIGN_LEFT, "with the same number touch,");
-        al_draw_text(font2, al_map_rgb(0,0,0), 15, 450,ALLEGRO_ALIGN_LEFT, "they merge into one!");
-        al_draw_text(font2, al_map_rgb(0,0,0), 15, 465,ALLEGRO_ALIGN_LEFT, "Get to the 2048 tile.");
+        al_draw_text(font2, al_map_rgb(0,0,0), 15, 410,ALLEGRO_ALIGN_LEFT, "Use your arrow keys to move the");
+        al_draw_text(font2, al_map_rgb(0,0,0), 15, 425,ALLEGRO_ALIGN_LEFT, "tiles. When two tiles with the same");
+        al_draw_text(font2, al_map_rgb(0,0,0), 15, 440,ALLEGRO_ALIGN_LEFT, "number touch, they merge into one!");
+        al_draw_text(font2, al_map_rgb(0,0,0), 15, 460,ALLEGRO_ALIGN_LEFT, "Get to the 2048 tile!");
         al_draw_text(font2, al_map_rgb(0,0,0), 15, 480,ALLEGRO_ALIGN_LEFT, "Press Esc to exit.");
 
         al_flip_display();
@@ -549,3 +548,5 @@ int main(int argc, char **argv)
 
     al_destroy_display(okno);
 }
+
+
