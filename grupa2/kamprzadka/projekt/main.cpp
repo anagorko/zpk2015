@@ -383,7 +383,7 @@ bool overlapping_projection(int sh1[][2], int sh2[][2], int e1, int e2, int pocz
 
 bool overlapping_edges (int sh1[][2], int sh2[][2], int e1, int e2)
 {
-    /*bada czy następuje kolizja dwóch kształtów okreslonych tablicą wierzchołków*/
+    /*bada czy występuje kolizja dwóch kształtów okreslonych tablicą wierzchołków*/
 
     /*jesli istnieje os dla ktorej rzuty nie nachodza na siebie wowczas nie ma kolizji!*/
     /*normalne do krawędzi sh1*/
@@ -533,13 +533,10 @@ int main(int argc, char** argv)
     ALLEGRO_TIMER *timer = NULL;
 
 
-    if (!al_init() || !al_install_mouse() || !al_install_keyboard()) {
+    if (!al_init() || !al_install_mouse() || !al_install_keyboard() || !al_init_image_addon() ||
+            !al_init_primitives_addon() ) {
         cout << "Inicjalizacja nie powiodla sie." << endl; return -1;
     }
-
-    al_init();
-    al_init_image_addon();
-    al_init_primitives_addon();
 
     al_set_new_display_option(ALLEGRO_SAMPLE_BUFFERS, 1, ALLEGRO_SUGGEST);
     al_set_new_display_option(ALLEGRO_SAMPLES, 8, ALLEGRO_SUGGEST);
@@ -553,7 +550,7 @@ int main(int argc, char** argv)
     display = al_create_display(width, height);
     al_clear_to_color(al_map_rgb(0,0,0));
 
-    /*deklaracja obiektów gry*/
+    /*inicjalizacja obiektów gry*/
     al_start_timer(timer); //timer
     rocket r1(400,300,0,0,0,0,0,0,0,"data\rocket.png"); //rakieta
 
