@@ -45,6 +45,16 @@ class game_object
         if(y>=height) y=1;
         if(y<=0) y=height-1;
     }
+
+    protected:
+    void rotate_mask(Point wierz[], int vertex[][2], int vert_cnt)
+    {
+        for (int i=0;i<vert_cnt;i++)
+            {
+                vertex[i][0]=x-wierz[i].y*sin(fi)+wierz[i].x*cos(fi);
+                vertex[i][1]=y+wierz[i].y*cos(fi)+wierz[i].x*sin(fi);
+            }
+    }
 };
 
 class aster : public game_object //opis asteroid
@@ -52,7 +62,6 @@ class aster : public game_object //opis asteroid
     public:
     int vertex[8][2];//wspolrzedne bezwzgledne (dynamiczne) wierzcholkow maski
     Point wierz[8]; //wspolrzedne wzgledne (statyczne) wierzcholkow maski
-    int vert_cnt;
     void state_update()
          {
             //zamkniecie swiata
@@ -67,11 +76,7 @@ class aster : public game_object //opis asteroid
             fi=fi+w; //update kat
 
             /*maska asteroidy*/
-            for (int i=0;i<8;i++)
-            {
-                vertex[i][0]=x-wierz[i].y*sin(fi)+wierz[i].x*cos(fi);
-                vertex[i][1]=y+wierz[i].y*cos(fi)+wierz[i].x*sin(fi);
-            }
+            rotate_mask(wierz, vertex, 8);
          }
 };
 
@@ -101,8 +106,8 @@ public:
         wierz[1].x=3; wierz[1].y=-7;
         wierz[2].x=3; wierz[2].y=7;
         wierz[3].x=-3; wierz[3].y=7;
+        vert_cnt=sizeof(vertex)/sizeof(*vertex);
 
-        vert_cnt=4;
         x_mid=2;
         y_mid=7;
         czas_zycia=10;
@@ -147,12 +152,7 @@ public:
         x=x-vx; //update pozycja x
         y=y+vy; //update pozycja y
         /*maska pocisku*/
-        for (int i=0;i<4;i++)
-            {
-                vertex[i][0]=x-wierz[i].y*sin(fi)+wierz[i].x*cos(fi);
-                vertex[i][1]=y+wierz[i].y*cos(fi)+wierz[i].x*sin(fi);
-            }
-        vert_cnt=sizeof(vertex)/sizeof(*vertex);
+        rotate_mask(wierz, vertex, vert_cnt);
      }
 };
 
@@ -225,17 +225,14 @@ public:
             vert_cnt=sizeof(vertex)/sizeof(*vertex);
 
             /*maska rakiety*/
-            for (int i=0;i<3;i++)
-            {
-                vertex[i][0]=x-wierz[i].y*sin(fi)+wierz[i].x*cos(fi);
-                vertex[i][1]=y+wierz[i].y*cos(fi)+wierz[i].x*sin(fi);
-            }
+            rotate_mask(wierz, vertex, vert_cnt);
          }
 };
 
 class asteroid : public aster
 {
     public:
+    int vert_cnt;
 
     asteroid(int _x, int _y, double _fi, double _vx, double _vy, double _w)
          {
@@ -272,6 +269,7 @@ class asteroid : public aster
 class asteroid_small : public aster
 {
     public:
+    int vert_cnt;
 
     asteroid_small(int _x, int _y, double _fi, double _vx, double _vy, double _w)
          {
@@ -618,7 +616,6 @@ int main(int argc, char** argv)
     bool asteroid_sm_rocket = false;
 
     while(game_running)
-   // for (int q=0; q<10; q++)
     {
 
         al_wait_for_event(event_queue, &ev);
