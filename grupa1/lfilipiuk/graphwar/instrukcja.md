@@ -37,7 +37,7 @@ Można skorzystać z dołączonego instalatora, jednak okazuje się, że nie na 
 Instalacja przy użyciu CodeBlocks
 ---------------------------------
 
-<a href="https://1drv.ms/f/s!AoVZ4kCCppbc8TogXcf14kfjJEDR">Pobierz projekt</a>
+<a href="https://1drv.ms/f/s!AoVZ4kCCppbc8iQjrPlmubDhJFMF">Pobierz pliki</a>
 
 Do projektu, z poprawnie skonfigurowaną biblioteką *Allegro* należy dołączyć następujące pliki i foldery:
 
@@ -55,6 +55,7 @@ Do projektu, z poprawnie skonfigurowaną biblioteką *Allegro* należy dołączy
     -   parser.h
     -   variablelist.cpp
     -   variablelist.h
+    -   Main.cpp
 
 Foldery zawierają grafiki, dźwięki oraz fonty niezbędne do poprawnego działania programu.
 
