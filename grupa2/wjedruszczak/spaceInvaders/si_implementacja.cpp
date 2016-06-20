@@ -246,8 +246,7 @@ void Gracz::wczytajWyniki(const char * plik) {
 		while (fin >> wynik)
 			wyniki.push_back(wynik);
 	}
-
-	// sortowanie wynikow; kierunek sortowania na podstwie: http://www.cplusplus.com/reference/functional/greater/
+	
 	if (!wyniki.empty())
 		std::sort(wyniki.begin(), wyniki.end(), std::greater <long> ());
 
