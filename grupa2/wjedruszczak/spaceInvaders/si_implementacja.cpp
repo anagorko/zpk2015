@@ -240,7 +240,7 @@ void Gracz::wczytajWyniki(const char * plik) {
 
 	// udalo sie otworzyc plik z wynikami
 	if (fin.is_open()) {
-		float wynik;
+		int wynik;
 
 		// wczytywanie wynikow
 		while (fin >> wynik)
@@ -248,7 +248,7 @@ void Gracz::wczytajWyniki(const char * plik) {
 	}
 	
 	if (!wyniki.empty())
-		std::sort(wyniki.begin(), wyniki.end(), std::greater <long> ());
+		std::sort(wyniki.begin(), wyniki.end(), std::greater <int> ());
 
 	// konczymy korzystac z pliku
 	fin.close();
@@ -258,7 +258,7 @@ void Gracz::zapiszWyniki(const char * plik) {
 	// stworzenie obiektu klasy ofstream
 	std::ofstream fout;
 
-	// otwarcie pliku (plik jest kasowany podczas otwierania)
+	// otwarcie pliku
 	fout.open(plik, std::ios::trunc);
 
 	// zapis wynikow
