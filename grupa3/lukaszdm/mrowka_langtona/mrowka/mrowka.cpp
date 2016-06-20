@@ -155,7 +155,7 @@ void mrowa::setRozmiar(unsigned int x)
 {
             rozmiar = x;
 }
-void mrowa::lewo()
+void mrowa::lewo() //obrot w lewo
 {
     switch(zwrot)
     {
@@ -179,7 +179,7 @@ void mrowa::lewo()
     }
 }
 
-void mrowa::prawo()
+void mrowa::prawo() //obrot w prawo
 {
     switch(zwrot)
     {
@@ -203,22 +203,7 @@ void mrowa::prawo()
     }
 }
 
-/*int mrowa:: kolor(vector <pole> &nieBiale) //funkcja zwraca jeden, jezeli wspolrzedne mrowki pokrywajˆ si« ze wsp—¸rz«dnymi kt—regos z pokolorowanych kwadracikow
-{
 
-  int kolor = 0;
-  for(int i = 0 ; i<nieBiale.size(); ++i)
-  {
-        if(nieBiale[i].getX() == pozX && nieBiale[i].getY() == pozY)
-        {
-            kolor=1;
-            break;
-        }
-  }
-
-return kolor;
-
-}*/
 
 void mrowa::ruch() //ruch mrowki do przodu. zmiana wspolrzednych o rozmiar zalezy od jej wczesniejszego zwrotu
 {
@@ -241,58 +226,6 @@ void mrowa::ruch() //ruch mrowki do przodu. zmiana wspolrzednych o rozmiar zalez
 
 }
 
-
-/*void mrowa::usunKolor(vector <pole> &NieBiale)
-{
-    for(int i = 0 ; i<NieBiale.size(); ++i)
-        if(NieBiale[i].getX() == pozX && NieBiale[i].getY() == pozY)
-    {
-        switch (ileKolorow)
-        {
-            case 4:
-                if(NieBiale[i].getKolor() == 1)
-                    {
-                        NieBiale[i].setKolor(2);
-                        break;
-                    }
-
-               if(NieBiale[i].getKolor() == 2)
-                    {
-                        NieBiale[i].setKolor(3);
-                        break;
-                    }
-                if(NieBiale[i].getKolor() == 3)
-                    {
-                        NieBiale.erase(NieBiale.begin()+i);
-                        break;
-                    }
-            break;
-
-            case 3:
-                if(NieBiale[i].getKolor() == 1)
-                    {
-                        NieBiale[i].setKolor(2);
-                        break;
-                    }
-
-               if(NieBiale[i].getKolor() == 2)
-                    {
-                        NieBiale.erase(NieBiale.begin()+i);
-                        break;
-                    }
-            break;
-
-               case 2:
-                if(NieBiale[i].getKolor() == 1)
-                    {
-                        NieBiale.erase(NieBiale.begin()+i);
-                        break;
-                    }
-            break;
-        }
-    }
-}
-*/
 
 void mrowa::pomaluj(vector <pole> &NieBiale, int kolory)
 {
@@ -351,7 +284,9 @@ int mrowa::czySieZmiesci(vector <pole> &NieBiale)
  int szer = 800;
  int wys = 600;
 
- skret(NieBiale); //skreca mr—wk« "w gotowosci" do nastepnego ruchu
+
+ //skret(NieBiale); //skreca mr—wk« "w gotowosci" do nastepnego ruchu
+
 
  switch(zwrot)
     {
@@ -359,7 +294,7 @@ int mrowa::czySieZmiesci(vector <pole> &NieBiale)
         if(pozY - rozmiar < 0) return 1; //sprawdza czy nie wyjdzie gorˆ ekranu
         break;
     case E:
-        if(pozX + rozmiar > szer) return 2;  //sprawdza czy nie wyjdzie prawˆ stronˆ ekranu
+        if(pozX + rozmiar > szer ) return 2;  //sprawdza czy nie wyjdzie prawˆ stronˆ ekranu
         break;
     case S:
         if(pozY + rozmiar > wys) return 3; //sprawdza czy nie wyjdzie do¸em ekranu
@@ -370,12 +305,15 @@ int mrowa::czySieZmiesci(vector <pole> &NieBiale)
 
     }
 return 5;
+
+
+
 }
 
-bool czySieZmiesci(vector <mrowa> &Mrowy, vector <pole> &NieBiale) //sprawdza to co funkcja powyzej ale dla kazdej mrowki z wektora mrowek
+bool czySieZmieszcza(vector <mrowa> Mrowy, vector <pole> NieBiale) //sprawdza to co funkcja powyzej ale dla kazdej mrowki z wektora mrowek
 {
 
-   for(int i = 1; i < Mrowy.size(); ++i)
+   for(int i = 0; i < Mrowy.size(); ++i)
    {
        if(Mrowy[i].czySieZmiesci(NieBiale) != 5) return false; //wystarczy ze jedna z mrowek wyswietlanych na ekranie sie nie zmiesci, wtedy funkcja ma zwrocic false
 
@@ -383,28 +321,21 @@ bool czySieZmiesci(vector <mrowa> &Mrowy, vector <pole> &NieBiale) //sprawdza to
     return true;
 
 }
-
-
-
-vector <int> skrajne(vector <pole> &NieBiale) // argumentem funkcji jest wektor zawierajˆcy niebia¸e pola. funkcja zwraca wektor z 4roma wartosciami- skrajnymi wspolrzednymi pol nalezacych do argumentu
+void skrecWszystkie(vector <mrowa> &Mrowy ,vector<pole> &NieBiale) //to samo co skret tylko dla wszystkich mrowek w wektorze
 {
-    vector <int> skrajne;
-    skrajne[0] = 800; //Najmniejszy x
-    skrajne[1] = 600; //Najmniejszy y
-    skrajne[2] = 0; //Najwiekszy x
-    skrajne[3] = 0; //Najwiekszy y
-    for(int i = 0; i < NieBiale.size(); ++i)
-    {
-        if(NieBiale[i].getX() < skrajne[0] )
-            skrajne[0] = NieBiale[i].getX(); //ustalenie najmniejszej wspolrzednej x wsrod wszystkich niebialych pol
-        if(NieBiale[i].getY() < skrajne[1] )
-            skrajne[1] = NieBiale[i].getY(); //ustalenie najmniejszej wspolrzednej y wsrod wszystkich niebialych pol
-        if(NieBiale[i].getX() > skrajne[2] )
-            skrajne[2] = NieBiale[i].getX();
-        if(NieBiale[i].getY() > skrajne[3] )
-            skrajne[3] = NieBiale[i].getY();
-    }
-return skrajne;
+
+    for(int i = 0; i < Mrowy.size(); ++i)
+        Mrowy[i].skret(NieBiale);
+
+}
+
+void pomalujWszystkie(vector <mrowa> &Mrowy, vector <pole> &NieBiale, int kolory ) // to samo co pomaluj tylko dla wszytskich mrowek
+{
+
+        for(int i = 0; i < Mrowy.size(); ++i)
+            Mrowy[i].pomaluj(NieBiale , kolory);
+
+
 }
 
 
@@ -459,9 +390,12 @@ void dodajMrowke(vector <mrowa> &Mrowy, vector <pole> NieBiale, int x, int y)
         if(NieBiale[i].getX() == x && NieBiale[i].getY() == y )
             return;
     }
-    mrowa Ant(x, y, 80); //utworzenie instancji Ant klasy mrowka o wspolrzednych popranych z myszki i rozmiarze 80
-    Mrowy.push_back(Ant);
 
+    if(x < 880 )
+    {
+        mrowa Ant(x, y, 80); //utworzenie instancji Ant klasy mrowka o wspolrzednych popranych z myszki i rozmiarze 80
+        Mrowy.push_back(Ant);
+    }
 }
 void rysuj(int x, int y, int rozmiar, int kolor)
 {
@@ -470,7 +404,7 @@ void rysuj(int x, int y, int rozmiar, int kolor)
     else if(kolor == 3) al_draw_filled_rectangle(x, y, x + rozmiar, y + rozmiar, al_map_rgb(255,0,0) ); //czerwony
 
 }
-void rysujPola(vector <pole> &NieBiale) // w zaleýnoæci od argumentu kolor funkcja rysuje wszystkie pola naleýˆce do danego wektora w kolorze czarnym, niebieskim lub czerwonym
+void rysujPola(vector <pole> NieBiale) // w zaleýnoæci od argumentu kolor funkcja rysuje wszystkie pola naleýˆce do danego wektora w kolorze czarnym, niebieskim lub czerwonym
 {
     int rozmiar;
     for(int i = 0; i < NieBiale.size(); ++i )
@@ -488,7 +422,7 @@ void rysujPola(vector <pole> &NieBiale) // w zaleýnoæci od argumentu kolor funkc
 }
 
 
-void rysujMrowy(vector <mrowa> &Mrowy)
+void rysujMrowy(vector <mrowa> Mrowy)
 {
     float k;
     for(int i = 0; i < Mrowy.size() ; ++i) //rysuje wszystkie mrowki z wektora mrowek
@@ -500,55 +434,133 @@ void rysujMrowy(vector <mrowa> &Mrowy)
     }
 }
 
-void doSrodka(int kierunek, vector<mrowa> &Mrowy, vector<pole> &NieBiale) /*W zaleýnosci od tego, ktorˆ stronˆ ekroanu,
- mrowka mog¸aby wyjsc za jego obrys, ustalane sa nowe wspolrzedne wszystkich obiektow na mapie- mrowek i nieBiaych pol, tak aby "sciagnac" je bardziej do ærodka*/
+
+
+
+void zmniejszMrowki(vector<mrowa> &Mrowy)
 {
+	int szer = 800;
+	int wys = 600;
+	int rozmiar = Mrowy[0].getRozmiar();
+	int newRozmiar = 0.9 * rozmiar;
+
+	for(int i = 0; i < Mrowy.size(); ++i)
+    {
+
+        if(Mrowy[i].getX()>= (0.5 * szer) && Mrowy[i].getY() >= (0.5 * wys)) //prawa dolna wiartka ekranu
+            {
+                Mrowy[i].setRozmiar(newRozmiar);
+                Mrowy[i].setX(Mrowy[i].getX() - 0.1 * rozmiar);
+                Mrowy[i].setY(Mrowy[i].getY() - 0.1 * rozmiar);
+            }
+        else if(Mrowy[i].getX() >= 0.5 * szer && Mrowy[i].getY() < 0.5 * wys) //prawa gorna cwiartka ekranu
+            {
+                Mrowy[i].setRozmiar(newRozmiar);
+                Mrowy[i].setX(Mrowy[i].getX() - 0.1 * rozmiar);
+                Mrowy[i].setY(Mrowy[i].getY() + 0.1 * rozmiar);
+            }
+        else if(Mrowy[i].getX() < 0.5 * szer && Mrowy[i].getY() < 0.5 * wys) //lewa gorna cwiartka ekranu
+            {
+                Mrowy[i].setRozmiar(newRozmiar);
+                Mrowy[i].setX(Mrowy[i].getX() + 0.1 * rozmiar);
+                Mrowy[i].setY(Mrowy[i].getY() + 0.1 * rozmiar);
+            }
+        else if(Mrowy[i].getX() < 0.5 * szer && Mrowy[i].getY() >= 0.5 * wys) //lewa dolna cwiartka ekranu
+            {
+                Mrowy[i].setRozmiar(newRozmiar);
+                Mrowy[i].setX(Mrowy[i].getX() + 0.1 * rozmiar);
+                Mrowy[i].setY(Mrowy[i].getY() - 0.1 * rozmiar);
+            }
+         else
+                Mrowy[i].setRozmiar(newRozmiar);
 
 
-
-
-
+    }
 
 }
 
-void menu(ALLEGRO_FONT *F1,int iter,int predkosc, int kol)
+
+
+void zmniejszPola(vector<pole> &NieBiale)
 {
-	string p,i,m,pred, colors;
-	int LiczbaPol = NieBiale.size();
-	int LiczbaMrowek = Mrowy.size();
-	sprintf((char*)p.c_str(), "%d", LiczbaPol);
-	sprintf((char*)i.c_str(), "%d", iter);
-	sprintf((char*)m.c_str(), "%d", LiczbaMrowek);
-	sprintf((char*)pred.c_str(), "%d", predkosc);
-	sprintf((char*)colors.c_str(), "%d", kol);
+	int szer = 800;
+	int wys = 600;
+	if(NieBiale.size() == 0) return;
+	int rozmiar = NieBiale[0].getRozmiar();
+	int newRozmiar = 0.9 * rozmiar;
+
+	for(int i = 0; i < Mrowy.size(); ++i)
+    {
+
+        if(NieBiale[i].getX()>= (0.5 * szer) && NieBiale[i].getY() >= (0.5 * wys)) //prawa dolna wiartka ekranu
+            {
+                NieBiale[i].setRozmiar(newRozmiar);
+                NieBiale[i].setX(NieBiale[i].getX() - 0.1 * rozmiar);
+                NieBiale[i].setY(NieBiale[i].getY() - 0.1 * rozmiar);
+            }
+        else if(NieBiale[i].getX() >= 0.5 * szer && NieBiale[i].getY() < 0.5 * wys) //prawa gorna cwiartka ekranu
+            {
+                NieBiale[i].setRozmiar(newRozmiar);
+                NieBiale[i].setX(NieBiale[i].getX() - 0.1 * rozmiar);
+                NieBiale[i].setY(NieBiale[i].getY() + 0.1 * rozmiar);
+            }
+        else if(NieBiale[i].getX() < 0.5 * szer && NieBiale[i].getY() < 0.5 * wys) //lewa gorna cwiartka ekranu
+            {
+                NieBiale[i].setRozmiar(newRozmiar);
+                NieBiale[i].setX(NieBiale[i].getX() + 0.1 * rozmiar);
+                NieBiale[i].setY(NieBiale[i].getY() + 0.1 * rozmiar);
+            }
+        else if(NieBiale[i].getX() < 0.5 * szer && NieBiale[i].getY() >= 0.5 * wys) //lewa dolna cwiartka ekranu
+            {
+                NieBiale[i].setRozmiar(newRozmiar);
+                NieBiale[i].setX(NieBiale[i].getX() + 0.1 * rozmiar);
+                NieBiale[i].setY(NieBiale[i].getY() - 0.1 * rozmiar);
+            }
+         else
+                NieBiale[i].setRozmiar(newRozmiar);
+
+
+    }
+
+}
+
+
+
+
+void menu(ALLEGRO_FONT *czcionka,int iter,int predkosc, int kol)
+{
+
+	int pola = NieBiale.size();
+	int mrowki = Mrowy.size();
+
 
 
 	al_draw_filled_rectangle(880, 0, 1080, 800, al_map_rgb(55, 100, 0));
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 50, ALLEGRO_ALIGN_LEFT, "Iteracje:");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 70, ALLEGRO_ALIGN_LEFT, (char*)i.c_str());
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 130, ALLEGRO_ALIGN_LEFT, "Ilosc niebialych pol:");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 150, ALLEGRO_ALIGN_LEFT, (char*)p.c_str());
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 190, ALLEGRO_ALIGN_LEFT, "Ilosc mrowek:");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 210, ALLEGRO_ALIGN_LEFT, (char*)m.c_str());
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 240, ALLEGRO_ALIGN_LEFT, "Predkosc :");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 260, ALLEGRO_ALIGN_LEFT, (char*)pred.c_str());
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 290, ALLEGRO_ALIGN_LEFT, "Kolory:");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 310, ALLEGRO_ALIGN_LEFT, (char*)colors.c_str());
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 450, ALLEGRO_ALIGN_LEFT, "Info :");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 470, ALLEGRO_ALIGN_LEFT, "Predkosc w gore :");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 490, ALLEGRO_ALIGN_LEFT, "Prawa strzalka =>");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 510, ALLEGRO_ALIGN_LEFT, "Predkosc w dol :");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 530, ALLEGRO_ALIGN_LEFT, "Lewa strzalka <=");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 570, ALLEGRO_ALIGN_LEFT, "Wiecej kolorow :");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 590, ALLEGRO_ALIGN_LEFT, "Strzalka w gore ^");
-    al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 610, ALLEGRO_ALIGN_LEFT, "Mniej kolorow :");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 630, ALLEGRO_ALIGN_LEFT, "Strzalka w dol v");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 650, ALLEGRO_ALIGN_LEFT, "Start/Pauza :");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 670, ALLEGRO_ALIGN_LEFT, "Spacja");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 690, ALLEGRO_ALIGN_LEFT, "Reset :");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 710, ALLEGRO_ALIGN_LEFT, "Enter");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 730, ALLEGRO_ALIGN_LEFT, "Exit :");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 750, ALLEGRO_ALIGN_LEFT, "Esc");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 50, ALLEGRO_ALIGN_LEFT, "Iteracje:");
+	al_draw_textf(czcionka, al_map_rgb(255, 255, 255), 885, 70, ALLEGRO_ALIGN_LEFT, "%i", iter);
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 130, ALLEGRO_ALIGN_LEFT, "Ilosc niebialych pol:");
+	al_draw_textf(czcionka, al_map_rgb(255, 255, 255), 885, 150, ALLEGRO_ALIGN_LEFT, "%i", pola);
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 190, ALLEGRO_ALIGN_LEFT, "Ilosc mrowek:");
+	al_draw_textf(czcionka, al_map_rgb(255, 255, 255), 885, 210, ALLEGRO_ALIGN_LEFT, "%i", mrowki);
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 240, ALLEGRO_ALIGN_LEFT, "Predkosc :");
+	al_draw_textf(czcionka, al_map_rgb(255, 255, 255), 885, 260, ALLEGRO_ALIGN_LEFT, "%i", predkosc);
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 290, ALLEGRO_ALIGN_LEFT, "Kolory:");
+	al_draw_textf(czcionka, al_map_rgb(255, 255, 255), 885, 310, ALLEGRO_ALIGN_LEFT, "%i", kol);
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 450, ALLEGRO_ALIGN_LEFT, "Info :");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 470, ALLEGRO_ALIGN_LEFT, "Predkosc w gore :");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 490, ALLEGRO_ALIGN_LEFT, "Prawa strzalka =>");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 510, ALLEGRO_ALIGN_LEFT, "Predkosc w dol :");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 530, ALLEGRO_ALIGN_LEFT, "Lewa strzalka <=");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 570, ALLEGRO_ALIGN_LEFT, "Wiecej kolorow :");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 590, ALLEGRO_ALIGN_LEFT, "Strzalka w gore ^");
+    al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 610, ALLEGRO_ALIGN_LEFT, "Mniej kolorow :");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 630, ALLEGRO_ALIGN_LEFT, "Strzalka w dol v");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 650, ALLEGRO_ALIGN_LEFT, "Start/Pauza :");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 670, ALLEGRO_ALIGN_LEFT, "Spacja");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 690, ALLEGRO_ALIGN_LEFT, "Reset :");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 710, ALLEGRO_ALIGN_LEFT, "Enter");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 730, ALLEGRO_ALIGN_LEFT, "Exit :");
+	al_draw_text(czcionka, al_map_rgb(255, 255, 255), 885, 750, ALLEGRO_ALIGN_LEFT, "Esc");
 }
 
 
@@ -561,6 +573,7 @@ int main(int argc, char **argv){
     int szer = 1080;
     int wys = 800;
     int FPS = 1;
+    int iter = 0;
 
 
     //zmienne do petli
@@ -615,10 +628,19 @@ int main(int argc, char **argv){
     al_register_event_source(event_queue, al_get_timer_event_source(timer));
     START:
     al_start_timer(timer);
+
+    /*mrowa ANT(800, 100, 80);
+    Mrowy.push_back(ANT);
+    rysujMrowy(Mrowy);
+    al_flip_display();
+    al_rest(10);*/
+
+
+
     while(!done)
     {
         al_clear_to_color(al_map_rgb(255,255,255));
-        menu(czcionka, FPS, FPS, kolory);
+        menu(czcionka, FPS, iter, kolory);
 
         al_wait_for_event(event_queue, &ev);
 
@@ -678,7 +700,7 @@ int main(int argc, char **argv){
     while(!done1)
     {
         al_clear_to_color(al_map_rgb(255,255,255));
-        menu(czcionka, FPS, FPS, kolory);
+        menu(czcionka, iter, FPS, kolory);
 
         al_wait_for_event(event_queue, &ev);
 
@@ -726,12 +748,20 @@ int main(int argc, char **argv){
         if(redraw && al_is_event_queue_empty(event_queue))
             {
                 redraw = false;
-                for(int i = 0; i < Mrowy.size(); ++i)
-                    {
-                        Mrowy[i].skret(NieBiale);
-                        Mrowy[i].pomaluj(NieBiale, kolory);
-                        Mrowy[i].ruch();
-                    }
+                skrecWszystkie(Mrowy, NieBiale);
+                while(!czySieZmieszcza(Mrowy, NieBiale))
+                {
+                zmniejszMrowki(Mrowy);
+                zmniejszPola(NieBiale);
+                }
+
+
+                pomalujWszystkie(Mrowy, NieBiale, kolory);
+
+                  for(int i = 0; i < Mrowy.size(); ++i)
+                                Mrowy[i].ruch();
+
+            iter++;
             rysujPola(NieBiale);
             rysujMrowy(Mrowy);
             al_flip_display();

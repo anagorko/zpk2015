@@ -97,8 +97,7 @@ namespace Mrowka {
         void setZwrot(kierunek zwrot);
         void pomaluj(vector <pole> &NieBiale, int kolory);
         void skret(vector <pole> &NieBiale);
-        /*void usunKolor(vector <pole> &V);*/
-        int czySieZmiesci(vector <pole> &V);
+        int czySieZmiesci(vector <pole> &NieBiale);
         /*int kolor(vector <pole> &NieBiale);*/// sprawdza czy pozycje mrowki pokrywaja sie z ktoryms z czarnych pol przechowywanych w vectorze 'czarnepole' klasy pole
 
 
