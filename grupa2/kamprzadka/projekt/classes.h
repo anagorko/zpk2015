@@ -1,5 +1,12 @@
 #ifndef CLASSES_H_INCLUDED
 #define CLASSES_H_INCLUDED
+#include <iostream>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <cmath>
 #include <vector>
 #include <cstdlib>
@@ -7,6 +14,7 @@
 #include <cmath>
 #include <vector>
 #include <cstdlib>
+
 
 using namespace std;
 
@@ -21,29 +29,6 @@ struct Point
 
 class game_object
 {
-    public:
-    int x,y;
-    double vx, vy;
-    double v;
-    double fi;
-    bool fired;
-    int f_step;
-    double w;
-    double ax;
-    double ay;
-    double e;
-    bool visible;
-    int x_mid, y_mid; //srodek figury
-    ALLEGRO_BITMAP *bitmap;
-
-    void displ()
-    {
-        al_draw_rotated_bitmap(bitmap, x_mid, y_mid, x, y, fi, 0);
-        if(x>=width) x=1;
-        if(x<=0) x=width-1;
-        if(y>=height) y=1;
-        if(y<=0) y=height-1;
-    }
 
     protected:
     void rotate_mask(Point wierz[], int vertex[][2], int vert_cnt)
@@ -54,6 +39,35 @@ class game_object
                 vertex[i][1]=y+wierz[i].y*cos(fi)+wierz[i].x*sin(fi);
             }
     }
+
+    public:
+    /*zmienne zadeklarowano jako public z uwagi na duza ich ilosc
+    rozwiazanie malo eleganckie, ale efektywne czasowo przy pisaniu kodu*/
+
+    double v; //predkosc
+    double fi; //kat obrotu
+    int x,y;
+    double vx,vy;
+    double w; //predkosc katowa
+    double ax; //przyspieszenie w osi x
+    double ay; //przyspieszenie w osi y
+    bool visible; //czy obiekt widoczny
+    int x_mid, y_mid; //srodek figury
+    ALLEGRO_BITMAP *bitmap; //wskaznik na teksture
+
+    void displ()
+    {
+        al_draw_rotated_bitmap(bitmap, x_mid, y_mid, x, y, fi, 0);
+        if(x>=width) x=1;
+        if(x<=0) x=width-1;
+        if(y>=height) y=1;
+        if(y<=0) y=height-1;
+    }
+
+    void state_update();
+
+
+
 };
 
 class aster : public game_object //opis asteroid
@@ -87,6 +101,8 @@ public:
     Point wierz[4]; //wspolrzedne wzgledne (statyczne) wierzcholkow maski
     int vert_cnt;
     int czas_zycia;
+    bool fired;
+    int f_step;
 
     projectile(int _x, int _y, double _vx, double _vy, double _fi)
     {
@@ -162,6 +178,7 @@ public:
     int vertex[3][2];//wspolrzedne bezwzgledne (dynamiczne) wierzcholkow maski
     Point wierz[3]; //wspolrzedne wzgledne (statyczne) wierzcholkow maski
     int vert_cnt;
+    double e;
 
     rocket(int _x, int _y, double _fi, double _vx, double _vy, double _w,
              double _ax, double _ay, double _e, string _path)
@@ -180,9 +197,9 @@ public:
              vert_cnt=sizeof(vertex)/sizeof(*vertex);
 
              /*maska rakiety*/
-             wierz[0].x=0; wierz[0].y=-32;
-             wierz[1].x=18; wierz[1].y=30;
-             wierz[2].x=-18; wierz[2].y=30;
+             wierz[0].x=0; wierz[0].y=-40;
+             wierz[1].x=10; wierz[1].y=30;
+             wierz[2].x=-10; wierz[2].y=30;
 
              x_mid=8;
              y_mid=30;
@@ -216,10 +233,11 @@ public:
             w=w+e; //update predkosc obrotowa
             x=x-vx; //update pozycja x
             y=y+vy; //update pozycja y
-            fi=fi+w; //update kat
+            fi=fi+w;//update kat
             ax=0;
             ay=0;
             e=0;
+
 
             vert_cnt=sizeof(vertex)/sizeof(*vertex);
 
