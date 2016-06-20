@@ -27,8 +27,9 @@ Instalacja
 
 Przy użyciu instalatora
 -----------------------
+[![Instalacja](http://puu.sh/pyQNr/60d289cedc.jpg)](https://vimeo.com/171339077)
 
-Można skorzystać z dołączonego instalatora, jednak okazuje się, że nie na wszystkich komputerach działa on poprawnie. Najbardziej pewną metodą będzie instalacia przy pomocy *CodeBlocks*.
+Można skorzystać z dołączonego instalatora, jednak okazuje się, że nie na wszystkich komputerach działa on poprawnie. Najbardziej pewną metodą będzie instalacia przy pomocy *CodeBlocks*. Ta wersja jest także mniej odporna na błędy.
 
 <a href="https://1drv.ms/u/s!AoVZ4kCCppbc8iJe7g4u25rprlQd">Pobierz instalator (.exe)</a>
 
@@ -36,6 +37,7 @@ Można skorzystać z dołączonego instalatora, jednak okazuje się, że nie na 
 
 Instalacja przy użyciu CodeBlocks
 ---------------------------------
+[![Instalacja](http://puu.sh/pyPxl/ebe0d2342f.jpg)](https://vimeo.com/171338304)
 
 <a href="https://1drv.ms/f/s!AoVZ4kCCppbc8iQjrPlmubDhJFMF">Pobierz pliki</a>
 
@@ -78,6 +80,11 @@ W menu głównym, użytkownik może: \* Ustalić nick dla każdego z graczy (w p
 
 Rozgrywka
 =========
+
+Przykładowa rozgrywka:
+----------------
+[![Instalacja](http://puu.sh/pyR8T/a314a0b91c.jpg)](https://vimeo.com/171339926)
+
 
 Ekran rozgrywki:
 ----------------
