@@ -9,10 +9,10 @@
 enum KLAWISZ { LEWY, PRAWY, P, SPACJA };
 enum STAN { GRA, MENU, PAUZA, POMOC, PORAZKA, WYGRANA, WYNIKI };
 
-// prototyp funkcji, ktora sprawdza, czy wystopila kolizja dwoch obiektow
+// prototyp funkcji, ktora sprawdza, czy wystapila kolizja dwoch obiektow
 bool sprawdzKolizje(const ObiektBazowy * obiekt, const ObiektBazowy * strzal, int obiektSzerokosc, int obiektWysokosc);
 
-// prototyp funkcji, ktora sprawdza, czy wystopila kolizja z oslona
+// prototyp funkcji, ktora sprawdza, czy wystapila kolizja z oslona
 bool sprawdzKolizje(const Oslona * oslona, const Strzal * strzal);
 
 int main() {
