@@ -65,11 +65,6 @@ Powyższe pliki pochodzą ze strony internetowej <http://www.speqmath.com/tutori
 
 Dodatkowo, do pliku Main.cpp należy wkleić kod z dołączonego pliku Main.cpp.
 
-Prawidłowy układ plików z folderze z projektem powinien wyglądać następująco: <img src="http://puu.sh/pyCN6/105e52792c.png">
-
-Aby dodać pliki .cpp oraz pliki nagłówkowe do projektu, należy otworzyć projekt, a następnie każdy a plików. Po kliknięciu prawym przyciskiem myszy w zakładkę z danym plikiem należy wybrać *Add file to active project.* <img src="http://puu.sh/pyD72/c4cccb285a.png">
-
-Prawidłowy projekt w CodeBlocks powinien wyglądać następująco: <img src="http://puu.sh/pyCSU/6b3a44d07a.png">
 
 Menu główne
 ===========
