@@ -63,9 +63,6 @@ Foldery zawierają grafiki, dźwięki oraz fonty niezbędne do poprawnego dział
 
 Powyższe pliki (poza Main.cpp) pochodzą ze strony internetowej <http://www.speqmath.com/tutorials/expression_parser_cpp/> i zawierają kod, który pozwala na odczytywanie funkcji.
 
-Dodatkowo, do pliku Main.cpp należy wkleić kod z dołączonego pliku Main.cpp.
-
-
 Menu główne
 ===========
 
