@@ -1,6 +1,6 @@
-#include "classes.h"
-#include "collision_detection.h"
-#include "game_functions.h"
+#include "classes.cpp"
+#include "collision_detection.cpp"
+#include "game_functions.cpp"
 
 using namespace std;
 
