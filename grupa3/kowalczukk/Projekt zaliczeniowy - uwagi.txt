@@ -1,0 +1,11 @@
+Moim projektem zaliczeniowym s¹ fiszki. 
+Baza s³ów znajduje siê w pliku slowa.txt.
+Pomoce, z których korzysta³em:
+
+https://www.youtube.com/watch?v=qAFLALyvLSs
+https://www.youtube.com/watch?v=ULhbs917MLM
+http://stackoverflow.com/questions/8365013/reading-line-from-text-file-and-putting-the-strings-into-a-vector
+http://www.cplusplus.com/reference/vector/vector/
+http://stackoverflow.com/questions/822323/how-to-generate-a-random-number-in-c
+
+
