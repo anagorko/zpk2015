@@ -1,96 +1,105 @@
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
 #include <chrono>
 #include <cstdio>
+
 using namespace std;
 
-void swap(int &a, int &b)
+void merge (int *tab, int n, int lewy, int srodek, int prawy)
+{
+    int pom[n];
+    for (int i=0; i < n; i++) //przepisujemy tab do pom
+        pom[i] = tab[i];
+
+    int i = lewy, j = srodek+1, k = lewy;
+
+    while (i <= srodek && j <= prawy) {
+        if (pom[i] <= pom[j]) {
+            tab[k] = pom[i];
+            i++;
+        }
+        else {
+            tab[k] = pom[j];
+            j++;
+        }
+        k++;
+    }
+    while (i <= srodek) {
+        tab[k] = pom[i];
+        k++;
+        i++;
+    }
+}
+
+void mergeSort (int *tab, int n, int lewy, int prawy)
+{
+    if (lewy < prawy) {
+        int srodek = (lewy + prawy)/2;
+        mergeSort(tab, n, lewy, srodek);
+        mergeSort(tab, n, srodek+1, prawy);
+        merge(tab, n, lewy, srodek, prawy);
+    }
+}
+
+void swap (int &a, int &b)
 {
     int c = a; a = b; b = c;
 }
 
-// sortuje t[p] .. t[k - 1] - bez t[k] !
-void bubble_sort(int t[], int p, int k)
+void quickSort (int *tab, int lewy, int prawy)
 {
-    int i = 0;
-    while (i < k) {
-        for (p = 0; p < k-1; p++) {
-            if(t[p] > t[p+1]) //gdy lewy wiekszy od prawego to zamieniam swapem
-                swap(t[p], t[p+1]);
+    int pivot = tab[(lewy + prawy)/2];
+    int i = lewy, j = prawy;
+    do {
+        while (tab[i] < pivot) i++;
+        while (tab[j] > pivot) j--;
+        if (i <= j) {
+            swap(tab[i], tab[j]);
+            i++; j--;
         }
-        i++;
-    }
+    } while (i <= j);
+    if (j > lewy) quickSort(tab, lewy, j);
+    if (i < prawy) quickSort(tab, i, prawy);
 }
 
-void merge(int *a, int *b, int p, int srodek, int k) {
-    int h, i, j, m;
-    h = p;
-    i = p;
-    j = srodek + 1;
-
-    while ((h <= srodek) && (j <= k)) {     // etap sortowania
-        if (a[h] <= a[j]) {
-            b[i] = a[h];
-            h++;
+void bubbleSort (int *tab, int lewy, int prawy)
+{
+    for (int i=0; i<prawy; i++){
+        for (int j = lewy; j < prawy; j++) {
+            if (tab[j]> tab[j+1])
+                swap(tab[j], tab[j+1]);
         }
-        else {
-            b[i] = a[j];
-            j++;
-        }
-        i++;
-    }
-
-    if (h > srodek) {     //etap scalaniana na prawo od srodka
-        for (m = j; m <= k; m++) {
-            b[i] = a[m];
-            i++;
-        }
-    }
-    else { //na lewo od srodka
-        for (m = h; m <= srodek; m++) {
-            b[i] = a[m];
-            i++;
-        }
-    }
-
-    for (m = p; m <= k; m++) { //przepisuje posortowana tablice b do wejsciowej tablicy a
-        a[m] = b[m];
     }
 }
-
-// sortuje t[p] .. t[k - 1] - bez t[k] !
-void merge_sort(int *t, int p, int k) {
-    int srodek;
-    int tab[k]; //pomocnicza tablica do sortowania i na koncu przepisywania
-    if (p < k) {
-        srodek = (p + k) / 2;
-        merge_sort(t, p, srodek);
-        merge_sort(t, srodek + 1, k);
-        merge(t, tab, p, srodek, k);
-    }
-}
-
 
 void test(int n)
 {
-    int t1[n], t2[n];
+    int t1[n], t2[n], t3[n];
 
     for (int i = 0; i < n; i++) {
-        t1[i] = t2[i] = rand();
+        t1[i] = t2[i] = t3[i] = rand();
     }
 
     cout << "Table size: " << n << endl;
 
     auto start = chrono::steady_clock::now();
-    bubble_sort(t1, 0, n);
+    bubbleSort(t1, 0, n-1);
     auto end = chrono::steady_clock::now();
 
     auto diff_bubble = end - start;
 
     start = chrono::steady_clock::now();
-    merge_sort(t2, 0, n);
+    mergeSort(t2, n, 0, n-1);
     end = chrono::steady_clock::now();
 
     auto diff_merge = end - start;
+
+    start = chrono::steady_clock::now();
+    quickSort(t3, 0, n-1);
+    end = chrono::steady_clock::now();
+
+    auto diff_quick = end - start;
 
     for (int i = 0; i < n - 1; i++) {
         if (t1[i] > t1[i + 1]) {
@@ -99,11 +108,16 @@ void test(int n)
         if (t2[i] > t2[i + 1]) {
             cout << "  Wrong answer - merge sort." << endl; break;
         }
+        if (t3[i] > t3[i + 1]) {
+            cout << "  Wrong answer - quick sort." << endl; break;
+        }
     }
 
     cout << "  Bubble sort time: " << chrono::duration <double> (diff_bubble).count() << endl;
     cout << "  Merge sort time: " << chrono::duration <double> (diff_merge).count() << endl;
-    cout << "  Ratio: " << (chrono::duration <double> (diff_bubble).count() / chrono::duration <double> (diff_merge).count()) << endl;
+    cout << " Quick sort time: " << chrono::duration <double> (diff_quick).count() << endl;
+    cout << "  Ratio Bubble/Merge: " << (chrono::duration <double> (diff_bubble).count() / chrono::duration <double> (diff_merge).count()) << endl;
+    cout << "  Ratio Bubble/Quick: " << (chrono::duration <double> (diff_bubble).count() / chrono::duration <double> (diff_quick).count()) << endl;
 }
 
 int main()
@@ -112,6 +126,7 @@ int main()
     test(1000);
     test(10000);
     test(20000);
-    test(28000); //powyzej 28 tys. program "nieoczekiwanie" przestaje dzialac
-
+    test(30000);
+    test(50000);
+    test(100000);
 }
