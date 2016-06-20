@@ -175,7 +175,7 @@ Pliki nagłówkowe i źródłowe
     -   parser.h
     -   variablelist.cpp
     -   variablelist.h
-    -   
+
 <http://www.speqmath.com/tutorials/expression_parser_cpp/>
 
 Obrazy
@@ -217,6 +217,7 @@ Obrazy
 - zamknij_0.png
 - zamknij_1.png
 - znak_cover.png
+
 Opracowanie własne przy pomocy *Adobe Photoshop CC*
 
 - wybuch_gracz.png (opracowanie własne na podstawie <http://orange-bell.deviantart.com/art/Explosion-168922770/>)
