@@ -61,7 +61,7 @@ Do projektu, z poprawnie skonfigurowaną biblioteką *Allegro* należy dołączy
 
 Foldery zawierają grafiki, dźwięki oraz fonty niezbędne do poprawnego działania programu.
 
-Powyższe pliki pochodzą ze strony internetowej <http://www.speqmath.com/tutorials/expression_parser_cpp/> i zawierają kod, który pozwala na odczytywanie funkcji.
+Powyższe pliki (poza Main.cpp) pochodzą ze strony internetowej <http://www.speqmath.com/tutorials/expression_parser_cpp/> i zawierają kod, który pozwala na odczytywanie funkcji.
 
 Dodatkowo, do pliku Main.cpp należy wkleić kod z dołączonego pliku Main.cpp.
 
@@ -158,3 +158,88 @@ Kamehameha
 ----------
 
 <img src="http://puu.sh/pyK1E/34061e1f7f.png">
+
+Credits
+===============
+
+Pliki nagłówkowe i źródłowe
+----------
+
+-   Pliki:
+    -   constants.h
+    -   error.cpp
+    -   error.h
+    -   functions.cpp
+    -   functions.h
+    -   parser.cpp
+    -   parser.h
+    -   variablelist.cpp
+    -   variablelist.h
+    -   
+<http://www.speqmath.com/tutorials/expression_parser_cpp/>
+
+Obrazy
+----------
+
+- ball_1.png
+- ball_1.active.png
+- ball_1.glow.png
+- ball_1_glow_x.png
+- ball_1_odbicie.png
+- ball_2.png
+- ball_2_active.png
+- ball_2_glow.png
+- ball_2_odbicie.png
+- ball_active.png
+- dol_cover.png
+- gracz_cover.png
+- liczba_1.png
+- liczba_2.png
+- liczba_3.png
+- liczba_4.png
+- liczba_cover.png
+- menu.png
+- minus_0.png
+- minus_1.png
+- napis_cover.png
+- plus_0.png
+- plus_1.png
+- start_0.png
+- start_1.png
+- tablica_pusta.png
+- tablica_pusta_s.png
+- tlo.png
+- triangle
+- triangle_cover.png
+- wczytaj_0.png
+- wczytaj_1.png
+- winner.png
+- zamknij_0.png
+- zamknij_1.png
+- znak_cover.png
+Opracowanie własne przy pomocy *Adobe Photoshop CC*
+
+- wybuch_gracz.png (opracowanie własne na podstawie <http://orange-bell.deviantart.com/art/Explosion-168922770/>)
+- wybuch_png (opracowanie własne na podstawie <http://www.deviantart.com/art/Explosion-2012-305242668/>)
+- zapis.png (<http://zenkon13.deviantart.com/art/Pixel-Art-Floppy-Disks-198807957/>)
+
+Fonty
+----------
+
+-  8-Bit Madness.ttf <http://www.dafont.com/8-bit-madness.font/>
+-  PIXEARG_.TTF (<http://www.dafont.com/pixel-arial-11.font/>
+
+Dźwięki
+----------
+
+-  click.WAW
+-  click_select.WAV
+-  eksplozja_gracz.wav
+-  eksplozja_kamien.WAV
+-  fanfary.wav
+-  KEYCLICK.WAV
+-  KEYERASE.WAV
+-  strzal.WAV
+-  TIMERTICK.WAV
+
+<http://downloads.khinsider.com/game-soundtracks/album/worms-2-original-soundtrack/>
