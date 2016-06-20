@@ -308,7 +308,7 @@ public:
         runda=0;
         liczba_graczy = _liczba_graczy;
         srand(time(NULL));
-        liczba_przeszkod = 0; //3 + rand()%17;
+        liczba_przeszkod = /3 + rand()%17;
         for (int i=1; i<=liczba_przeszkod; i++){ // losowanie przeszkod
             float x = rand() % (w);
             float y = rand() % (h);
