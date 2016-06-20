@@ -12,8 +12,8 @@
 
 using namespace std;
 ALLEGRO_DISPLAY *display;
-ALLEGRO_FONT *mcfont;
-ALLEGRO_FONT *font1;
+ALLEGRO_FONT *font;
+ALLEGRO_FONT *font2;
 ALLEGRO_EVENT events;
 ALLEGRO_BITMAP *head;
 ALLEGRO_BITMAP *wall;
@@ -21,18 +21,10 @@ ALLEGRO_BITMAP *body;
 ALLEGRO_BITMAP *coin1;
 ALLEGRO_TIMER *timer;
 ALLEGRO_EVENT_QUEUE *event_queue;
-ALLEGRO_TIMER *frameTimer;
 ALLEGRO_TIMER *seconds;
 ALLEGRO_KEYBOARD_STATE keyState;
-int curF = 0;
-int frameC = 0;
-int frameD = 2;
-int frameW = 40;
-int frameH = 40;
 int timeS = 0;
-int timeF = 0;
 int score = 0;
-int angle = 0;
 int wallTX[50], wallTY[50], walls = 0;
 int snakeX[50], snakeY[50];
 int length = 1;
@@ -45,16 +37,10 @@ int wallsNumber;
 int coinX;
 int coinY;
 
-volatile int counter;
 volatile int ticks=0;
-volatile int framerate;
-volatile int resting, rested;
-int mki = 1;
 int width = 800;
 int height = 650;
 
-
-typedef enum { nothing = 0, apple, snake } object;
 enum direction { DOWN, LEFT, RIGHT, UP };
 int dir = DOWN;
 
@@ -66,12 +52,13 @@ void check_if_coin();
 void create_walls();
 bool detect_collison();
 void move_snake();
+void set_timer(int time);
 int main();
 
 
 void game_over()
 {
-    al_draw_text(mcfont, al_map_rgb(255, 255, 255), 170, 100, 0,
+    al_draw_text(font, al_map_rgb(255, 255, 255), 170, 100, 0,
                  "Game over. Press Enter");
     al_flip_display();
     while (1 == 1)
@@ -111,38 +98,34 @@ void load_bitmaps()
     {
         fprintf(stderr, "Could not load 'wall.jpg'.\n");
     }
-    font1 = al_load_font("OpenSans-Regular.ttf", 15, 0);
-    if (!font1)
+    font = al_load_font("OpenSans-Regular.ttf", 15, 0);
+    if (!font)
     {
-        fprintf(stderr, "Could not load 'Minecrafter_3.ttf'.\n");
+        fprintf(stderr, "Could not load 'font'.\n");
     }
-    mcfont = al_load_font("OpenSans-Regular.ttf", 30, 0);
-    if (!mcfont)
-    {
-        fprintf(stderr, "Could not load 'Minecrafter_3.ttf'.\n");
+      font2 = al_load_font("OpenSans-Regular.ttf", 30, 0);
+    if (!font2) {
+        fprintf(stderr, "Could not load 'font2'.\n");
     }
 }
 
 void menu()
 {
-    al_draw_text(font1, al_map_rgb(255, 255, 255), 170, 100, 0,
+    al_draw_text(font, al_map_rgb(255, 255, 255), 170, 100, 0,
                  "Snake v0.1");
-
-    al_draw_text(font1, al_map_rgb(255, 255, 255), 100, 150, 0,
+    al_draw_text(font, al_map_rgb(255, 255, 255), 100, 150, 0,
                  "Your aim is to collect coins. The more coins you get the longer snake becomes.");
-    al_draw_text(font1, al_map_rgb(255, 255, 255), 100, 170, 0,
+    al_draw_text(font, al_map_rgb(255, 255, 255), 100, 170, 0,
                  "You control snake with arrows. Beware of walls and obstacles as well as tail of your snake.");
-
-
-    al_draw_text(mcfont, al_map_rgb(255, 255, 255), 100, 200, 0,
+    al_draw_text(font2, al_map_rgb(255, 255, 255), 100, 200, 0,
                  "Select level:");
-    al_draw_text(mcfont, al_map_rgb(128, 247, 8), 170, 250, 0,
+    al_draw_text(font2, al_map_rgb(128, 247, 8), 170, 250, 0,
                  "Press E - EASY");
-    al_draw_text(mcfont, al_map_rgb(247, 176, 8), 170, 300, 0,
+    al_draw_text(font2, al_map_rgb(247, 176, 8), 170, 300, 0,
                  "Press M - MEDIUM");
-    al_draw_text(mcfont, al_map_rgb(247, 8, 6), 170, 350, 0,
+    al_draw_text(font2, al_map_rgb(247, 8, 6), 170, 350, 0,
                  "Press H - HARD");
-    al_draw_text(mcfont, al_map_rgb(255, 255, 255), 300, 500, 0,
+    al_draw_text(font2, al_map_rgb(255, 255, 255), 300, 500, 0,
                  "Press Esc to Exit");
     al_flip_display();
 }
@@ -253,7 +236,7 @@ void move_snake()
 
             al_draw_bitmap(head, x, y, 0);
 
-            al_draw_bitmap_region(coin1, curF * frameW, 0, frameW, frameH, coinX, coinY,
+            al_draw_bitmap_region(coin1, 0, 0, 40, 40, coinX, coinY,
                                   0);
             for (int j=0; j<wallsNumber; j++)
             {
@@ -263,12 +246,12 @@ void move_snake()
             ss << score;
             std::string result = "Coins: " + ss.str();
             const char * c = result.c_str();
-            al_draw_textf(font1, al_map_rgb(250, 0, 250), 5, 5, 0, c);
+            al_draw_textf(font, al_map_rgb(250, 0, 250), 5, 5, 0, c);
             std::ostringstream ss2;
             ss2 << timeS;
             std::string result2 = "Time: " + ss2.str();
             const char * c2 = result2.c_str();
-            al_draw_textf(font1, al_map_rgb(250, 0, 250), 705, 5, 0, c2);
+            al_draw_textf(font, al_map_rgb(250, 0, 250), 705, 5, 0, c2);
 
             al_flip_display();
         }
@@ -286,7 +269,7 @@ int main()
 {
     al_init();
     display = al_create_display(width, height); //stwórz ekran
-    al_set_window_position(display, 400, 300); //pozycja ekranuf
+    al_set_window_position(display, 400, 300); //pozycja ekranu
     al_init_font_addon(); //inicjalizacja fontów
     al_init_ttf_addon(); //inicjalizacja fontów ttf
     al_install_keyboard();
@@ -354,4 +337,3 @@ int main()
     al_destroy_display(display);
     return 0;
 }
-
