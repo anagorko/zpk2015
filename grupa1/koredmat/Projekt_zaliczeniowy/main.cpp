@@ -181,7 +181,7 @@ private:
 	static const int MAP_Szer; //number of tiles in row
 	static const int MAP_Wys; //number of tiles in column
 
-	std::vector<Color> mTilesMap;
+	vector<Color> mPlanszaMap;
 	float mCameraZoom;
 	float mCameraRotate;
 	float mCameraScrollX;
