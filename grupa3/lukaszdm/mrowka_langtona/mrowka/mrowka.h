@@ -67,7 +67,6 @@ namespace Mrowka {
     private:
         int pozX, pozY;
         int rozmiar;
-        float obrot;
         kierunek zwrot;
         ALLEGRO_BITMAP *obrazek;
 
@@ -79,7 +78,6 @@ namespace Mrowka {
         pozY=0;
         rozmiar=1;
         zwrot = N;
-        obrot = zwrot * 3.1415 / 90;
     }
 
 
@@ -94,19 +92,22 @@ namespace Mrowka {
         unsigned int getY();
         ALLEGRO_BITMAP *getBMP();
         unsigned int getRozmiar();
+        void setRozmiar(unsigned int x);
         kierunek getZwrot();
-        float getObrot();
         void setZwrot(kierunek zwrot);
-        void pomaluj(vector <pole> &V);
+        void pomaluj(vector <pole> &NieBiale, int kolory);
         void skret(vector <pole> &NieBiale);
-        void usunKolor(vector <pole> &V);
+        /*void usunKolor(vector <pole> &V);*/
         int czySieZmiesci(vector <pole> &V);
-        int kolor(vector <pole> &czarnePola);// sprawdza czy pozycje mrowki pokrywaja sie z ktoryms z czarnych pol przechowywanych w vectorze 'czarnepole' klasy pole
+        /*int kolor(vector <pole> &NieBiale);*/// sprawdza czy pozycje mrowki pokrywaja sie z ktoryms z czarnych pol przechowywanych w vectorze 'czarnepole' klasy pole
 
 
     };
 
+
 };
+
+
 
 
 #endif	/* _MROWKA_H */

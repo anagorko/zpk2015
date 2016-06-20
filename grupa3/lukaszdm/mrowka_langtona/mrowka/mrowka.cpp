@@ -107,18 +107,17 @@ void pole::setKolor(int k)
             pozY=y;
             rozmiar=z;
             zwrot = N;
-            obrot = zwrot * 3.1415 / 90;
             obrazek = load_bitmap_at_size("/Users/lukasz/Desktop/test_allegro/test2/mrowka.jpg",80,80);
 }
 
 void mrowa::setX(unsigned int x)
 {
-            this -> pozX = x;
+            pozX = x;
 }
 
 void mrowa::setY(unsigned int y)
 {
-            this -> pozY = y;
+            pozY = y;
 }
 
 unsigned int mrowa::getX()
@@ -141,10 +140,6 @@ kierunek mrowa::getZwrot()
             return zwrot;
 }
 
-float mrowa::getObrot()
-{
-            return obrot;
-}
 
 ALLEGRO_BITMAP* mrowa:: getBMP()
 {
@@ -155,25 +150,30 @@ unsigned int mrowa::getRozmiar()
 {
             return rozmiar;
 }
+
+void mrowa::setRozmiar(unsigned int x)
+{
+            rozmiar = x;
+}
 void mrowa::lewo()
 {
-    switch(this -> zwrot)
+    switch(zwrot)
     {
     case N:
-        this ->  zwrot = W;
-        this ->  obrot = zwrot * 3.1415 / 90;
+        zwrot = W;
+
         break;
     case W:
-        this ->  zwrot = S;
-        this ->  obrot = zwrot * 3.1415 / 90;
+        zwrot = S;
+
         break;
     case S:
-        this ->  zwrot = E;
-        this ->  obrot = zwrot * 3.1415 / 90;
+        zwrot = E;
+
         break;
     case E:
-        this ->  zwrot = N;
-        this ->  obrot = zwrot * 3.1415 / 90;
+        zwrot = N;
+
         break;
 
     }
@@ -181,29 +181,29 @@ void mrowa::lewo()
 
 void mrowa::prawo()
 {
-    switch(this -> zwrot)
+    switch(zwrot)
     {
     case N:
-        this ->  zwrot = E;
-        this ->  obrot = zwrot * 3.1415 / 90;
+            zwrot = E;
+
         break;
     case E:
-        this ->  zwrot = S;
-        this ->  obrot = zwrot * 3.1415 / 90;
+            zwrot = S;
+
         break;
     case S:
-        this ->  zwrot = W;
-        this ->  obrot = zwrot * 3.1415 / 90;
+            zwrot = W;
+
         break;
     case W:
-        this ->  zwrot = N;
-        this ->  obrot = zwrot * 3.1415 / 90;
+            zwrot = N;
+
         break;
 
     }
 }
 
-int mrowa:: kolor(vector <pole> &nieBiale) //funkcja zwraca jeden, jezeli wspolrzedne mrowki pokrywajˆ si« ze wsp—¸rz«dnymi kt—regos z pokolorowanych kwadracikow
+/*int mrowa:: kolor(vector <pole> &nieBiale) //funkcja zwraca jeden, jezeli wspolrzedne mrowki pokrywajˆ si« ze wsp—¸rz«dnymi kt—regos z pokolorowanych kwadracikow
 {
 
   int kolor = 0;
@@ -218,7 +218,7 @@ int mrowa:: kolor(vector <pole> &nieBiale) //funkcja zwraca jeden, jezeli wspolr
 
 return kolor;
 
-}
+}*/
 
 void mrowa::ruch() //ruch mrowki do przodu. zmiana wspolrzednych o rozmiar zalezy od jej wczesniejszego zwrotu
 {
@@ -231,10 +231,10 @@ void mrowa::ruch() //ruch mrowki do przodu. zmiana wspolrzednych o rozmiar zalez
         pozX += rozmiar;
         break;
     case S:
-        pozY += rozmiar;
+        this ->  pozY += rozmiar;
         break;
     case W:
-        pozX -= rozmiar;
+        this ->  pozX -= rozmiar;
         break;
 
     }
@@ -242,7 +242,7 @@ void mrowa::ruch() //ruch mrowki do przodu. zmiana wspolrzednych o rozmiar zalez
 }
 
 
-void mrowa::usunKolor(vector <pole> &NieBiale)
+/*void mrowa::usunKolor(vector <pole> &NieBiale)
 {
     for(int i = 0 ; i<NieBiale.size(); ++i)
         if(NieBiale[i].getX() == pozX && NieBiale[i].getY() == pozY)
@@ -292,33 +292,57 @@ void mrowa::usunKolor(vector <pole> &NieBiale)
         }
     }
 }
+*/
 
-
-void mrowa::pomaluj(vector <pole> &V)
+void mrowa::pomaluj(vector <pole> &NieBiale, int kolory)
 {
-    pole v(pozX, pozY, rozmiar);
-    V.push_back(v);
+
+     for(int i = 0; i < NieBiale.size(); i++)
+    {
+        if(pozX == NieBiale[i].getX() && pozY == NieBiale[i].getY())
+            {
+                if(NieBiale[i].getKolor() +1 <= kolory - 1) NieBiale[i].setKolor(NieBiale[i].getKolor()+1);
+                else NieBiale.erase(NieBiale.begin() + i);
+                return; //jezeli zmieni kolor ktoregos z pomalowanych pol wychodzimy z funkcji
+            }
+    }
+
+
+         pole v(pozX, pozY, rozmiar); //jeýeli przelecia¸a ca¸a p«tla, a funkcja nie zosta¸a zakonczona, znaczy ze mrowka stala na bialym polu, trzeba je dodac jako czarne (domyslny kolor)do wektora NieBiale
+         NieBiale.push_back(v);
+         return;
 
 }
 
 void mrowa::skret(vector <pole> &NieBiale) //w zaleýnosci od pozycji mrowki (czy jest na ktoryms z kolorowych pol) obraca jˆ "w gotowosci" do nastepnego ruchu
 {
 
-            this -> prawo(); //domyslnie mrowka jest na bia¸ym polu, wiec skreca w prawo
+
             for(int i = 0 ; i < NieBiale.size(); ++i) //dla kazdej mrowki porownywane sa pozycje z polami w wektorze NieBiale i w zaleznosci na jakim kolorze znajduje sie mrowka tak jest ustawiony jej obrot
             {
 
                 if(pozX == NieBiale[i].getX() && pozY== NieBiale[i].getY())
                     {
                         if(NieBiale[i].getKolor() == 1)
-                            this -> lewo();
+                        {
+                          lewo();
+                          return;
+                        }
+
                         if(NieBiale[i].getKolor() == 2)
-                            this -> prawo();
+                        {
+                           prawo();
+                           return;
+                        }
+
                         if(NieBiale[i].getKolor() == 3)
-                            this -> lewo();
+                          lewo();
+                          return;
                     }
 
             }
+
+          prawo();
 }
 
 
@@ -327,7 +351,7 @@ int mrowa::czySieZmiesci(vector <pole> &NieBiale)
  int szer = 800;
  int wys = 600;
 
- this -> skret(NieBiale); //skreca mr—wk« "w gotowosci" do nastepnego ruchu
+ skret(NieBiale); //skreca mr—wk« "w gotowosci" do nastepnego ruchu
 
  switch(zwrot)
     {
@@ -469,8 +493,9 @@ void rysujMrowy(vector <mrowa> &Mrowy)
     float k;
     for(int i = 0; i < Mrowy.size() ; ++i) //rysuje wszystkie mrowki z wektora mrowek
     {
+        float obrot=Mrowy[i].getZwrot() * 3.1415 / 2;
         k=float(Mrowy[0].getRozmiar())/80;
-        al_draw_scaled_rotated_bitmap(Mrowy[i].getBMP(), 40, 40, float(Mrowy[i].getX()+Mrowy[i].getRozmiar()/2),float(Mrowy[i].getY()+Mrowy[i].getRozmiar()/2), k, k, Mrowy[i].getObrot(),0);
+        al_draw_scaled_rotated_bitmap(Mrowy[i].getBMP(), 40, 40, float(Mrowy[i].getX()+Mrowy[i].getRozmiar()/2),float(Mrowy[i].getY()+Mrowy[i].getRozmiar()/2), k, k, obrot,0);
 
     }
 }
@@ -518,8 +543,12 @@ void menu(ALLEGRO_FONT *F1,int iter,int predkosc, int kol)
 	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 590, ALLEGRO_ALIGN_LEFT, "Strzalka w gore ^");
     al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 610, ALLEGRO_ALIGN_LEFT, "Mniej kolorow :");
 	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 630, ALLEGRO_ALIGN_LEFT, "Strzalka w dol v");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 660, ALLEGRO_ALIGN_LEFT, "Exit :");
-	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 680, ALLEGRO_ALIGN_LEFT, "Esc");
+	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 650, ALLEGRO_ALIGN_LEFT, "Start/Pauza :");
+	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 670, ALLEGRO_ALIGN_LEFT, "Spacja");
+	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 690, ALLEGRO_ALIGN_LEFT, "Reset :");
+	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 710, ALLEGRO_ALIGN_LEFT, "Enter");
+	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 730, ALLEGRO_ALIGN_LEFT, "Exit :");
+	al_draw_text(F1, al_map_rgb(255, 255, 255), 885, 750, ALLEGRO_ALIGN_LEFT, "Esc");
 }
 
 
@@ -531,12 +560,13 @@ int main(int argc, char **argv){
     int kolory = 4;
     int szer = 1080;
     int wys = 800;
-    int FPS = 60;
+    int FPS = 1;
 
 
     //zmienne do petli
     bool done = false;
     bool redraw = true;
+    bool done1 = false;
 
 
 
@@ -583,6 +613,7 @@ int main(int argc, char **argv){
     al_flip_display();
     timer = al_create_timer(1.0 / FPS);
     al_register_event_source(event_queue, al_get_timer_event_source(timer));
+    START:
     al_start_timer(timer);
     while(!done)
     {
@@ -591,7 +622,12 @@ int main(int argc, char **argv){
 
         al_wait_for_event(event_queue, &ev);
 
-        if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) done = true;
+        if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+        {
+            done = true;
+            done1 = true;
+
+        }
         else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
         {
 
@@ -602,10 +638,6 @@ int main(int argc, char **argv){
             else if(klawisz.buttons & 2) dodajPole(NieBiale, Mrowy, ev.mouse.x, ev.mouse.y,rozmiar,kolory);
 
 
-               // rysujMrowy(Mrowy);
-                //rysujPola(NieBiale);
-                //al_flip_display();
-
         }
         else if(ev.type == ALLEGRO_EVENT_TIMER)
                 {
@@ -614,7 +646,11 @@ int main(int argc, char **argv){
 
 		else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
         {
-            if(ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE) done = true;
+            if(ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+            {
+                done = true;
+                done1 =true;
+            }
             if(ev.keyboard.keycode ==ALLEGRO_KEY_UP)
                 {
                     if(kolory < 4)kolory++;
@@ -636,6 +672,70 @@ int main(int argc, char **argv){
             rysujPola(NieBiale);
             al_flip_display();
         }
+
+    }
+
+    while(!done1)
+    {
+        al_clear_to_color(al_map_rgb(255,255,255));
+        menu(czcionka, FPS, FPS, kolory);
+
+        al_wait_for_event(event_queue, &ev);
+
+        if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) done1 = true;
+        else if(ev.type == ALLEGRO_EVENT_TIMER)
+                {
+                    redraw = true;
+                }
+        else if(ev.type == ALLEGRO_EVENT_KEY_DOWN)
+            {
+                if(ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE) done1 = true;
+
+                if(ev.keyboard.keycode ==ALLEGRO_KEY_LEFT)
+                    {
+                        if(FPS > 1)FPS--;
+                        else FPS = 1;
+                        al_set_timer_speed(timer, 1.0/FPS);
+                    }
+                if(ev.keyboard.keycode ==ALLEGRO_KEY_RIGHT)
+                    {
+                        if(FPS<250)FPS++;
+                        else FPS = 250;
+                        al_set_timer_speed(timer, 1.0/FPS);
+
+                    }
+                if(ev.keyboard.keycode ==ALLEGRO_KEY_SPACE) //pausa
+                    {
+                       if(al_get_timer_started(timer))
+                                al_stop_timer(timer);
+                        else
+                                al_start_timer(timer);
+                    }
+                 if(ev.keyboard.keycode ==ALLEGRO_KEY_ENTER && !al_get_timer_started(timer)) //powrot do menu
+                    {
+                                        Mrowy.clear();
+                                        NieBiale.clear();
+                                        redraw = true;
+                                        done = false;
+                                        goto START;
+                    }
+
+
+            }
+
+        if(redraw && al_is_event_queue_empty(event_queue))
+            {
+                redraw = false;
+                for(int i = 0; i < Mrowy.size(); ++i)
+                    {
+                        Mrowy[i].skret(NieBiale);
+                        Mrowy[i].pomaluj(NieBiale, kolory);
+                        Mrowy[i].ruch();
+                    }
+            rysujPola(NieBiale);
+            rysujMrowy(Mrowy);
+            al_flip_display();
+            }
 
     }
 

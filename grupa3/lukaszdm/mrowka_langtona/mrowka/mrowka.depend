@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1466377715 source:/Users/lukasz/Desktop/mrowka_langtona/mrowka/mrowka.cpp
+1466415644 source:/Users/lukasz/Desktop/mrowka_langtona/mrowka/mrowka.cpp
 	<allegro5/allegro.h>
 	<allegro5/allegro_primitives.h>
 	<math.h>
@@ -11,7 +11,7 @@
 	<cstdlib>
 	"mrowka.h"
 
-1466363543 /Users/lukasz/Desktop/mrowka_langtona/mrowka/mrowka.h
+1466414836 /Users/lukasz/Desktop/mrowka_langtona/mrowka/mrowka.h
 	<allegro5/allegro.h>
 	<allegro5/allegro_primitives.h>
 	<math.h>
