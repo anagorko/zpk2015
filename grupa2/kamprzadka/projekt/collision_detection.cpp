@@ -4,7 +4,7 @@
 bool overlapping_projection(int sh1[][2], int sh2[][2], int e1, int e2, int pocz, int kon)
 {
     /*bada czy rzuty na dowolny wyznaczony dwoma wierzcholkami kierunek pokrywaja sie
-    rzuty odbywaj¹ sie na kierunek normalny do wyznaczonego przez punkty sh1[pocz], sz1[kon]*/
+    rzuty odbywajÂ¹ sie na kierunek normalny do wyznaczonego przez punkty sh1[pocz], sz1[kon]*/
     //a,b - punkty wyznaczajace kierunek normalny do krawedzi
     int a[2],b[2];
     int rzut_sh1[2], rzut_sh2[2];
@@ -52,10 +52,10 @@ bool overlapping_projection(int sh1[][2], int sh2[][2], int e1, int e2, int pocz
 
 bool overlapping_edges (int sh1[][2], int sh2[][2], int e1, int e2)
 {
-    /*bada czy wystêpuje kolizja dwóch kszta³tów okreslonych tablic¹ wierzcho³ków*/
+    /*bada czy wystÃªpuje kolizja dwÃ³ch ksztaÂ³tÃ³w okreslonych tablicÂ¹ wierzchoÂ³kÃ³w*/
 
     /*jesli istnieje os dla ktorej rzuty nie nachodza na siebie wowczas nie ma kolizji!*/
-    /*normalne do krawêdzi sh1*/
+    /*normalne do krawÃªdzi sh1*/
 
     for (int i=1; i<e1; i++)
     {
@@ -69,7 +69,7 @@ bool overlapping_edges (int sh1[][2], int sh2[][2], int e1, int e2)
     //ostania krawedz
     if (overlapping_projection(sh1,sh2,e1,e2,0,e1-1)==false)
             return false;
-    /*normalne do krawêdzi sh2*/
+    /*normalne do krawÃªdzi sh2*/
     for (int i=1; i<e2; i++)
     {
         if (overlapping_projection(sh2,sh1,e2,e1,i-1,i)==false)
@@ -146,7 +146,7 @@ void collision(vector<projectile>& bufor_poc, vector<asteroid>& buf_asteroid, ve
         }
     }
 
-    //kolizja rakieta - asteroida ma³a
+    //kolizja rakieta - asteroida maÂ³a
     for (int i=0; i<buf_asteroid_sm.size(); i++)
     {
         /*widoczne asteroidy*/
@@ -166,7 +166,7 @@ void collision(vector<projectile>& bufor_poc, vector<asteroid>& buf_asteroid, ve
         }
     }
 
-    //kolizja pocisk - asteroida ma³a
+    //kolizja pocisk - asteroida maÂ³a
     for (int i=0; i<buf_asteroid_sm.size(); i++)
     {
         /*widoczne asteroidy*/
