@@ -1,0 +1,5 @@
+pat 2500
+PSS 820
+sas 810
+eee 730
+pat 640
