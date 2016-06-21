@@ -216,10 +216,10 @@ void mrowa::ruch() //ruch mrowki do przodu. zmiana wspolrzednych o rozmiar zalez
         pozX += rozmiar;
         break;
     case S:
-        this ->  pozY += rozmiar;
+        pozY += rozmiar;
         break;
     case W:
-        this ->  pozX -= rozmiar;
+        pozX -= rozmiar;
         break;
 
     }
