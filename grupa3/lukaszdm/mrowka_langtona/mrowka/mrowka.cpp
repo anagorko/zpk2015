@@ -306,9 +306,28 @@ int mrowa::czySieZmiesci(vector <pole> &NieBiale)
     }
 return 5;
 
-
-
 }
+vector <int> skrajne(vector <pole> &NieBiale) // argumentem funkcji jest wektor zawierajˆcy niebia¸e pola. funkcja zwraca wektor z 4roma wartosciami- skrajnymi wspolrzednymi pol nalezacych do argumentu
+{
+    vector <int> skrajne;
+    skrajne[0] = 1000; //Najmniejszy x
+    skrajne[1] = 1000; //Najmniejszy y
+    skrajne[2] = 0; //Najwiekszy x
+    skrajne[3] = 0; //Najwiekszy y
+    for(int i = 0; i < NieBiale.size(); ++i)
+    {
+        if(NieBiale[i].getX() < skrajne[0] )
+            skrajne[0] = NieBiale[i].getX(); //ustalenie najmniejszej wspolrzednej x wsrod wszystkich niebialych pol
+        if(NieBiale[i].getY() < skrajne[1] )
+            skrajne[1] = NieBiale[i].getY(); //ustalenie najmniejszej wspolrzednej y wsrod wszystkich niebialych pol
+        if(NieBiale[i].getX() > skrajne[2] )
+            skrajne[2] = NieBiale[i].getX();
+        if(NieBiale[i].getY() > skrajne[3] )
+            skrajne[3] = NieBiale[i].getY();
+    }
+return skrajne;
+}
+
 
 bool czySieZmieszcza(vector <mrowa> Mrowy, vector <pole> NieBiale) //sprawdza to co funkcja powyzej ale dla kazdej mrowki z wektora mrowek
 {
@@ -436,43 +455,72 @@ void rysujMrowy(vector <mrowa> Mrowy)
 
 
 
-
-void zmniejszMrowki(vector<mrowa> &Mrowy)
+void zmniejszMrowki(vector<mrowa> &Mrowy, vector <pole> &NieBiale, int rozmiar)
 {
 	int szer = 800;
 	int wys = 600;
-	int rozmiar = Mrowy[0].getRozmiar();
-	int newRozmiar = 0.9 * rozmiar;
+	//vector <int> Pozycje;
+	//Pozycje = skrajne(NieBiale);
+	int maxY = 800;//Pozycje[3];
+	int maxX = 600;//Pozycje[2];
+	int roznicaX = 0;
+	int roznicaY = 0;
+	int roznica = 10;
+	if (rozmiar <= 10)
+	{
+		roznica = 1;
+	}
+	rozmiar -= roznica;
 
 	for(int i = 0; i < Mrowy.size(); ++i)
     {
+        Mrowy[i].setRozmiar(rozmiar);
+		roznicaY = (maxY - Mrowy[i].getY());
+		roznicaX = (maxX - Mrowy[i].getX());
+		if (roznicaY != 0) roznicaY = (roznicaY / (rozmiar + roznica)) + 1;
+		else roznicaY = 1;
+		if (roznicaX != 0) roznicaX = (roznicaX/(rozmiar + roznica)) + 1;
+		else roznicaX = 1;
+		Mrowy[i].setX(Mrowy[i].getX() + roznicaX * roznica);
+		Mrowy[i].setY(Mrowy[i].getY() + roznicaY * roznica);
 
-        if(Mrowy[i].getX()>= (0.5 * szer) && Mrowy[i].getY() >= (0.5 * wys)) //prawa dolna wiartka ekranu
-            {
-                Mrowy[i].setRozmiar(newRozmiar);
-                Mrowy[i].setX(Mrowy[i].getX() - 0.1 * rozmiar);
-                Mrowy[i].setY(Mrowy[i].getY() - 0.1 * rozmiar);
-            }
-        else if(Mrowy[i].getX() >= 0.5 * szer && Mrowy[i].getY() < 0.5 * wys) //prawa gorna cwiartka ekranu
-            {
-                Mrowy[i].setRozmiar(newRozmiar);
-                Mrowy[i].setX(Mrowy[i].getX() - 0.1 * rozmiar);
-                Mrowy[i].setY(Mrowy[i].getY() + 0.1 * rozmiar);
-            }
-        else if(Mrowy[i].getX() < 0.5 * szer && Mrowy[i].getY() < 0.5 * wys) //lewa gorna cwiartka ekranu
-            {
-                Mrowy[i].setRozmiar(newRozmiar);
-                Mrowy[i].setX(Mrowy[i].getX() + 0.1 * rozmiar);
-                Mrowy[i].setY(Mrowy[i].getY() + 0.1 * rozmiar);
-            }
-        else if(Mrowy[i].getX() < 0.5 * szer && Mrowy[i].getY() >= 0.5 * wys) //lewa dolna cwiartka ekranu
-            {
-                Mrowy[i].setRozmiar(newRozmiar);
-                Mrowy[i].setX(Mrowy[i].getX() + 0.1 * rozmiar);
-                Mrowy[i].setY(Mrowy[i].getY() - 0.1 * rozmiar);
-            }
-         else
-                Mrowy[i].setRozmiar(newRozmiar);
+
+
+    }
+
+}
+
+void zmniejszPola(vector<mrowa> &Mrowy, vector <pole> &NieBiale, int rozmiar)
+{
+	int szer = 800;
+	int wys = 600;
+	//vector <int> Pozycje;
+	//Pozycje = skrajne(NieBiale);
+	int maxY = 800; //Pozycje[3];
+	int maxX = 600;//Pozycje[2];
+	int roznicaX = 0;
+	int roznicaY = 0;
+	int roznica = 10;
+	if (rozmiar <= 10)
+	{
+		roznica = 1;
+	}
+	rozmiar -= roznica;
+
+
+
+	for(int i = 0; i < NieBiale.size(); ++i)
+    {
+        NieBiale[i].setRozmiar(rozmiar);
+		roznicaY = (maxY - NieBiale[i].getY());
+		roznicaX = (maxX - NieBiale[i].getX());
+		if (roznicaY != 0) roznicaY = (roznicaY / (rozmiar + roznica)) + 1;
+		else roznicaY = 1;
+		if (roznicaX != 0) roznicaX = (roznicaX/(rozmiar + roznica)) + 1;
+		else roznicaX = 1;
+		NieBiale[i].setX(NieBiale[i].getX() + roznicaX * roznica);
+		NieBiale[i].setY(NieBiale[i].getY() + roznicaY * roznica);
+
 
 
     }
@@ -480,8 +528,7 @@ void zmniejszMrowki(vector<mrowa> &Mrowy)
 }
 
 
-
-void zmniejszPola(vector<pole> &NieBiale)
+/*void zmniejszPola(vector<pole> &NieBiale)
 {
 	int szer = 800;
 	int wys = 600;
@@ -495,26 +542,26 @@ void zmniejszPola(vector<pole> &NieBiale)
         if(NieBiale[i].getX()>= (0.5 * szer) && NieBiale[i].getY() >= (0.5 * wys)) //prawa dolna wiartka ekranu
             {
                 NieBiale[i].setRozmiar(newRozmiar);
-                NieBiale[i].setX(NieBiale[i].getX() - 0.1 * rozmiar);
-                NieBiale[i].setY(NieBiale[i].getY() - 0.1 * rozmiar);
+                NieBiale[i].setX(NieBiale[i].getX() * 0.5);
+                NieBiale[i].setY(NieBiale[i].getY() * 0.5);
             }
         else if(NieBiale[i].getX() >= 0.5 * szer && NieBiale[i].getY() < 0.5 * wys) //prawa gorna cwiartka ekranu
             {
                 NieBiale[i].setRozmiar(newRozmiar);
-                NieBiale[i].setX(NieBiale[i].getX() - 0.1 * rozmiar);
-                NieBiale[i].setY(NieBiale[i].getY() + 0.1 * rozmiar);
+                NieBiale[i].setX(NieBiale[i].getX() * 0.5);
+                NieBiale[i].setY(NieBiale[i].getY() *1.5);
             }
         else if(NieBiale[i].getX() < 0.5 * szer && NieBiale[i].getY() < 0.5 * wys) //lewa gorna cwiartka ekranu
             {
                 NieBiale[i].setRozmiar(newRozmiar);
-                NieBiale[i].setX(NieBiale[i].getX() + 0.1 * rozmiar);
-                NieBiale[i].setY(NieBiale[i].getY() + 0.1 * rozmiar);
+                NieBiale[i].setX(NieBiale[i].getX() * 1.5);
+                NieBiale[i].setY(NieBiale[i].getY() * 1.5);
             }
         else if(NieBiale[i].getX() < 0.5 * szer && NieBiale[i].getY() >= 0.5 * wys) //lewa dolna cwiartka ekranu
             {
                 NieBiale[i].setRozmiar(newRozmiar);
-                NieBiale[i].setX(NieBiale[i].getX() + 0.1 * rozmiar);
-                NieBiale[i].setY(NieBiale[i].getY() - 0.1 * rozmiar);
+                NieBiale[i].setX(NieBiale[i].getX() * 1.5 );
+                NieBiale[i].setY(NieBiale[i].getY() * 0.5 );
             }
          else
                 NieBiale[i].setRozmiar(newRozmiar);
@@ -524,7 +571,7 @@ void zmniejszPola(vector<pole> &NieBiale)
 
 }
 
-
+*/
 
 
 void menu(ALLEGRO_FONT *czcionka,int iter,int predkosc, int kol)
@@ -574,6 +621,7 @@ int main(int argc, char **argv){
     int wys = 800;
     int FPS = 1;
     int iter = 0;
+    int tmpRoz = 80;
 
 
     //zmienne do petli
@@ -751,12 +799,18 @@ int main(int argc, char **argv){
                 skrecWszystkie(Mrowy, NieBiale);
                 while(!czySieZmieszcza(Mrowy, NieBiale))
                 {
-                zmniejszMrowki(Mrowy);
-                zmniejszPola(NieBiale);
+
+                for(int i = 0; i < Mrowy.size(); ++i)
+                    {
+                        tmpRoz = Mrowy[i].getRozmiar();
+                        zmniejszPola(Mrowy, NieBiale,tmpRoz);
+                        zmniejszMrowki(Mrowy, NieBiale,tmpRoz);
+                    }
+
                 }
 
 
-                pomalujWszystkie(Mrowy, NieBiale, kolory);
+                  pomalujWszystkie(Mrowy, NieBiale, kolory);
 
                   for(int i = 0; i < Mrowy.size(); ++i)
                                 Mrowy[i].ruch();
@@ -776,7 +830,6 @@ int main(int argc, char **argv){
 return 0;
 
 }
-
 
 
 
