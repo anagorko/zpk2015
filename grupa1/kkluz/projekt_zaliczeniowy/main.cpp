@@ -34,15 +34,13 @@ using namespace std;
  al_show_native_message_box(NULL, NULL, NULL, "Could not create Allegro 5 display", NULL, NULL);
 
 // definiuje zmienne globalne
- bool done = false, draw = true;
+ bool done = false;
  int r = 10;
  int ballx = ScreenWidth/2, bally = ScreenHeight/1.1-r, velx = 5, vely = 5;
  int dir;
  int paddlex = ScreenWidth/2-60, paddley = ScreenHeight/1.1;
  int lives = 3;
  int score = 0;
- int x = 120;
- int y = 20;
  int BrickHeight = 20;
  int BrickWidth = 60;
  int i = 10;
@@ -368,7 +366,7 @@ for (j=20; j<200; j=j+40){
             //tworze liczniki na dole ekranu
             al_draw_textf(font, al_map_rgb(44,117,255),10,560,ALLEGRO_ALIGN_LEFT,"LIVES: %i", lives);
             al_draw_textf(font, al_map_rgb(44,117,255),200,560,ALLEGRO_ALIGN_LEFT,"SCORE: %i", score);
-            al_draw_textf(font, al_map_rgb(44,117,255),500,560,ALLEGRO_ALIGN_LEFT,"TO SPEED UP THE BALL PRESS ARROW UP");
+            al_draw_textf(font, al_map_rgb(44,117,255),460,560,ALLEGRO_ALIGN_LEFT,"TO SPEED UP THE BALL PRESS ARROW UP");
             al_flip_display();
             al_clear_to_color(al_map_rgb(255, 255, 255));
 
