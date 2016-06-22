@@ -452,25 +452,18 @@ int main() {
 						licznik--;
 
 					// strzelanie najezdzcow
-					if (czasDoWystrzalu == 0) {
-						int wylosowanaKolumna = rand() % 11;
+					if (czasDoWystrzalu == 0 && liczbaZestrzelonychNajezdzcow < 55) {
+						int ktoraKolumna = rand() % 11;
 						int ktoryWiersz;
-						int ktoraKolumna = wylosowanaKolumna;
-						while (najezdzcy.at(44 + ktoraKolumna).podajPunktyZycia() == 0 && ktoraKolumna != wylosowanaKolumna) {
-							if (ktoraKolumna <= 10)
-								++wylosowanaKolumna;
-							else
-								ktoraKolumna = 0;
-						}
 						for (int j = 0; j <= 4; ++j) {
 							if (najezdzcy.at(11 * j + ktoraKolumna).podajPunktyZycia() > 0) {
 								ktoryWiersz = j;
+								
+								strzalNajezdzcy.push_back(Strzal("najezdzca", najezdzcy.at(11 * ktoryWiersz + ktoraKolumna).podajX() + najezdzcaSzerokosc / 2, najezdzcy.at(11 * ktoryWiersz + ktoraKolumna).podajY() + najezdzcaWysokosc, 6.0));
+								
+								czasDoWystrzalu = 3 * czas;
 								break;
 							}
-						}
-						if (najezdzcy.at(11 * ktoryWiersz + ktoraKolumna).podajPunktyZycia() > 0 && rand() % 5 == 0) {
-							strzalNajezdzcy.push_back(Strzal("najezdzca", najezdzcy.at(11 * ktoryWiersz + ktoraKolumna).podajX() + najezdzcaSzerokosc / 2, najezdzcy.at(11 * ktoryWiersz + ktoraKolumna).podajY() + najezdzcaWysokosc, 6.0));
-							czasDoWystrzalu = 2 * czas;
 						}
 					}
 
