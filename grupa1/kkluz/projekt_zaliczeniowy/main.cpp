@@ -368,7 +368,7 @@ for (j=20; j<200; j=j+40){
             //tworze liczniki na dole ekranu
             al_draw_textf(font, al_map_rgb(44,117,255),10,560,ALLEGRO_ALIGN_LEFT,"LIVES: %i", lives);
             al_draw_textf(font, al_map_rgb(44,117,255),200,560,ALLEGRO_ALIGN_LEFT,"SCORE: %i", score);
-            al_draw_textf(font, al_map_rgb(44,117,255),500,560,ALLEGRO_ALIGN_LEFT,"TO FASTEN THE BALL PRESS ARROW UP");
+            al_draw_textf(font, al_map_rgb(44,117,255),500,560,ALLEGRO_ALIGN_LEFT,"TO SPEED UP THE BALL PRESS ARROW UP");
             al_flip_display();
             al_clear_to_color(al_map_rgb(255, 255, 255));
 
