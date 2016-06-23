@@ -1,15 +1,18 @@
 #include <iostream>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5\allegro_font.h>
+#include <allegro5\allegro_ttf.h>
 #include "allegro5/allegro_image.h"
 #include <cstdlib>
+#include<cmath>
 
 /*
 INSTRUKCJA
-ruch -> strza³ka w górê LUB lewy przycisk myszki
-wyjœcie -> ESC
+ruch -> strzalka w gÃ³re LUB lewy przycisk myszki
+wyjscie -> ESC
 
-na podstawie materia³ów z przedmiotu Zaawansowane programowanie komputerowe (WNE UW)
+na podstawie materialÃ³w z przedmiotu Zaawansowane Programowanie Komputerowe (WNE UW)
 oraz http://fixbyproximity.com/2d-game-development-course/
 */
 
@@ -25,19 +28,31 @@ const float FPS = 60;       // Frames Per Second
 
 int main()
 {
-	int pipeWidth = 0;      //szerokoœæ rury
-	int pipeHeight = 0;     //d³ugoœæ rury
-	int pipeX = 300;        //zmienna przechowuj¹ca obecn¹ pozycjê w poziomie rury
-    const int birdX = 40;       // ptak siê nie przesuwa, jest na sta³ej pozycji w poziomie
-    int birdY = screen_h / 3;   // wysokoœæ, na której znajduje siê ptak
+    // ZMIENNE DOT. RURY
+	int pipeWidth = 0;          // szerokosc wejÅ›ciowa rury
+	int pipeHeight = 0;         // dlugosc wejÅ›ciowa rury
+	float scale = 1.3;          // skala do stworzenia wyswietlanej wielkosci rury
+
+	int pipeX = 300;            // zmienna przechowujaca obecna pozycjÃª w poziomie rury
+	int pipeGap = 180;          // odleglosc miÄ™dzy kolejnymi rurami
+
     srand(time(NULL));
+	int pipeHole = 200;         //  wielkoÅ›Ä‡ dziury miedzy gÃ³rna a dolna rura
+    int los[1000];              // zmienna pomocnicza losujaca wysokosc rysowania lewego gÃ³rnego rogu rury
+    for(int i=0; i<1000; i++)
+            los[i] =  -4*(rand()%100);
 
-    int los[1000];                  //zmienna pomocnicza losuj¹ca wysokoœæ rury
-     for(int i=0; i<1000; i++)
-            los[i] =  -3*(rand()%100);
 
-    int wynik=0;          //zmienna przechowuj¹ca wynik gracza, wypisywany do konsoli
-    int counting=0;
+	// ZMIENNE DOT. PTAKA
+    const int birdX = 40;       // ptak sie nie przesuwa, jest na stalej pozycji w poziomie
+    int birdY = screen_h / 3;   // wysokosc, na ktÃ³rej poczÄ…tkowo znajduje siÃª ptak
+    int birdWidth = 0;          // szerokosc wejÅ›ciowa bitmapy z ptakiem
+    int birdHeight = 0;         // dlugosc wejÅ›ciowa bitmapy z ptakiem
+	int birdWidthDest =36;      // szerokosc docelowa ptaka, do wyÅ›wietlenia
+	int birdHeightDest = 28;    // dÅ‚ugosc docelowa ptaka, do wyÅ›wietlenia
+
+    // POZOSTAÅE ZMIENNE
+    int wynik=0;          //zmienna przechowujÂ¹ca wynik gracza, wypisywany do konsoli
 
 	//allegro zmienne
 	ALLEGRO_DISPLAY *display = NULL;
@@ -49,46 +64,46 @@ int main()
 
 	//program init
 	 if(!al_init()) {
-        cerr << "B³¹d podczas inicjalizacji allegro." << endl;
+        cerr << "Blad podczas inicjalizacji allegro." << endl;
         return -1;
     }
 
     if (!al_init_primitives_addon()) {
-        cerr << "B³¹d podczas inicjalizacji dodatku 'primitives'." << endl;
+        cerr << "Blad podczas inicjalizacji dodatku 'primitives'." << endl;
         return -1;
     }
 
     if(!al_init_image_addon()) {
-        cerr << "B³¹d podczas inicjalizacji dodatku 'image'." << endl;
+        cerr << "Blad podczas inicjalizacji dodatku 'image'." << endl;
         return -1;
     }
 
     if(!al_install_keyboard()) {
-        cerr << "B³¹d podczas inicjalizacji klawiatury." << endl;
+        cerr << "Blad podczas inicjalizacji klawiatury." << endl;
         return -1;
     }
 
         if(!al_install_mouse()) {
-        cerr << "B³¹d podczas inicjalizacji myszki." << endl;
+        cerr << "Blad podczas inicjalizacji myszki." << endl;
         return -1;
     }
 
     timer = al_create_timer(1.0 / FPS);
     if(!timer) {
-        cerr << "B³¹d podczas inicjalizacji zegara." << endl;
+        cerr << "Blad podczas inicjalizacji zegara." << endl;
         return -1;
     }
 
     display = al_create_display(screen_w, screen_h);
     if(!display) {
-        cerr << "B³¹d podczas inicjalizacji ekranu." << endl;
+        cerr << "Blad podczas inicjalizacji ekranu." << endl;
         al_destroy_timer(timer);
         return -1;
     }
 
     event_queue = al_create_event_queue();
     if(!event_queue) {
-        cerr << "B³¹d podczas inicjalizacji kolejki zdarzeñ." << endl;
+        cerr << "Blad podczas inicjalizacji kolejki zdarzeÃ±." << endl;
         al_destroy_display(display);
         al_destroy_timer(timer);
         return -1;
@@ -97,16 +112,24 @@ int main()
 
 	//addon init
 	al_init_primitives_addon();
+    al_init_font_addon();
+	al_init_ttf_addon();
     al_install_mouse();
 	al_install_keyboard();
 	al_init_image_addon();
 
+    ALLEGRO_FONT *napisy = al_load_font("arial.ttf", 24, 0);
 	image = al_load_bitmap("obrazki/background.png");
     imageBird = al_load_bitmap("obrazki/birdy.png");
-    imagePipe = al_load_bitmap("obrazki/pipe.png");
+    imagePipe = al_load_bitmap("obrazki/pipe0.png");
     pipeWidth =  al_get_bitmap_width(imagePipe);
 	pipeHeight = al_get_bitmap_height(imagePipe);
+	birdWidth = al_get_bitmap_width(imageBird);
+	birdHeight = al_get_bitmap_width(imageBird);
 	event_queue = al_create_event_queue();
+
+    int pipeWidthDest = scale*pipeWidth;     // szerokosc docelowa rury, do wyÅ›wietlenia
+	int pipeHeightDest = scale*pipeHeight;   // dÅ‚ugosc docelowa rury, do wyÅ›wietlenia
 
     al_register_event_source(event_queue, al_get_timer_event_source(timer));
 	al_register_event_source(event_queue, al_get_mouse_event_source());
@@ -117,7 +140,6 @@ int main()
 
 	while(!done)
 	{
-	    counting++;
 	 	ALLEGRO_EVENT ev;
 
 		al_wait_for_event(event_queue, &ev);
@@ -129,11 +151,11 @@ int main()
 
             for(int n=0; n<1000; n++)
             {
-                if (birdX==pipeX+(150*n))
+                if (birdX==pipeX+(pipeGap*n))               // punkt za kazda pokonana rure
                 wynik++;
             }
 
-             if (birdY>=screen_h)
+             if (birdY>=screen_h - birdHeightDest+10)        // koniec gry jesli ptak uderzy w ziemiÄ™, dodane 10 w celu lepszego dopasowania
              {
                 done = true;
 				break;
@@ -145,49 +167,61 @@ int main()
 		{
 			switch(ev.keyboard.keycode)
 			{
-			case ALLEGRO_KEY_ESCAPE:
+			case ALLEGRO_KEY_ESCAPE:                // zakoncz gre, jesli ESC zostanie wcisniete
 				done = true;
 				break;
-            case ALLEGRO_KEY_UP:
+            case ALLEGRO_KEY_UP:                    // ptak skacze do gÃ³ry, jeÅ›li strzalka w gÃ³re wcisnieta
 				birdY -= screen_h/10;
-                al_draw_bitmap(imageBird, birdX, birdY, 0);
+                //al_draw_bitmap(imageBird, birdX, birdY, 0);
+                al_draw_scaled_bitmap(imageBird,0,0, birdWidth, birdHeight,birdX, birdY, birdWidthDest, birdHeightDest, 0);
 			}
 
 		}
 		else if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
 		{
-			if(ev.mouse.button & 1)
+			if(ev.mouse.button & 1)                  // ptak skacze do gÃ³ry, jeÅ›li lewy klawisz myszki klikniety
 				{
                 birdY -= screen_h/10;
-                al_draw_bitmap(imageBird, birdX, birdY, 0);
+                al_draw_scaled_bitmap(imageBird,0,0, birdWidth, birdHeight,birdX, birdY, birdWidthDest, birdHeightDest, 0);
                 }
 
 		}
 
-		al_draw_scaled_bitmap(image,0, 0, screen_w, screen_h, 0, 0, screen_w, screen_h, 0);
-		al_draw_bitmap(imageBird,birdX, birdY, 0);
-	//	al_draw_rotated_bitmap(imagePipe, 5, 10, screen_w / 2, screen_h / 2, degree * 3.14159 / 180, 0);
+		al_draw_scaled_bitmap(image,0, 0, screen_w, screen_h, 0, 0, screen_w, screen_h, 0); //rysowanie planszy
+		al_draw_scaled_bitmap(imageBird,0,0, birdWidth, birdHeight,birdX, birdY, birdWidthDest, birdHeightDest, 0); //rysowanie ptaka
 
+// petla rysujaca rury
         for(int n=0; n<1000; n++)
         {
-            al_draw_scaled_bitmap(imagePipe,0,0, pipeWidth, pipeHeight,pipeX+(150*n), los[n], 50, 900, 0);
-           /* if((pipeX+(150*n)==birdX )&& (birdY >= (los[n]+pipeHeight/2)+50 || birdY <=(los[n]+pipeHeight/2)-300))
+            al_draw_scaled_bitmap(imagePipe, 0, 0, pipeWidth, pipeHeight,pipeX+(pipeGap*n), los[n], pipeWidthDest, pipeHeightDest, 0);
+            al_draw_scaled_rotated_bitmap(imagePipe, 0, 0, pipeX+(pipeGap*n)+pipeWidthDest, los[n] + 2*pipeHeightDest + pipeHole, scale, scale, M_PI , 0);
+
+           if((birdX>pipeX+(pipeGap*n) && birdX<pipeX+(pipeGap*n)+pipeWidthDest) || (birdX+birdWidthDest>pipeX+(pipeGap*n) && birdX+birdWidthDest<pipeX+(pipeGap*n)+pipeWidthDest))
+                 {
+                 if(birdY >= los[n]+pipeHeightDest+pipeHole-birdHeightDest+10 || birdY <=los[n]+pipeHeightDest)
                      {
                         done = true;
                         break;
-                     }*/
+                     }
+                 }
+
         }
+// wypisywanie wyniku
+        al_draw_textf(napisy, al_map_rgb(255, 0, 255), screen_w, 0, ALLEGRO_ALIGN_RIGHT, "Wynik = %i", wynik);
+
         al_flip_display();
     }
-
+    
+//usuwanie obiektÃ³w
+    al_destroy_font(napisy);
     al_destroy_bitmap(imagePipe);
-	al_destroy_bitmap(imageBird);
-	al_destroy_bitmap(image);
-	al_destroy_event_queue(event_queue);
-	al_destroy_display(display);						//destroy our display object
+    al_destroy_bitmap(imageBird);
+    al_destroy_bitmap(image);
+    al_destroy_event_queue(event_queue);
+    al_destroy_display(display);						
 
-cout << "koniec" << endl;
-cout << "twój wynik: " << wynik << endl;
+cout << "YOU LOST!" << endl;
+cout << "your score: " << wynik << endl;
 	return 0;
 }
 
