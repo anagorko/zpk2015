@@ -15,9 +15,6 @@ int main(int, char**)
     al_init_image_addon();
     al_init_primitives_addon();
 
-    al_set_new_display_option(ALLEGRO_SAMPLE_BUFFERS, 1, ALLEGRO_SUGGEST);
-    al_set_new_display_option(ALLEGRO_SAMPLES, 8, ALLEGRO_SUGGEST);
-
     ALLEGRO_DISPLAY *display = NULL;
 
     display = al_create_display(800, 600);
