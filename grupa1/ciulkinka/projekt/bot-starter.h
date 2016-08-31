@@ -40,20 +40,28 @@ class BotStarter {
         }
 
         //zapelnianie wlasciwymi liczbami
-        for (int x = 0; x < pole.width(); x++)
+        for (int x = 0; x <= pole.width(); x++)
         {
             for (int y = 1; y < pole.height(); y++) // y = 1, bo w polu na 0. i tak widac nowy klocek, co psuje obliczenia
             {
-                if(pole.GetCell(x, y).IsEmpty() == false)
+                if(pole.GetCell(x, y).IsEmpty() == false &&
+                   tt[x] == 0)
                 {
                     tt[x] = y;
                 }
                 // jesli jest na obszarze shapea to sprawdz z niego
-                if(x >= _x && x <= _x + wielkoscKlocka && y >= _y && y <= _y + wielkoscKlocka)
+                if(x >= _x &&
+                   x <= _x + wielkoscKlocka &&
+                   y >= _y &&
+                   y <= _y + wielkoscKlocka &&
+                   pole.GetCell(x, y).IsEmpty() == true)
                 {
                     for(const Cell* komorka : komorki)
                     {
-                        if((komorka->x() == x) && (komorka->y() == y) && (komorka->IsEmpty() == false))
+                        if((komorka->x() == x) &&
+                           (komorka->y() == y) &&
+                           (komorka->IsEmpty() == false &&
+                            tt[x] == 0))
                         {
                             tt[x] = y;
                         }
@@ -71,11 +79,17 @@ class BotStarter {
                     puste[x] = puste[x] + 1;
                 }
                 // jesli jest na obszarze shapea to sprawdz z niego
-                if(x >= _x && x <= _x + wielkoscKlocka && y >= _y && y <= _y + wielkoscKlocka)
+                if(x >= _x &&
+                   x <= _x + wielkoscKlocka &&
+                   y >= _y &&
+                   y <= _y + wielkoscKlocka &&
+                   pole.GetCell(x, y).IsEmpty() == true)
                 {
                     for(const Cell* komorka : komorki)
                     {
-                        if((komorka->x() == x) && (komorka->y() == y) && (komorka->IsEmpty() == true))
+                        if((komorka->x() == x) &&
+                           (komorka->y() == y) &&
+                           (komorka->IsEmpty() == true))
                         {
                             puste[x] = puste[x] + 1;
                         }
@@ -85,16 +99,16 @@ class BotStarter {
         }
 
         //obliczanie sumy wysokosci
-        for (int i = 0; i <= pole.width(); i++)
+        for (int i = 0; i < pole.width(); i++)
         {
             dwys = dwys + (double) tt[i];
             dpuste = dpuste + (double) puste[i];
         }
 
         //obliczanie maksa
-        for (int i = 0; i <= pole.width(); i++)
+        for (int i = 0; i < pole.width(); i++)
         {
-            if(tt[i] > mini) mini = tt[i];
+            if(tt[i] < mini && tt[i] != 0) {mini = tt[i];}
         }
         dmin = (double) mini;
 
@@ -141,10 +155,11 @@ class BotStarter {
     vector<Move::MoveType> moves;
     const Field& my_field = state.MyField();
     const Point& my_location = state.ShapeLocation();
-    //Shape(ShapeType type, const Field& field, int x, int y)
+
     Shape s = Shape(state.CurrentShape(),
-                my_field,
-                my_location.first, my_location.second);
+                    my_field,
+                    my_location.first,
+                    my_location.second);
 
     int i;
 
@@ -161,16 +176,14 @@ class BotStarter {
     int doly; //zmienna pomocnicza.
 
 
-    //if (state.Round() > 1)
-    //{
     wynik = 0; // wysokosc liczy sie od gory, wiec 0 oznacza, ze cala plansza jest zapelniona
 
-    l = 0;
+    l = 10;
     r = 10;
     tl = 0;
     tr = 0;
 
-    for(int obrL = 3; obrL >= 0; obrL--)
+    for(int obrL = 0; obrL <= 3; obrL++)
     {
         for (int iks = 0; iks < my_field.width() - s.size(); iks++)
         {
@@ -224,30 +237,30 @@ class BotStarter {
 
                 wynik = a;
 
-                if (iks < my_location.first) l = my_location.first - iks;
-                if (iks > my_location.first) r = iks - my_location.first + 1;
+                if (iks < my_location.first) {l = my_location.first - iks;}
+                if (iks > my_location.first) {r = iks - my_location.first + 1;}
                 tl = obrL;
             }
         }
     }
 
     // koniec
-    for(i = 0; i < tl; i++)
+    for(i = 1; i <= tl; i++)
     {
       moves.push_back(Move::MoveType::TURNLEFT);
     }
 
-    for(i = 0; i < tr; i++)
+    for(i = 1; i <= tr; i++)
     {
       moves.push_back(Move::MoveType::TURNRIGHT);
     }
 
-    for(i = 0; i < l; i++)
+    for(i = 1; i <= l; i++)
     {
       moves.push_back(Move::MoveType::LEFT);
     }
 
-    for(i = 0; i < r; i++)
+    for(i = 1; i <= r; i++)
     {
       moves.push_back(Move::MoveType::RIGHT);
     }
