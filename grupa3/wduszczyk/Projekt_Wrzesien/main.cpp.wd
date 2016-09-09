@@ -154,14 +154,14 @@ int liczba_graczy, j, l_gracz;
     case 3:
   one= gracz(p_x-(rand() % 50 )-30, u_y+(rand() % 50 )+20,1);
   two= gracz(l_x+(rand() % 50 )+30, d_y-(rand() % 50 )-20,2);
-  three= gracz(l_x+(rand() % 50 )+30, u_y+(rand() % 50 )+20,3);
+  three= gracz(p_x-(rand() % 50 )-30,d_y-(rand() % 50 )-20,4);
 
         break;
     case 4:
   one= gracz(p_x-(rand() % 50 )-30,u_y+(rand() % 50 )+20,1);
   two= gracz(l_x+(rand() % 50 )+30,d_y-(rand() % 50 )-20,2);
-  three= gracz(l_x+(rand() % 50 )+30,u_y+(rand() % 50 )+20,3);
-  four= gracz(p_x-(rand() % 50 )-30,d_y-(rand() % 50 )-20,4);
+  four= gracz(l_x+(rand() % 50 )+30,u_y+(rand() % 50 )+20,3);
+  three= gracz(p_x-(rand() % 50 )-30,d_y-(rand() % 50 )-20,4);
         break;
     default:
    gracz one= gracz(SRODEK,1);
