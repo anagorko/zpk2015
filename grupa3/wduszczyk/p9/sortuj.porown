@@ -1,0 +1,109 @@
+#include <iostream>
+#include <chrono>
+#include <cstdio>
+using namespace std;
+
+void swap(int &a, int &b)
+{
+    int c = a  = b ;
+}
+
+// sortuje t[p] .. t[k - 1] - bez t[k] !
+void bubble_sort(int t[], int p, int k)		// sortowanie bąbelkowe
+{
+    if (k == p) return;
+	
+	for (int i = p; i < k; i++)		
+        if (t[i] > t[i + 1])		// porównujemy ze sobą dwie kolejne wartości
+            swap(t[i], t[i + 1]);	// i w razie czego zamieniamy miejscami
+    
+    bubble_sort(t, p, --k);	// zmniejszamy k o 1, bo po każdorazowym przejściu pętli
+    						// kolejny element (znajdujący się na końcu) jest już posortowany
+}
+
+// sortuje t[p] .. t[k - 1] - bez t[k] !
+void merge_sort(int t[], int p, int k)		// sortowanie przez scalanie
+{
+	if (k <= p) return;
+	
+	int s = (p + k) / 2;			// wyznaczamy srodek tablicy
+	
+	merge_sort(t, p, s);			// sortujemy każdy z dwóch podzbiorów 
+	merge_sort(t, s + 1, k);
+	
+	int tab[k + 1];					// tworzymy kopie oryginalnej tablicy
+	
+	for (int i = p; i <= k; i++)	// przepisujemy elementy
+    	tab[i] = t[i];
+    
+    int i = p;						// ustawiamy liczniki na początku tablic posortowanych
+	int j = s + 1;
+	
+    for (int l = p; l <= k; l++) {
+    	if (i <= s) {
+    		if (j <= k) {
+    			if (tab[i] < tab[j]) {		// porównujemy elementy i mniejszy wskakuje jako pierwszy w scalonej tablicy
+    				t[l] = tab[i];
+    				i++;					// zwiększamy licznik w tej tablicy, z której zabraliśmy element
+				}
+				else {
+					t[l] = tab[j];
+					j++;
+				}
+			}
+			else {
+				t[l] = tab[i];
+				i++;
+			}
+		}
+		else {
+			t[l] = tab[j];
+			j++;
+		}
+	}
+}
+
+void test(int n)
+{
+    int t1[n], t2[n];
+
+    for (int i = 0; i < n; i++) {
+        t1[i] = t2[i] = rand();
+    }
+
+    cout << "Table size: " << n << endl;
+
+    auto start = chrono::steady_clock::now();
+    bubble_sort(t1, 0, n);
+    auto end = chrono::steady_clock::now();
+
+    auto diff_bubble = end - start;
+
+    start = chrono::steady_clock::now();
+    merge_sort(t2, 0, n);
+    end = chrono::steady_clock::now();
+
+    auto diff_merge = end - start;
+
+    for (int i = 0; i < n - 1; i++) {
+        if (t1[i] > t1[i + 1]) {
+            cout << "  Wrong answer - bubble sort." << endl; break;
+        }
+        if (t2[i] > t2[i + 1]) {
+            cout << "  Wrong answer - merge sort." << endl; break;
+        }
+    }
+
+    cout << "  Bubble sort time: " << chrono::duration <double> (diff_bubble).count() << endl;
+    cout << "  Merge sort time: " << chrono::duration <double> (diff_merge).count() << endl;
+    cout << "  Ratio: " << (chrono::duration <double> (diff_bubble).count() / chrono::duration <double> (diff_merge).count()) << endl;
+}
+
+int main()
+{
+    test(100);
+    test(1000);
+    test(10000); 
+    test(50000);
+    test(100000);
+}
