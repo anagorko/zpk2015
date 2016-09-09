@@ -80,12 +80,12 @@ void przeszkoda  (){
 
 double cx, cy, r;
 
-cx=200+rand() % 150 ;
-cy=250+rand() % 150 ;
+cx=250+rand() % 500 ;
+cy=250+rand() % 500 ;
 r=10;
 
 al_draw_circle(cx,  cy, r, BLUE, 2);
-
+    al_flip_display();
 }
 /*
 int l_graczy(){
@@ -168,11 +168,12 @@ int liczba_graczy, j, l_gracz;
     break;
     }
 
-    int ile;
+    int ile/*dla l. przeszkod*/, maks /* dla liczby powtorzen */;
     cout<<"ile przeszkod?"<<endl;
     cin>>ile;
 for (int ilosc=1; ilosc<=ile; ilosc++){
     przeszkoda();
+      al_flip_display();
 }
  //liczba_graczy= l_graczy();
 for (int k=1; k<=5; k++){
@@ -190,33 +191,33 @@ RUNDA //makrozmienna dla wyswietlania prostego tekstu :)
    double delta = 0.10;
 //tworze uklad 35/35 j. gdzie jednostka sklada sie z 10 punktow.
 
-
+maks = 75;
  switch(j)
     {
     case 1: //jeden gracz = srodek ukladu
-   for (x = T(50); x >= T(0); x -= T(delta))   {
-    al_draw_line(one.getX()+floor(10*(x + delta )/* poprzednia wartość */),one.getY()-floor(10* y0/* poprzednia wartość */),one.getX()+floor(10*x/* bieżąca wartość */), one.getY()-floor(10*expression.value()/* bieżąca wartość */),RED, 1);
+   for (x = T(maks); x >= T(0); x -= T(delta))   {
+    al_draw_line(one.getX()+floor(10*(x-maks + delta )/* poprzednia wartość */),one.getY()-floor(10* y0/* poprzednia wartość */),one.getX()+floor(10*(x-maks)/* bieżąca wartość */), one.getY()-floor(10*expression.value()/* bieżąca wartość */),RED, 1);
     al_flip_display();
     y0 = expression.value();
         }
         break;
     case 2: // dwoch graczy = cwiartka ierwsza i cwiartka 3
-   for (x = T(0); x <= T(50); x += T(delta))   {
-    al_draw_line(two.getX()+floor(10*(x - delta )/* poprzednia wartość */),two.getY()-floor(10* y0/* poprzednia wartość */),two.getX()+floor(10*x/* bieżąca wartość */), two.getY()-floor(10*expression.value()/* bieżąca wartość */),RED, 1);
+   for (x = T(0); x <= T(maks); x += T(delta))   {
+    al_draw_line(two.getX()+floor(10*(x - delta )/* poprzednia wartość */),two.getY()-floor(10* y0/* poprzednia wartość */),two.getX()+floor(10*x/* bieżąca wartość */), two.getY()-floor(10*expression.value()/* bieżąca wartość */),BLUE, 1);
     al_flip_display();
     y0 = expression.value();
         }
         break;
     case 3:
-   for (x = T(50); x >= T(0); x -= T(delta))   {
-    al_draw_line(three.getX()+floor(10*(x + delta )/* poprzednia wartość */),three.getY()-floor(10* y0/* poprzednia wartość */),three.getX()+floor(10*x/* bieżąca wartość */), three.getY()-floor(10*expression.value()/* bieżąca wartość */),RED, 1);
+   for (x = T(maks); x >= T(0); x -= T(delta))   {
+    al_draw_line(three.getX()+floor(10*(x-maks + delta )/* poprzednia wartość */),three.getY()-floor(10* y0/* poprzednia wartość */),three.getX() +floor(10*(x-maks)/* bieżąca wartość */), three.getY()-floor(10*expression.value()/* bieżąca wartość */),GREEN, 1);
     al_flip_display();
     y0 = expression.value();
         }
         break;
     case 4:
-    for (x = T(0); x <= T(50); x += T(delta))   {
-    al_draw_line(four.getX()+floor(10*(x - delta )/* poprzednia wartość */),four.getY()-floor(10* y0/* poprzednia wartość */),four.getX()+floor(10*x/* bieżąca wartość */), four.getY()-floor(10*expression.value()/* bieżąca wartość */),RED, 1);
+    for (x = T(0); x <= T(maks); x += T(delta))   {
+    al_draw_line(four.getX()+floor(10*(x - delta )/* poprzednia wartość */),four.getY()-floor(10* y0/* poprzednia wartość */),four.getX()+floor(10*x/* bieżąca wartość */), four.getY()-floor(10*expression.value()/* bieżąca wartość */),YELLOW, 1);
     al_flip_display();
     y0 = expression.value();
         }
