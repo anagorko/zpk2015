@@ -2,7 +2,6 @@
 #include <algorithm>
 using namespace std;
 
-
 int main() 
 {
     int n;
@@ -27,6 +26,5 @@ int main()
         cout << "BRAK" << endl;
         else 
             cout << odleglosc_max << endl;
-        
     }
 }
