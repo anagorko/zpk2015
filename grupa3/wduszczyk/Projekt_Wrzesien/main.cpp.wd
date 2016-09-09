@@ -1,0 +1,270 @@
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_native_dialog.h> //Header for dialogue boxes
+#include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_font.h>
+#include <cstdlib>
+#include <iostream>
+#include <string>
+#include "exprtk.hpp"
+using namespace std;
+#include <cmath>
+//poczatek miejsca na zmienne globalne ******************************************************
+const int w = 1024;
+const int h = 720;
+
+#define RUNDA std::cout<<"Podaj wzor funkcji"<<std::endl;
+#define BLUE al_map_rgb(0, 0, 255)
+#define RED al_map_rgb(255, 0 , 0)
+#define YELLOW al_map_rgb(255, 250, 5)
+#define GREEN al_map_rgb(0, 250, 0)
+#define WHITE al_map_rgb(255, 255, 255)
+#define SRODEK 512,360
+#define GREY al_map_rgb(100,100,100)
+#define l_x 162
+#define p_x 862
+#define d_y 710
+#define u_y 10
+//////////////////////////////////////////////////////////////////////////////////////////////
+class Point
+{
+    double x, y;
+
+public:
+    Point() {}
+    Point(double _x, double _y)
+    {
+        x = _x;
+        y = _y;
+    }
+
+    ~Point() {}
+
+    void setX(double _x) { x = _x; }
+    void setY(double _y) { y = _y; }
+
+    double getX() { return x; }
+    double getY() { return y; }
+
+        };
+
+    class gracz : public Point
+    {
+ protected:
+     int N;
+ public:
+    gracz(const double x, const double y, const int n): Point(x,y),N(n){}
+     gracz (): Point(), N(0) {}
+    ~gracz() {}
+     double getN() { return N; }
+        void setN(int n){gracz::N=n;}
+      //  double getX_N(int n) {gracz(x,y,n).getX();}
+
+    };
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void wykres () {
+//rysowanie podstawowego wykresu funkcji
+    al_clear_to_color(al_map_rgb(0,0,0));
+    al_draw_line(162,360,862, 360,WHITE, 1); //x,y , xx, yy
+        al_draw_line(852,350,862,360,GREEN, 1);
+        al_draw_line(852,370,862,360,GREEN, 1);
+
+    al_draw_line(512,10,512,710,WHITE, 1);
+        al_draw_line(502,20,512,10,WHITE, 1);
+        al_draw_line(522,20,512,10,WHITE, 1);
+}
+//WYKRES GOTOWY
+
+void przeszkoda  (){
+
+double cx, cy, r;
+
+cx=200+rand() % 150 ;
+cy=250+rand() % 150 ;
+r=10;
+
+al_draw_circle(cx,  cy, r, BLUE, 2);
+
+}
+/*
+int l_graczy(){
+
+int l_gracz;
+    cout<<"Ilu bedzie graczy?"<<endl;
+    cin>>l_gracz;
+
+    gracz one, two, three, four;
+
+     switch( l_gracz )
+    {
+    case 1: //jeden gracz = srodek ukladu
+   one= gracz(SRODEK,1);
+        break;
+    case 2: // dwoch graczy = cwiartka ierwsza i cwiartka 3
+  one= gracz(p_x-(rand() % 100 )-20,u_y+(rand() % 100 )+20,1);
+  two= gracz(l_x+(rand() % 100 )+20,d_y-(rand() % 100 )-20,2);
+        break;
+    case 3:
+  one= gracz(p_x-(rand() % 100 )-20,u_y+(rand() % 100 )+20,1);
+  two= gracz(l_x+(rand() % 100 )+20,d_y-(rand() % 100 )-20,2);
+  three= gracz(l_x+(rand() % 100 )+20,u_y+(rand() % 100 )+20,3);
+
+        break;
+    case 4:
+  one= gracz(p_x-(v)-20,u_y+(rand() % 100 )+20,1);
+  two= gracz(l_x+(rand() % 100 )+20,d_y-(rand() % 100 )-20,2);
+  three= gracz(l_x+(rand() % 100 )+20,u_y+(rand() % 100 )+20,3);
+  four= gracz(p_x-(rand() % 100 )-20,d_y-(rand() % 100 )-20,4);
+        break;
+    default:
+   gracz one= gracz(SRODEK,1);
+    break;
+    }
+    if (l_gracz>4)
+    {l_gracz=1;
+    return l_gracz;}
+    else
+    {return l_gracz;}
+
+}*/
+
+template <typename T>
+void gra()
+{
+   typedef exprtk::symbol_table<T> symbol_table_t;
+   typedef exprtk::expression<T>     expression_t;
+   typedef exprtk::parser<T>             parser_t;
+ string expression_string;
+int liczba_graczy, j, l_gracz;
+    cout<<"Ilu bedzie graczy?"<<endl;
+    cin>>l_gracz;
+
+    gracz one, two, three, four;
+
+     switch( l_gracz )
+    {
+    case 1: //jeden gracz = srodek ukladu
+   one= gracz(SRODEK,1);
+        break;
+    case 2: // dwoch graczy = cwiartka ierwsza i cwiartka 3
+  one= gracz(p_x-(rand() % 50 )-30, u_y+(rand() % 50 )+20,1);
+  two= gracz(l_x+(rand() % 50 )+30, d_y-(rand() % 50 )-20,2);
+        break;
+    case 3:
+  one= gracz(p_x-(rand() % 50 )-30, u_y+(rand() % 50 )+20,1);
+  two= gracz(l_x+(rand() % 50 )+30, d_y-(rand() % 50 )-20,2);
+  three= gracz(l_x+(rand() % 50 )+30, u_y+(rand() % 50 )+20,3);
+
+        break;
+    case 4:
+  one= gracz(p_x-(rand() % 50 )-30,u_y+(rand() % 50 )+20,1);
+  two= gracz(l_x+(rand() % 50 )+30,d_y-(rand() % 50 )-20,2);
+  three= gracz(l_x+(rand() % 50 )+30,u_y+(rand() % 50 )+20,3);
+  four= gracz(p_x-(rand() % 50 )-30,d_y-(rand() % 50 )-20,4);
+        break;
+    default:
+   gracz one= gracz(SRODEK,1);
+    break;
+    }
+
+    int ile;
+    cout<<"ile przeszkod?"<<endl;
+    cin>>ile;
+for (int ilosc=1; ilosc<=ile; ilosc++){
+    przeszkoda();
+}
+ //liczba_graczy= l_graczy();
+for (int k=1; k<=5; k++){
+for (j=1; j<=l_gracz; j++){
+RUNDA //makrozmienna dla wyswietlania prostego tekstu :)
+   T y0 = T(0);
+   T  x = T(0);
+   symbol_table_t symbol_table;
+   symbol_table.add_variable("x",x);
+ cin>>expression_string;
+   expression_t expression;
+   expression.register_symbol_table(symbol_table);
+   parser_t parser;
+   parser.compile(expression_string,expression);
+   double delta = 0.10;
+//tworze uklad 35/35 j. gdzie jednostka sklada sie z 10 punktow.
+
+
+ switch(j)
+    {
+    case 1: //jeden gracz = srodek ukladu
+   for (x = T(50); x >= T(0); x -= T(delta))   {
+    al_draw_line(one.getX()+floor(10*(x + delta )/* poprzednia wartość */),one.getY()-floor(10* y0/* poprzednia wartość */),one.getX()+floor(10*x/* bieżąca wartość */), one.getY()-floor(10*expression.value()/* bieżąca wartość */),RED, 1);
+    al_flip_display();
+    y0 = expression.value();
+        }
+        break;
+    case 2: // dwoch graczy = cwiartka ierwsza i cwiartka 3
+   for (x = T(0); x <= T(50); x += T(delta))   {
+    al_draw_line(two.getX()+floor(10*(x - delta )/* poprzednia wartość */),two.getY()-floor(10* y0/* poprzednia wartość */),two.getX()+floor(10*x/* bieżąca wartość */), two.getY()-floor(10*expression.value()/* bieżąca wartość */),RED, 1);
+    al_flip_display();
+    y0 = expression.value();
+        }
+        break;
+    case 3:
+   for (x = T(50); x >= T(0); x -= T(delta))   {
+    al_draw_line(three.getX()+floor(10*(x + delta )/* poprzednia wartość */),three.getY()-floor(10* y0/* poprzednia wartość */),three.getX()+floor(10*x/* bieżąca wartość */), three.getY()-floor(10*expression.value()/* bieżąca wartość */),RED, 1);
+    al_flip_display();
+    y0 = expression.value();
+        }
+        break;
+    case 4:
+    for (x = T(0); x <= T(50); x += T(delta))   {
+    al_draw_line(four.getX()+floor(10*(x - delta )/* poprzednia wartość */),four.getY()-floor(10* y0/* poprzednia wartość */),four.getX()+floor(10*x/* bieżąca wartość */), four.getY()-floor(10*expression.value()/* bieżąca wartość */),RED, 1);
+    al_flip_display();
+    y0 = expression.value();
+        }
+        break;
+    }
+
+
+} //rob tyle razy ilu graczy
+}//5 szans na nauke
+}
+
+
+int main( int argc, char ** argv ) {
+srand( time( NULL ) ); //przygotowanie do losowania liczb
+
+
+//tworzymy / uruchamiamy allegro
+    ALLEGRO_DISPLAY *display = NULL/*, *input_display = NULL*/;
+    ALLEGRO_BITMAP *graph_bitmap, *input_bitmap;
+    al_init();
+    al_init_primitives_addon();
+    al_init_font_addon();
+    al_init_ttf_addon();
+    al_install_keyboard();
+
+    //sprawdzamy czy sie powiodla instalacja
+    if (!al_init() || !al_install_keyboard()) {
+        std::cout << "Inicjalizacja nie powiodla sie." << std::endl; return -1;
+    }
+    al_set_new_display_option(ALLEGRO_SAMPLE_BUFFERS, 1, ALLEGRO_SUGGEST);
+    al_set_new_display_option(ALLEGRO_SAMPLES, 8, ALLEGRO_SUGGEST);
+
+    // tworzymy okienko
+
+display = al_create_display(w, h); //stworz okienko o zadanych wymiarach
+    graph_bitmap = al_get_backbuffer(display);
+    al_set_window_position(display, 0, 0);
+    al_set_window_title(display,"wykres");
+
+  wykres();
+    al_flip_display();
+  przeszkoda();
+    al_flip_display();
+
+
+ gra<double>();
+    al_rest(5);
+    al_destroy_display(display);
+
+    return 0;
+}
