@@ -28,37 +28,32 @@ int main()
     if (znak == "<"){
         if (porownaj_dlugosc(a,b)==1)
             cout << "TAK" << endl;
-        else
-            cout << "NIE" << endl;
+       return 0;
     }
     if (znak == "<="){
         if (porownaj_dlugosc(a,b)==1 || porownaj_dlugosc(a,b)==4)
             cout << "TAK" << endl;
-        else
-            cout << "NIE" << endl;
+            return 0;
     }
     if (znak == "!="){
         if (porownaj_dlugosc(a,b)!=4)
             cout << "TAK" << endl;
-        else
-            cout << "NIE" << endl;
+
     }
     if (znak == "=="){
         if (porownaj_dlugosc(a,b)==4)
             cout << "TAK" << endl;
-        else
-            cout << "NIE" << endl;
+            return 0;
     }
     if (znak == ">="){
         if (porownaj_dlugosc(a,b)==6 || porownaj_dlugosc(a,b)==4)
             cout << "TAK" << endl;
-        else
-            cout << "NIE" << endl;
+            return 0;
     }
     if (znak == "<="){
         if (porownaj_dlugosc(a,b)==1 || porownaj_dlugosc(a,b)==4)
             cout << "TAK" << endl;
-        else
-            cout << "NIE" << endl;
+            return 0;
     }
+            cout << "NIE" << endl;
 }
