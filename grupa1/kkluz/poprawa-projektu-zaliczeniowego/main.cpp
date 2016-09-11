@@ -212,13 +212,6 @@ int main()
  al_show_native_message_box(NULL, NULL, NULL, "Could not create Allegro 5 display", NULL, NULL);
 
  int dir;
- int poziom = 1;
-
-//definiuje kolory uzyte do rysowania
- ALLEGRO_COLOR blue = al_map_rgb(44, 117, 255);
- ALLEGRO_COLOR yellow = al_map_rgb(255,255,0);
- ALLEGRO_COLOR green = al_map_rgb(0,255,0);
-
  al_init_primitives_addon();
  al_init_image_addon();
  al_install_mouse();
@@ -231,8 +224,8 @@ int main()
  ALLEGRO_FONT *fontbig = al_load_font("font.ttf",80,0);
 
  //gdy brak plików ttf wyswietla błąd
-if(font == NULL) return ERR_CANT_LOAD_FONT
-if(font == NULL) return ERR_CANT_LOAD_FONT
+if (font == NULL) cout <<"ERR_CANT_LOAD_FONT"<< endl;
+if(fontbig == NULL) cout << "ERR_CANT_LOAD_FONT"<<endl;
 
  ALLEGRO_TIMER *timer = al_create_timer(1.0 / FPS);
  ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
@@ -369,7 +362,8 @@ if (ball.x<=(paddle.x+40) && ball.x>=paddle.x && ball.y>ScreenHeight/1.1-10)
 }
 
 //kolizja z poziomymi bokami klocków
-if (ball.poziom==1 && bricks.pozostale_klocki!=0){
+if (bricks.pozostale_klocki!=0){
+al_draw_textf(font, al_map_rgb(44,117,255),560,10,ALLEGRO_ALIGN_LEFT,"LEVEL: %i", ball.poziom);
 for (int a=0; a<32; a++)
     {
         if (a<8)
@@ -493,9 +487,12 @@ else if (bricks.pozostale_klocki==0)
         bricks.tab[i]=2;
         }
     }
-    bricks.pozostale_klocki=48;
 
-if (bricks.pozostale_klocki!=0){
+    bricks.pozostale_klocki=48;
+    ball.poziom ++;
+
+if (bricks.pozostale_klocki!=0 && ball.poziom==2){
+        al_draw_textf(font, al_map_rgb(44,117,255),560,10,ALLEGRO_ALIGN_LEFT,"LEVEL: %i", ball.poziom);
 for (int a=0; a<32; a++)
     {
         if (a<8)
@@ -602,8 +599,12 @@ for (int a=0; a<32; a++)
         }
     }
 }
-
 }
+if (bricks.pozostale_klocki!=0 && ball.poziom==3){
+        al_clear_to_color(al_map_rgb(255, 255, 255));
+        al_draw_textf(fontbig, al_map_rgb(44,117,0),400,200,ALLEGRO_ALIGN_CENTER,"CONGRATULATIONS!!!!!!");
+}
+
 
 
 //wykrywam kolizje
@@ -630,5 +631,4 @@ al_clear_to_color(al_map_rgb(255, 255, 255));
  al_destroy_font(font);
  return 0;
 }
-
 
