@@ -1,0 +1,14 @@
+#include <iostream>
+	using namespace std;
+	
+	int main() {
+	    int x;
+	    bool liczba_pierwsza = true;
+	    cin >> x;
+	    for (int i = 2; i * i <= x; i++)
+	        liczba_pierwsza = liczba_pierwsza && x % i != 0;
+	          if (liczba_pierwsza)
+	             cout << "liczba pierwsza" << endl;
+	          else
+	             cout << "liczba zlozona" << endl;
+	}
